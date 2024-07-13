@@ -29,7 +29,7 @@ async function findByDestination(destination_id) {
     const text_json = await JSON.parse(text);
     var hotel_list = [];
     for (let i=0; i < text_json.length; i++) {
-        current = text_json[0];
+        current = text_json[i];
         hotel_to_add = new Hotel(current.id, current.name, current.latitude, current.longitude, current.address, current.rating, current.categories, current.description, current.amenities, current.image_details);
         hotel_list.push(hotel_to_add);
     }
