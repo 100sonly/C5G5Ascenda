@@ -36,4 +36,11 @@ async function findByDestination(destination_id) {
     return hotel_list;
 }
 
-module.exports =  { Hotel, findByDestination }
+async function findById(hotel_id) {
+    const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${hotel_id}`);
+    const text = await response.text();
+    const hotel = await JSON.parse(text);
+    return new Hotel(hotel.id, hotel.name, hotel.latitude, hotel.longitude, hotel.address, hotel.rating, hotel.categories, hotel.description, hotel.amenities, hotel.image_details);
+}
+
+module.exports =  { Hotel, findByDestination, findById }
