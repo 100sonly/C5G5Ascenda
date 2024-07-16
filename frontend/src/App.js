@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import Test from "./pages/test";
+import Hotel from "./pages/HotelInformation";
 
 function App() {
   return (

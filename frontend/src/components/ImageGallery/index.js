@@ -1,0 +1,28 @@
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useState, Component, useEffect } from "react";
+
+function HotelImgSection({image_details}) {
+    const [index, setIndex] = useState(0);
+      
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
+    };
+
+    let image_list = [];
+    for (let i=0; i < image_details.count; i++) {
+        let string_to_push = `${image_details.prefix}${i}${image_details.suffix}`;
+        image_list.push(string_to_push);
+    }
+    return (
+        <Carousel useKeyboardArrows={true}>
+            {image_list.map((URL, index) => (
+              <div className="side">
+                <img src={URL} key={index} />
+              </div>
+            ))}
+        </Carousel>
+    );
+}
+
+export default HotelImgSection;
