@@ -87,3 +87,31 @@
     transition: all 0.3s ease-out;
     transition: 250ms;
 }
+#result {
+    border: 1px dotted #ccc;
+    padding: 3px;
+    width:314px;
+    position: absolute;
+    background: white;
+    top:60px;
+}
+#result ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: 200px;
+    width: 314px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#result form{
+    width:200px;
+}
+#result ul li {
+    padding: 5px 0;
+    color: black;
+}
+#result ul li:hover {
+    background: #eee;
+}
