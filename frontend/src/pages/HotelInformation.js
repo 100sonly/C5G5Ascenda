@@ -31,9 +31,9 @@ const Hotel = () => {
   return (
     <div>
       <h1>This is a test page</h1>
+      <HotelImgSection image_details={image_details} />
       <div dangerouslySetInnerHTML={{__html: desc}} />
 
-      <HotelImgSection image_details={image_details} />
 
     </div>
   );
