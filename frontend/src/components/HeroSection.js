@@ -1,18 +1,13 @@
 import React from 'react';
 import '../App.css';
 import './HeroSection.css';
-import { AiFillEnvironment} from 'react-icons/ai';
-import { FaUser } from 'react-icons/fa';
-import  {useState, useEffect} from 'react';
-import {Helmet} from "react-helmet";
+import { AiFillEnvironment } from 'react-icons/ai';
+import { Helmet } from "react-helmet";
+import GuestDropdown from './GuestDropdown';
 
 function HeroSection() {
-
-
     return (
-
         <div className="hero-container">
-
             <img src='/bg.png' alt="bg image" className="hero-image"/>
             <div className="overlay"></div>
             <div className="text-content">
@@ -21,26 +16,19 @@ function HeroSection() {
             </div>
             <form className="search-form">
                 <div className="input-container">
+                    <input type="text" placeholder="Destination" className="form-input" id="destination"/>
                     <AiFillEnvironment className="input-icon"/>
-                    <input type="text" placeholder="Destination" className="form-input"
-                           id="destination"/>
-
                 </div>
                 <input type="date" placeholder="Check-in" className="form-input" id="bookingstart"/>
                 <input type="date" placeholder="Check-out" className="form-input" id="bookingend"/>
-                <div className="input-container">
-                    <FaUser className="input-icon"/>
-                    <input type="number" placeholder="Guests" className="form-input" id="guests"/>
-                </div>
+                <GuestDropdown />
                 <div id="result"></div>
                 <button type="submit" className="form-submit">Search</button>
             </form>
-
             <Helmet>
                 <script src="autocomplete.js" type="text/javascript"></script>
             </Helmet>
         </div>
-
     );
 }
 
