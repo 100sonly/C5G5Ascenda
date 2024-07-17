@@ -8,6 +8,7 @@ import HotelImgSection from "../components/ImageGallery";
 const Hotel = () => {
     const [desc, setDesc] = useState("");
     const [image_details, setImageDetails] = useState("");
+    const [name, setName] = useState("");
     //const [hotelId, setHotelId] = useState("");
     const hotelId = 'diH7';
 
@@ -17,6 +18,7 @@ const Hotel = () => {
         const txt = await req.text();
         const json = JSON.parse(txt);
         setDesc(json.description);
+        setName(json.name);
         setImageDetails(json.image_details);
         
     }
@@ -30,8 +32,9 @@ const Hotel = () => {
 
   return (
     <div>
-      <h1>This is a test page</h1>
       <HotelImgSection image_details={image_details} />
+      <h1>{name}</h1>
+      <h2>Overview</h2>
       <div dangerouslySetInnerHTML={{__html: desc}} />
 
 
