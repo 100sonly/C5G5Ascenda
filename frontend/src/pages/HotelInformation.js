@@ -3,10 +3,7 @@ import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import HotelImgSection from "../components/ImageGallery";
 import LocationMap from "../components/LocationMap";
-
-function camelCaseToSpaced(string) {
-  return string;
-}
+import AmenitiesList from "../components/AmenitiesList";
 
 const Hotel = () => {
     const [desc, setDesc] = useState("");
@@ -31,6 +28,9 @@ const Hotel = () => {
         setAmenities(json.amenities);
     }
 
+
+    console.log(Object.keys(amenities));
+
     
 
     useEffect( () => {
@@ -45,6 +45,7 @@ const Hotel = () => {
       <h2>Overview</h2>
       <div dangerouslySetInnerHTML={{__html: desc}} />
       <h2>Amenities</h2>
+      <AmenitiesList amenities={amenities} />
       <h2>Rooms</h2>
       <h2>Location</h2>
       <LocationMap position={[latitude, longitude]} />
