@@ -3,6 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./index.css";
 import { useState, Component, useEffect } from "react";
 
+
 function HotelImgSection({image_details}) {
     const carouselStyle = {
       minWidth: '20%',
