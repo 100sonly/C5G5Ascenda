@@ -15,6 +15,7 @@ router.get('/destination/:destination_id/:checkin/:checkout/:lang/:currency/:gue
     const partner_id = '1';
     //console.log(destination_id);
     const response = await priceModel.pricesByDestination(destination_id, checkin, checkout, lang, currency, guests, partner_id);
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.send(response);
   });
 
@@ -30,6 +31,7 @@ router.get('/destination/:destination_id/:checkin/:checkout/:lang/:currency/:gue
     const partner_id = 1;
 
     const response = await priceModel.priceByRoom(hotel_id, destination_id, checkin, checkout, lang, currency, guests, partner_id);
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.send(response);
   });
 

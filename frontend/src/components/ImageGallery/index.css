@@ -1,0 +1,4 @@
+.carousel .slide img {
+	max-height: 350px;
+	object-fit: contain; 
+}

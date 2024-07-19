@@ -1,3 +1,14 @@
+import logo from './logo.svg';
+import './App.css';
+import Navbar from "./components/Navbar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+import Test from "./pages/test";
+import Hotel from "./pages/HotelInformation";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from "./components/Navbar"; 
