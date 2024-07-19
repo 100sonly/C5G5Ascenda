@@ -9,7 +9,6 @@ import {
 
 import Test from "./pages/test";
 import Hotel from "./pages/HotelInformation";
-import LocationMap from './components/LocationMap';
 
 function App() {
   return (
