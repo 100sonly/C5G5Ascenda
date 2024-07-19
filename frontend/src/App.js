@@ -8,14 +8,13 @@ import {
 } from "react-router-dom";
 
 import Test from "./pages/test";
-import Hotel from "./pages/HotelInformation";
 
 function App() {
   return (
     <Router>
         <Navbar />
         <Routes>
-            <Route path="/" element={<Hotel />} />
+            <Route path="/" element={<Test />} />
             <Route path="/about" element={<Test />} />
             <Route
                 path="/events"
