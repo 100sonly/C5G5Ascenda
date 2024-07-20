@@ -24,6 +24,7 @@ describe("Testing Specific Hotel API Call", () => {
         expect(data.rooms.length).toBeGreaterThan(0);
     })
 })
+
 //https://hotelapi.loyalty.dev/api/hotels/diH7 
 describe("Testing Specific Hotel API Call", () => {
     test("Expected response specific hotel + little details", async () =>{
