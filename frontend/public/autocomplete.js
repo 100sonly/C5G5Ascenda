@@ -5,6 +5,7 @@ fetch('./destinations.json')
 
 
 
+
 function autocompleteMatch(input) {
 
     if (input == '') {
@@ -23,7 +24,12 @@ function autocompleteMatch(input) {
         }
     }, {count: 0});
 }
-
+function updateValue(val){
+    des = document.getElementById("destination");
+    des.value=val;
+    res = document.getElementById("result");
+    res.innerHTML = '';
+}
 function showResults(val) {
     res = document.getElementById("result");
     res.innerHTML = '';
@@ -31,7 +37,16 @@ function showResults(val) {
     let terms = autocompleteMatch(val);
 
     for (i=0; i<terms.length; i++) {
-        list += '<li>' + terms[i].term + '</li>';
+        const entry = document.createElement('li');
+        entry.setAttribute('id',terms[i].uid);
+        entry.innerHTML=terms[i].term;
+        origString=entry.outerHTML.toString();
+        list+=origString.slice(0,3)
+            + ' onclick="updateValue(this.textContent)" ' + origString.slice(3);
+        //list += '<li onclick="updateValue(this.textContent)">' + terms[i].term + '</li>';
     }
     res.innerHTML = '<ul>' + list + '</ul>';
 }
+
+dest=document.getElementById("destination");
+dest.onkeyup = function(){showResults(dest.value)};
