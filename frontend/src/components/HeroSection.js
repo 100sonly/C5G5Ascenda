@@ -1,13 +1,14 @@
 import React from 'react';
 import '../App.css';
 import './HeroSection.css';
-import { AiFillEnvironment} from 'react-icons/ai';
-import { FaUser } from 'react-icons/fa';
+import { AiFillEnvironment } from 'react-icons/ai';
+import { Helmet } from "react-helmet";
+import GuestDropdown from './GuestDropdown';
 
 function HeroSection() {
     return (
         <div className="hero-container">
-            <img src='/bg.png' alt="bg image" className="hero-image" />
+            <img src='/bg.png' alt="bg image" className="hero-image"/>
             <div className="overlay"></div>
             <div className="text-content">
                 <h1>Chase elegance. Reserve your<br/> dream stay now.</h1>
@@ -15,17 +16,18 @@ function HeroSection() {
             </div>
             <form className="search-form">
                 <div className="input-container">
-                <AiFillEnvironment className="input-icon" />
-                <input type="text" placeholder="Destination" className="form-input" />
+                    <input type="text" placeholder="Destination" className="form-input" id="destination"/>
+                    <AiFillEnvironment className="input-icon"/>
                 </div>
-                <input type="date" placeholder="Check-in" className="form-input" />
-                <input type="date" placeholder="Check-out" className="form-input" />
-                <div className="input-container">
-                <FaUser className="input-icon" />
-                <input type="number" placeholder="Guests" className="form-input" />
-                </div>
+                <input type="date" placeholder="Check-in" className="form-input" id="bookingstart"/>
+                <input type="date" placeholder="Check-out" className="form-input" id="bookingend"/>
+                <GuestDropdown />
+                <div id="result"></div>
                 <button type="submit" className="form-submit">Search</button>
-        </form>
+            </form>
+            <Helmet>
+                <script src="autocomplete.js" type="text/javascript"></script>
+            </Helmet>
         </div>
     );
 }

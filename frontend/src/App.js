@@ -7,32 +7,22 @@ import {
   Route,
 } from "react-router-dom";
 
-import Test from "./pages/test";
+import Hotel from "./pages/HotelInformation";
+import React from 'react'; 
 
 function App() {
   return (
     <Router>
-        <Navbar />
-        <Routes>
-            <Route path="/" element={<Hotel />} />
-            <Route path="/about" element={<Test />} />
-            <Route
-                path="/events"
-                element={<Test />}
-            />
-            <Route
-                path="/annual"
-                element={<Test />}
-            />
-            <Route path="/team" element={<Test />} />
-            <Route path="/blogs" element={<Test />} />
-            <Route
-                path="/sign-up"
-                element={<Test />}
-            />
-        </Routes>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Hotel />} />
+        <Route path='/register' element={<Hotel />} />
+        <Route path='/signin' element={<Hotel />} />
+        <Route path='/bookings' element={<Hotel />} />
+        <Route path='/services' element={<Hotel />} />
+      </Routes>
     </Router>
-);
+  );
 }
 
 export default App;
