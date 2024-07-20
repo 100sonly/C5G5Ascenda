@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import Hotel from "./pages/HotelInformation";
+import SignIn from "./pages/signin";
 import React from 'react'; 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Hotel />} />
         <Route path='/register' element={<Hotel />} />
-        <Route path='/signin' element={<Hotel />} />
+        <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Hotel />} />
         <Route path='/services' element={<Hotel />} />
       </Routes>
