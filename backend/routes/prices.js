@@ -30,8 +30,6 @@ router.get('/destination/:destination_id/:checkin/:checkout/:lang/:currency/:gue
     const guests = req.params.guests;
     const partner_id = 1;
 
-    console.log('hotel %s', hotel_id);
-    console.log('dest %s', destination_id);
     const response = await priceModel.priceByRoom(hotel_id, destination_id, checkin, checkout, lang, currency, guests, partner_id);
     res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.send(response);
