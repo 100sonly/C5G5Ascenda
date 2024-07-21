@@ -1,4 +1,29 @@
-.carousel .slide img {
-	max-height: 350px;
-	object-fit: contain; 
-}
+.carousel-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .carousel-container {
+	width: 100%;
+  }
+  
+  .controls {
+	margin-top: 20px;
+	display: flex;
+	width: 10%;
+  }
+  
+  .circularbutton {
+	transition: all 0.3s ease-out;
+  }
+  
+  .circularbutton:hover {
+	background: #9a03ff;
+  }
+  
+  .thumbnail img {
+	cursor: pointer;
+	object-fit: cover;
+  }
+  
