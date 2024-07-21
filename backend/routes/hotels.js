@@ -12,7 +12,7 @@ router.get('/destination/:destination_id', async function(req, res, next) {
 
 router.get('/hotel/:hotel_id', async function(req, res, next) {
   const hotel_id = req.params.hotel_id;
-  console.log(hotel_id);
+  //console.log(hotel_id);
   const all = await hotelModel.findById(hotel_id);
   res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
   res.send(all);
