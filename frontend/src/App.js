@@ -9,7 +9,8 @@ import {
 import Hotel from "./pages/HotelInformation";
 import SignIn from "./components/pages/SignIn"
 import Home from "./components/pages/Home"
-import React from 'react'; 
+import React from 'react';
+import Hotels from "./components/pages/Hotels";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/register' element={<Hotel />} />
+          <Route path='/hotels' element={< Hotels/>} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Hotel />} />
         <Route path='/services' element={<Hotel />} />
