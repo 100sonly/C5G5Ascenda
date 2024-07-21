@@ -23,7 +23,10 @@ describe('Test findById', () => {
         const url = `/hotels/hotel/${data.valid_hotel}`;
         const response = await request(backend).get(url);
         //const response = await request(backend).get('/hotels/hotel/diH7');
-        console.log(response.body);
+        //console.log(response.body);
+        expect(response.body).toBeDefined();
+        expect(typeof response.body).toBe('object');
+        expect(response.body).toHaveProperty('id', `${data.valid_hotel}`);
     });
 
     test('Should return an empty body with an invalid hotel_id', async () => {
