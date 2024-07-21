@@ -23,11 +23,11 @@ describe('Test findById', () => {
         const url = `/hotels/hotel/${data.valid_hotel}`;
         const response = await request(backend).get(url);
         //const response = await request(backend).get('/hotels/hotel/diH7');
-        //console.log(response.body);
+        console.log(response.body);
     });
 
     test('Should return an empty body with an invalid hotel_id', async () => {
-        const url = `/hotels/hotel/${data.valid_hotel}`;
+        const url = `/hotels/hotel/${data.invalid_hotel}`;
         const response = await request(backend).get(url);
         //const response = await request(backend).get('/hotels/hotel/hihi');
         expect(response.body.length).toBe(undefined);
