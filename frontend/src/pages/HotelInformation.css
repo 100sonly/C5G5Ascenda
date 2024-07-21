@@ -1,0 +1,19 @@
+.amenities {
+    padding-top: 2%;
+}
+
+.roomlist {
+    padding-top: 2%;
+}
+
+.map {
+    padding-top: 2%;
+}
+
+html {
+    scroll-behavior: smooth;
+  }
+  
+.description {
+    padding-top: 2%;
+}

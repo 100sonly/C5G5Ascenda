@@ -1,11 +1,19 @@
-import React from 'react';
-import '../../App.css';
-
+import React, { useEffect } from 'react';
+import './SignIn.css';
+import AuthForm from "../AuthForm";
 
 export default function SignIn() {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   return (
-    <>
-    <h1 className='sign-in' style={{color: '#282c34'}}>Sign in here!</h1>
-    </>
-  )
+    <div className="auth-form-container">
+      <AuthForm className="auth-form" />
+    </div>
+  );
 }
