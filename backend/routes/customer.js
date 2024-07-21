@@ -19,8 +19,16 @@ router.get('/addCustomer/:username/:name/:email/:password_hash', async function(
   }
 });
 
+router.get('/all', async function(req, res, next) {
+  const all = await customerModel.getAll();
+  res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
+  res.send(all);
+});
+
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
+
+
 
 module.exports = router;

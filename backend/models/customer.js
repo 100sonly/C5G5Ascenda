@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 
 const connectModel = require("./connect.js");
+const customer_col_name = "customers";
 let connection;
 
 
@@ -27,7 +28,7 @@ async function addNewCustomer(username, name, email, password_hash, bookings) {
             "bookings": bookings,
         }
     ]
-    con = await connectModel.create_connection("customers");
+    con = await connectModel.create_connection(customer_col_name);
     client = con[0];
     col = con[1];
     const p = await col.insertMany(userToInsert);
@@ -35,4 +36,14 @@ async function addNewCustomer(username, name, email, password_hash, bookings) {
     console.log(p);
 }
 
-module.exports = { Customer, addNewCustomer }
+async function getAll() {
+    con = await connectModel.create_connection(customer_col_name);
+    client = con[0];
+    col = con[1];
+    const custJSON = await col.find().toArray();
+    //console.log(custJSON);
+    connectModel.close_connection(client);
+    return custJSON;
+}
+
+module.exports = { Customer, addNewCustomer, getAll }
