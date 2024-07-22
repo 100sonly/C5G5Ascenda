@@ -9,42 +9,42 @@ const email = 'moca@gmail.com';
 const password_hash = 'mocapw';
 
 // Create account
-describe('Test createAccount ', () => { 
-    test('It should respond with status 201 and create an account for a valid body', async () => {
-        const url = `/customers/addCustomer/${username}/${name}/${email}/${password_hash}`;
-        const response = await request(backend).get(url);
-        expect(response.statusCode).toBe(200);
-        expect(response).toBeDefined();
-        expect(response).toHaveProperty('text', 'Insertion successful!');
-     });
-
-     test('It should respond fail to create an account for a exisiting user', async () => {
-        const url = `/customers/addCustomer/${username}/${name}/${email}/${password_hash}`;
-        const response = await request(backend).get(url);
-        expect(response.statusCode).toBe(200);
-        expect(response).toBeDefined();
-        //expect(response).toHaveProperty('text', 'Insertion failed!');
-     });
-});
-
-describe('Test deleteAccount ', () => { 
+describe('Test createAccount (valid) ', () => { 
    test('It should respond with status 201 and create an account for a valid body', async () => {
-       const url = `/customers/deleteCustomer/1`;
-       const response = await request(backend).get(url);
-       expect(response.statusCode).toBe(200);
-       expect(response).toBeDefined();
-       expect(response).toHaveProperty('text', 'Deletion successful!');
-    });
+      const url = `/customers/addCustomer/${username}/${name}/${email}/${password_hash}`;
+      const response = await request(backend).get(url);
+      expect(response.statusCode).toBe(200);
+      expect(response).toBeDefined();
+      expect(response).toHaveProperty('text', 'Insertion successful!');
+     });
 
-    test('It should respond fail to create an account for a exisiting user', async () => {
-       const url = `/customers/deleteCustomer/notfound`;
-       const response = await request(backend).get(url);
-       expect(response.statusCode).toBe(200);
-       expect(response).toBeDefined();
-       //expect(response).toHaveProperty('text', 'Deletion failed :(');
-    });
+   test('It should respond fail to create an account for a exisiting user', async () => {
+      const url = `/customers/addCustomer/${username}/${name}/${email}/${password_hash}`;
+      const response = await request(backend).get(url);
+      expect(response.statusCode).toBe(200);
+      expect(response).toBeDefined();
+      //expect(response).toHaveProperty('text', 'Insertion failed!');
+     });
 });
 
+describe('Test deleteAccount (valid) ', () => { 
+   test('It should respond with status 201 and create an account for a valid body', async () => {
+      const url = `/customers/deleteCustomer/0`;
+      const response = await request(backend).get(url);
+      expect(response.statusCode).toBe(200);
+      expect(response).toBeDefined();
+      expect(response).toHaveProperty('text', 'Deletion successful!');
+    });
+
+   test('It should respond fail to create an account for a exisiting user', async () => {
+      const url = `/customers/deleteCustomer/1`;
+      const response = await request(backend).get(url);
+      expect(response.statusCode).toBe(200);
+      expect(response).toBeDefined();
+      //expect(response).toHaveProperty('text', 'Deletion failed :(');
+    });
+});
+     
 /*
 describe('Test all', () => { 
    test('It should respond with status 201 and create an account for a valid body', async () => {
