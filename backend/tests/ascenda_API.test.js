@@ -2,7 +2,7 @@ jest.setTimeout(30000); // Sets timeout to 30 seconds
 
 describe("Testing Destination Hotel List API Call", () => {
     test("Expected response hotel list", async () =>{
-        const res = await fetch("https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU")
+        const res = await fetch("https://hotelapi.loyalty.dev/api/hotels?destination_id=WD0M")
         const data = await res.json();
         //console.log(data.length); // 536
         expect(data.length).toBeGreaterThan(0);
