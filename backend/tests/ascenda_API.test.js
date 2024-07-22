@@ -1,3 +1,6 @@
+// At the top of your test file or in a setup file
+jest.setTimeout(30000); // Sets timeout to 30 seconds
+
 describe("Testing Destination Hotel List API Call", () => {
     test("Expected response hotel list", async () =>{
         const res = await fetch("https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU")

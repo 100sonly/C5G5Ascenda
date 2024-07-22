@@ -33,7 +33,7 @@ async function addNewCustomer(username, name, email, password_hash, bookings) {
     col = con[1];
     const p = await col.insertMany(userToInsert);
     connectModel.close_connection(client);
-    //console.log(p);
+    console.log(p);
 }
 
 async function getAll() {
