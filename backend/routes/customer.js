@@ -20,6 +20,18 @@ router.get('/addCustomer/:username/:name/:email/:password_hash', async function(
   }
 });
 
+router.get('/deleteCustomer/:customerID', async function(req, res, next) {
+  var customerID = req.params.customerID;
+
+  try {
+    customerID = Number(customerID);
+    customerModel.deleteCustomer(customerID);
+    res.send("Deletion successful!")
+  } catch (err) {
+    console.log(err);
+    res.send("Deletion failed :(");
+  }
+});
 
 router.get('/all', async function(req, res, next) {
   const all = await customerModel.getAll();
