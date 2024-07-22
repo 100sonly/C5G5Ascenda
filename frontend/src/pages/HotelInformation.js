@@ -35,6 +35,7 @@ const Hotel = () => {
     try {
       const req_hotel = await fetch(`http://localhost:3000/hotels/hotel/${hotelId}`);
       const json_hotel = await req_hotel.json();
+      console.log(json_hotel)
       console.log("Categories:", json_hotel.categories);
 
       const req_rooms = await fetch(`http://localhost:3000/prices/hotel/${hotelId}/${destID}/${startDate}/${endDate}/${language}/${currency}/${guest_num}`);

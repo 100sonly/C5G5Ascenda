@@ -1,0 +1,35 @@
+.list-hotel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    padding-left: 30rem;
+    width: 150rem;
+    
+  }
+  
+  .hotel-card {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 7rem;
+    margin-bottom: 0px;
+    
+  }
+  
+  .hotel-card img {
+    width: 200px;
+    height: auto;
+  }
+  
+  .hotel-card-content {
+    padding: 16px;
+  }
+  
+  .divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 0px;
+  }

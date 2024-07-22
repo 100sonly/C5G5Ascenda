@@ -1,44 +1,102 @@
-import React, {useEffect} from 'react';
-import '../App.css';
-import './HeroSection.css';
-import {Form} from "react-bootstrap";
-import {AiFillEnvironment} from "react-icons/ai";
-import GuestDropdown from "./GuestDropdown";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardMedia, Typography, Button, Grid, Skeleton } from '@mui/material';
+import { AiFillEnvironment } from "react-icons/ai";
+import './ListHotel.css';
+import Filter from './Filter'; // Import the Filter component
 
+const ListHotel = () => {
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filteredHotels, setFilteredHotels] = useState([]);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
 
+  useEffect(() => {
+    const hardcodedHotels = [
+      { id: 1, name: 'Fullerton Hotel', rating: 4.5, price: 2024, imageUrl: '/hotel-a.jpg', location: 'Location A', description: 'Descriptive details about Hotel A including amenities.' },
+      { id: 2, name: 'Hotel B', rating: 4.2, price: 2024, imageUrl: '/hotel-b.jpg', location: 'Location B', description: 'Descriptive details about Hotel B including amenities.' },
+      { id: 3, name: 'Hotel C', rating: 4.8, price: 2024, imageUrl: '/hotel-c.jpg', location: 'Location C', description: 'Descriptive details about Hotel C including amenities.' }
+    ];
 
- function ListHotel() {
-    var hotel_results;
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+    setHotels(hardcodedHotels);
+    setFilteredHotels(hardcodedHotels);
+    setLoading(false);
+  }, []);
 
+  const handleFilterChange = (filters) => {
+    const { priceRange, starRating, guestRating } = filters;
 
+    let filtered = hotels;
 
+    if (priceRange.length > 0) {
+      filtered = filtered.filter(hotel => {
+        const price = hotel.price;
+        return priceRange.some(range => {
+          const [min, max] = range.split(' - ').map(s => parseInt(s.replace('$', '').replace(',', ''), 10));
+          return price >= min && price <= max;
+        });
+      });
+    }
 
-     useEffect(() => {
-         async function fetchData() {
-             await fetch("http://localhost:3000/prices/destination/".concat(urlParams.get('destination_id'), "/", urlParams.get('checkin'), '/', urlParams.get('checkout'), '/en_US/SGD/', urlParams.get('guests')))
-                 .then((response) => response.json())
-                 .then((json) => hotel_results = json);
-                return hotel_results;
-             // ...
-         }
+    if (starRating.length > 0) {
+      filtered = filtered.filter(hotel => starRating.includes(hotel.rating.toString()));
+    }
 
-         var hotels=document.getElementById("hotels");
-         var hotel_results=fetchData().then((hotel_results) => hotels.value=hotel_results)
+    if (guestRating.length > 0) {
+      filtered = filtered.filter(hotel => guestRating.includes(hotel.rating.toString()));
+    }
 
+    setFilteredHotels(filtered);
+  };
 
-     }, [queryString,urlParams]);
-
-     return (
-         <>
-             <div id="hotels" placeholder="hotels">
-
-             </div>
-         </>
-     );
-
-
+  return (
+    <div className="list-hotel-container">
+      <Filter onFilterChange={handleFilterChange} />
+      {loading ? (
+        <>
+          <Skeleton variant="rectangular" width="100%" height={200} />
+          <Skeleton variant="rectangular" width="100%" height={200} />
+          <Skeleton variant="rectangular" width="100%" height={200} />
+        </>
+      ) : (
+        filteredHotels.map(hotel => (
+          <Card key={hotel.id} className="hotel-card">
+            <Grid container>
+              <Grid item xs={10}>
+                <CardContent className="hotel-card-content">
+                  <Typography variant="h5" component="div" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
+                    {hotel.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter'}}>
+                    <AiFillEnvironment /> {hotel.location}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter'}}>
+                    {hotel.description}
+                  </Typography>
+                  <Grid container justifyContent="space-between" alignItems="center">
+                    <Typography variant="body2" color="text.secondary" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02'}}>
+                      {hotel.price} SGD
+                    </Typography>
+                    <Button size="small" color="primary" variant="contained" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
+                      Select
+                    </Button>
+                  </Grid>
+                </CardContent>
+              </Grid>
+              <Grid item xs={10}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={hotel.imageUrl || '/placeholder.jpg'}
+                  alt={hotel.name}
+                />
+              </Grid>
+            </Grid>
+          </Card>
+        ))
+      )}
+    </div>
+  );
 }
 
 export default ListHotel;
