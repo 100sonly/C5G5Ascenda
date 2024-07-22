@@ -2,7 +2,6 @@ const request = require('supertest');
 const backend = require('../app');
 const data = require ('./test_data')
 
-// At the top of your test file or in a setup file
 jest.setTimeout(30000); // Sets timeout to 30 seconds
 
 describe('Test findByDestination', () => {
