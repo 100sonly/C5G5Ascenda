@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography, Button, Grid, Skeleton } from '@mui/material';
 import { AiFillEnvironment } from "react-icons/ai";
 import './ListHotel.css';
-import Filter from './Filter'; // Import the Filter component
 
 const ListHotel = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filteredHotels, setFilteredHotels] = useState([]);
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
 
   useEffect(() => {
     const hardcodedHotels = [
@@ -23,35 +20,8 @@ const ListHotel = () => {
     setLoading(false);
   }, []);
 
-  const handleFilterChange = (filters) => {
-    const { priceRange, starRating, guestRating } = filters;
-
-    let filtered = hotels;
-
-    if (priceRange.length > 0) {
-      filtered = filtered.filter(hotel => {
-        const price = hotel.price;
-        return priceRange.some(range => {
-          const [min, max] = range.split(' - ').map(s => parseInt(s.replace('$', '').replace(',', ''), 10));
-          return price >= min && price <= max;
-        });
-      });
-    }
-
-    if (starRating.length > 0) {
-      filtered = filtered.filter(hotel => starRating.includes(hotel.rating.toString()));
-    }
-
-    if (guestRating.length > 0) {
-      filtered = filtered.filter(hotel => guestRating.includes(hotel.rating.toString()));
-    }
-
-    setFilteredHotels(filtered);
-  };
-
   return (
     <div className="list-hotel-container">
-      <Filter onFilterChange={handleFilterChange} />
       {loading ? (
         <>
           <Skeleton variant="rectangular" width="100%" height={200} />
