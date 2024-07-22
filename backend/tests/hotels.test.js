@@ -25,7 +25,6 @@ describe('Test findById', () => {
         //const response = await request(backend).get('/hotels/hotel/diH7');
         const response = await request(backend).get(`/hotels/hotel/${data.valid_hotel}`);
         //console.log(response.body);
-		
         expect(response.statusCode).toBe(200);
         expect(response.body).toBeDefined();
 
