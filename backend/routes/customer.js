@@ -4,6 +4,7 @@ var customerModel = require('../models/customer.js')
 
 router.get('/addCustomer/:username/:name/:email/:password_hash', async function(req, res, next) {
   // example: http://localhost:3000/customers/addCustomer/test/somethingsomething/test2@test.com/cccccc
+  const customerID = await customerModel.getNumCustomers();
   const username = req.params.username;
   const name = req.params.name;
   const email = req.params.email;
@@ -11,13 +12,14 @@ router.get('/addCustomer/:username/:name/:email/:password_hash', async function(
   const bookings = [];
 
   try {
-    customerModel.addNewCustomer(username, name, email, password_hash, bookings);
+    customerModel.addNewCustomer(customerID, username, name, email, password_hash, bookings);
     res.send("Insertion successful!")
   } catch(err) {
     console.log(err);
     res.send("Insertion failed!")
   }
 });
+
 
 router.get('/all', async function(req, res, next) {
   const all = await customerModel.getAll();
