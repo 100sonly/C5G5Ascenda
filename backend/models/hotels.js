@@ -24,6 +24,7 @@ class Hotel {
  */
 async function findByDestination(destination_id) {
     const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${destination_id}`);
+    console.log("got it")
     //const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU`);
     const text = await response.text();
     const text_json = await JSON.parse(text);
@@ -33,6 +34,8 @@ async function findByDestination(destination_id) {
         hotel_to_add = new Hotel(current.id, current.name, current.latitude, current.longitude, current.address, current.rating, current.categories, current.description, current.amenities, current.image_details);
         hotel_list.push(hotel_to_add);
     }
+    console.log("showing it")
+    console.log(hotel_list);
     return hotel_list;
 }
 
