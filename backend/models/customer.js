@@ -6,21 +6,22 @@ let connection;
 
 
 class Customer {
-    constructor(username, name, email, password_hash) {
+    constructor(customerID, username, name, email, password_hash) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.password_hash = password_hash;
         this.bookings = [];
     }
-    static newCustomer(username, email, password_hash, bookings) {
-        return new Customer(username, email, password_hash, bookings);
+    static newCustomer(customerID, username, email, password_hash, bookings) {
+        return new Customer(customerID, username, email, password_hash, bookings);
     }
 }
 
-async function addNewCustomer(username, name, email, password_hash, bookings) {
+async function addNewCustomer(customerID, username, name, email, password_hash, bookings) {
     const userToInsert = [
         {
+            "customerID": customerID,
             "username": username,
             "password_hash": password_hash,
             "name": name,
@@ -46,4 +47,23 @@ async function getAll() {
     return custJSON;
 }
 
-module.exports = { Customer, addNewCustomer, getAll }
+async function getNumCustomers() {
+    con = await connectModel.create_connection(customer_col_name);
+    client = con[0];
+    col = con[1];
+    const cust_array = await col.find().toArray();
+    return cust_array.length;
+}
+
+async function deleteCustomer(customerID) {
+    con = await connectModel.create_connection(customer_col_name);
+    client = con[0];
+    col = con[1];
+    const condition = {
+        customerID: customerID,
+    }
+    const p = await col.deleteOne(condition);
+    connectModel.close_connection(client);
+}
+
+module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, deleteCustomer }

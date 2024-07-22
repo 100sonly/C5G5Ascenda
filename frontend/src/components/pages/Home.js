@@ -8,8 +8,8 @@ function Home() {
   return (
     <>
 
-      <HeroSection />
-      <TopRatedHotels />
+        <HeroSection />
+        <TopRatedHotels />
         </>
   );
 

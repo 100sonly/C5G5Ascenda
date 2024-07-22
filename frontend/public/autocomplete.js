@@ -5,6 +5,21 @@ fetch('./destinations.json')
 
 
 
+document.querySelector('form').addEventListener('submit', function(e) {
+    des=document.getElementById("destination_id");
+    des.value=des.getAttribute("desid");
+    guests=document.getElementById("guests");
+    guestval=guests.getAttribute("value");
+    const rooms=parseInt(guestval.charAt(0))-1;
+    if(rooms<1){
+        guests.value=guestval.charAt(9);
+    }
+    else {
+        console.log(rooms);
+        guests.value = (guestval.charAt(9) + "|").repeat(rooms)+guestval.charAt(9);
+
+    }
+}, false);
 
 function autocompleteMatch(input) {
 
@@ -24,9 +39,10 @@ function autocompleteMatch(input) {
         }
     }, {count: 0});
 }
-function updateValue(val){
-    des = document.getElementById("destination");
+function updateValue(val,desid){
+    des = document.getElementById("destination_id");
     des.value=val;
+    des.setAttribute('desid',desid);
     res = document.getElementById("result");
     res.innerHTML = '';
 }
@@ -42,11 +58,12 @@ function showResults(val) {
         entry.innerHTML=terms[i].term;
         origString=entry.outerHTML.toString();
         list+=origString.slice(0,3)
-            + ' onclick="updateValue(this.textContent)" ' + origString.slice(3);
+            + ' onclick="updateValue(this.textContent,this.id)" ' + origString.slice(3);
         //list += '<li onclick="updateValue(this.textContent)">' + terms[i].term + '</li>';
     }
     res.innerHTML = '<ul>' + list + '</ul>';
 }
 
-dest=document.getElementById("destination");
-dest.onkeyup = function(){showResults(dest.value)};
+dest=document.getElementById("destination_id");
+
+dest.onkeyup = function(){showResults(dest.value);};
