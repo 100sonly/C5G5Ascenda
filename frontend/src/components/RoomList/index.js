@@ -1,26 +1,15 @@
 import React from "react";
-import { useState, Component, useEffect } from "react";
+import RoomCard from "../RoomCard/index.js"; 
 
-function RoomDesc(obj) {
-    console.log(Object.keys(obj));
-    return (
-        <div>
-            <h3>{obj.roomNormalizedDescription}</h3>
-            <div dangerouslySetInnerHTML={{__html: obj.long_description}} />
-        </div>
-    )
-}
-
-function RoomList({json}) {
+function RoomList({ json }) {
     let keys = Object.keys(json);
-    let items = Object.values(json)
-    console.log(items);
+    let items = Object.values(json);
 
     return (
-        keys.map(function(key, i) {
-            return <div>{RoomDesc(items[i])}</div>
-        })
-    )
+        items.map((item, i) => (
+            <RoomCard key={keys[i]} room={item} />
+        ))
+    );
 }
 
 export default RoomList;
