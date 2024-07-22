@@ -1,0 +1,15 @@
+.auth-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 40px); 
+    padding: 20px; 
+    box-sizing: border-box; 
+  }
+  
+  .auth-form {
+    width: 60%;
+    height: 40%; 
+    margin: 20px;
+  }
+  

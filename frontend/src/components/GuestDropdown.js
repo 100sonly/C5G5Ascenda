@@ -94,8 +94,10 @@ function GuestDropdown() {
             <div className="input-container" onClick={toggleDropdown}>
                 <input
                     type="text"
-                    readOnly
+
+                    id="guests"
                     className="form-input"
+                    name="guests"
                     value={`${rooms} Room | ${adults + children} Guest${adults + children > 1 ? 's' : ''}`}
                 />
                 <FaUser className="input-icon" />
