@@ -13,10 +13,10 @@ router.get('/addCustomer/:username/:name/:email/:password_hash', async function(
 
   try {
     customerModel.addNewCustomer(customerID, username, name, email, password_hash, bookings);
-    res.send("Insertion successful!")
+    res.send("Creation successful!")
   } catch(err) {
     console.log(err);
-    res.send("Insertion failed!")
+    res.send("Creation failed!")
   }
 });
 
