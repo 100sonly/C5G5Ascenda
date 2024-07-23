@@ -22,7 +22,7 @@ describe('Test createAccount (valid) ', () => {
       const url = `/customers/addCustomer/${username}/${name}/${email}/${password_hash}`;
       const response = await request(backend).get(url);
       //expect(response.statusCode).toBe(409);
-	  //console.log(response);
+	   //console.log(response);
       expect(response).toBeDefined();
        // Check if response.body contains the expected properties
       expect(response).toHaveProperty('text', 'Email already Registered');
@@ -36,7 +36,7 @@ describe('Test all', () => {
        const response = await request(backend).get(url);
        expect(response.statusCode).toBe(200);
 	   //console.log(response.body);
-       //expect(response).toBeDefined();
+      //expect(response).toBeDefined();
 	   expect(response.body.length).toBeGreaterThan(0)
     });
 });
@@ -44,23 +44,23 @@ describe('Test all', () => {
 
 describe('Test get email', () => { 
    test('It should respond with status 200 and display user accounts', async () => {
-       const url = `/customers/one/${email}`;
-       const response = await request(backend).get(url);
-       expect(response.statusCode).toBe(200);
+      const url = `/customers/one/${email}`;
+      const response = await request(backend).get(url);
+      expect(response.statusCode).toBe(200);
 	   //console.log(response.body);
-       expect(response).toBeDefined();
-       // Check if response.body contains the expected properties
-       expect(response.body).toHaveProperty('email', `${email}`);
+      expect(response).toBeDefined();
+      // Check if response.body contains the expected properties
+      expect(response.body).toHaveProperty('email', `${email}`);
     });
 
    test('It should respond with status 404 for invalid user accounts', async () => {
-       const url = `/customers/one/invalid@email.com`;
-       const response = await request(backend).get(url);
-       //expect(response.statusCode).toBe(404);
+      const url = `/customers/one/invalid@email.com`;
+      const response = await request(backend).get(url);
+      //expect(response.statusCode).toBe(404);
 	   //console.log(response.body);
-       expect(response).toBeDefined();
-       // Check if response.body contains the expected properties
-       expect(response).toHaveProperty('text', 'Customer not found');
+      expect(response).toBeDefined();
+      // Check if response.body contains the expected properties
+      expect(response).toHaveProperty('text', 'Customer not found');
     });
 });
 
