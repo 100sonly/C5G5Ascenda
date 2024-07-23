@@ -1,9 +1,5 @@
-const { MongoClient } = require("mongodb");
-
 const connectModel = require("./connect.js");
 const customer_col_name = "customers";
-let connection;
-
 
 class Customer {
     constructor(customerID, username, name, email, password_hash) {
@@ -29,41 +25,100 @@ async function addNewCustomer(customerID, username, name, email, password_hash, 
             "bookings": bookings,
         }
     ]
-    con = await connectModel.create_connection(customer_col_name);
-    client = con[0];
-    col = con[1];
-    const p = await col.insertMany(userToInsert);
-    console.log(p);
-    connectModel.close_connection(client);
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        client = con[0];
+        col = con[1];
+        const p = await col.insertMany(userToInsert);
+        console.log(p);
+    } catch (err) {
+        console.log(err.stack);
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
 }
 
 async function getAll() {
-    con = await connectModel.create_connection(customer_col_name);
-    client = con[0];
-    col = con[1];
-    const custJSON = await col.find().toArray();
-    //console.log(custJSON);
-    connectModel.close_connection(client);
-    return custJSON;
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        client = con[0];
+        col = con[1];
+        const custJSON = await col.find().toArray();
+        //console.log(custJSON);
+        return custJSON;
+    } catch (err) {
+        console.log(err.stack);
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
 }
 
 async function getNumCustomers() {
-    con = await connectModel.create_connection(customer_col_name);
-    client = con[0];
-    col = con[1];
-    const cust_array = await col.find().toArray();
+    const cust_array = await getAll();
     return cust_array.length;
 }
 
-async function deleteCustomer(customerID) {
-    con = await connectModel.create_connection(customer_col_name);
-    client = con[0];
-    col = con[1];
-    const condition = {
-        customerID: customerID,
+async function getCustomer(email) {
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        client = con[0];
+        col = con[1];
+        return await col.findOne({ email });
+    } catch (err) {
+        console.log(err.stack);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
     }
-    const p = await col.deleteOne(condition);
-    connectModel.close_connection(client);
 }
 
-module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, deleteCustomer }
+async function deleteCustomer(customerID) {
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        client = con[0];
+        col = con[1];
+        const condition = {
+            customerID: customerID,
+        }
+        const p = await col.deleteOne(condition);
+    } catch (err) {
+        console.log(err.stack);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
+}
+
+async function deleteCustomerEmail(email) {
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        client = con[0];
+        col = con[1];
+        const condition = {
+            email: email,
+        }
+        const p = await col.deleteOne(condition);
+    } catch (err) {
+        console.log(err.stack);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
+}
+
+module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, getCustomer, deleteCustomer, deleteCustomerEmail };
