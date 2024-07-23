@@ -18,7 +18,12 @@ const Item = styled(Paper)(({ theme }) => ({
     fontWeight: 400,  
     fontSize: '16px', 
     minWidth: '120px',  
-    maxWidth: '200px',  
+    maxWidth: '200px',
+    transition: 'transform 0.5s, box-shadow 0.5s', 
+  '&:hover': {
+    transform: 'scale(1.01)', 
+    boxShadow: '12px 12px 12px rgba(0, 0, 0, 0.1), -10px -10px 10px white' 
+  },
   }));
 
 function camelCaseToSpaced(string) {
