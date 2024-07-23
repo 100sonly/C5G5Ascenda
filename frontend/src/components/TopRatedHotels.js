@@ -17,7 +17,7 @@ function TopRatedHotels() {
       <div className="divider"></div>
       <div className="top-hotels-list">
         {topHotels.map(hotel => (
-          <Card key={hotel.id} className="hotel-card">
+          <Card key={hotel.id} className="tophotel-card">
             <CardMedia
               component="img"
               height="200"
