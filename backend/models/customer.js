@@ -1,23 +1,25 @@
 const connectModel = require("./connect.js");
 const customer_col_name = "customers";
+const {hashPassword, comparePassword} = require('../helpers/hash');
+
 
 class Customer {
-    constructor(customerID, username, name, email, password_hash) {
+    constructor(username, name, email, password_hash) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.password_hash = password_hash;
         this.bookings = [];
     }
-    static newCustomer(customerID, username, email, password_hash, bookings) {
-        return new Customer(customerID, username, email, password_hash, bookings);
+    static newCustomer(username, email, password_hash, bookings) {
+        return new Customer(username, email, password_hash, bookings);
     }
 }
 
-async function addNewCustomer(customerID, username, name, email, password_hash, bookings) {
+async function addNewCustomer(username, name, email, password, bookings) {
+    const password_hash = await hashPassword(password);
     const userToInsert = [
         {
-            "customerID": customerID,
             "username": username,
             "password_hash": password_hash,
             "name": name,
@@ -40,6 +42,31 @@ async function addNewCustomer(customerID, username, name, email, password_hash, 
         }
     }
 }
+
+async function verifyCustomer(username, password){
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        const client = con[0];
+        const col = con[1];
+        const customer = await col.findOne({ username: username });
+        // Compare provided password with the stored hash
+        const isMatch = await comparePassword(password, customer.password_hash)
+        if (isMatch) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        console.error("Error verifying customer:", err);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(con[0]);
+        }
+    }
+}
+
 
 async function getAll() {
     let con;
@@ -121,4 +148,43 @@ async function deleteCustomerEmail(email) {
     }
 }
 
-module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, getCustomer, deleteCustomer, deleteCustomerEmail };
+async function checkEmailExists(email) {
+    let con;
+    try {
+      con = await connectModel.create_connection(customer_col_name);
+      const client = con[0];
+      const col = con[1];
+      
+      const customer = await col.findOne({ email: email });
+      return customer !== null;
+    } catch (err) {
+      console.error("Error checking if email exists:", err);
+      throw err;
+    } finally {
+      if (con) {
+        await connectModel.close_connection(con[0]);
+      }
+    }
+  }
+
+  async function checkUsernameExists(username) {
+    let con;
+    try {
+        con = await connectModel.create_connection(customer_col_name);
+        const client = con[0];
+        const col = con[1];
+        
+        const customer = await col.findOne({ username: username });
+        return customer !== null;
+    } catch (err) {
+        console.error("Error checking if username exists:", err);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(con[0]);
+        }
+    }
+}
+
+
+module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, getCustomer, deleteCustomer, deleteCustomerEmail, checkEmailExists, checkUsernameExists, verifyCustomer };

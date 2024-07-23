@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const customerModel = require('../models/customer.js');
+const {register, login} = require('../Controllers/customerController.js');
+const app = express();
 
+router.post('/reg', register);
+router.post('/login', login)
+/*
 router.get('/addCustomer/:username/:name/:email/:password_hash', async function(req, res, next) {
   // example: http://localhost:3000/customers/addCustomer/test/somethingsomething/test2@test.com/cccccc
   const customerID = await customerModel.getNumCustomers();
@@ -24,6 +29,7 @@ router.get('/addCustomer/:username/:name/:email/:password_hash', async function(
     res.send("Creation failed!");
   }
 });
+*/
 
 router.get('/deleteCustomer/:customerID', async function(req, res, next) {
   // example: http://localhost:3000/customers/deleteCustomer/cusID
