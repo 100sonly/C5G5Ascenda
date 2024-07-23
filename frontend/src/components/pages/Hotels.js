@@ -8,10 +8,10 @@ import TopRatedHotels from '../TopRatedHotels';
 import './Hotel.css';
 
 function Hotels() {
-  const [filter, setFilter] = useState([]);
+  const [filter, setFilter] = useState({ priceRange: [], starRating: [] });
 
-  const handleFilterChange = (selectedRanges) => {
-    setFilter(selectedRanges);
+  const handleFilterChange = (selectedFilters) => {
+    setFilter(selectedFilters);
   };
 
   return (
