@@ -1,25 +1,16 @@
 .highlights-box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin-left: 7%;
-  }
-  
-  .highlights-title {
-    margin: 0;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .highlights-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .highlight-item {
-    margin-bottom: 10px;
-  }
-  
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.5), -10px -10px 10px white;
+  width: 300px;
+  margin-left: 7%;
+}
+
+.highlight-item {
+  margin-bottom: 10px;
+}
+
+.highlight-item:last-child {
+  margin-bottom: 0;
+}

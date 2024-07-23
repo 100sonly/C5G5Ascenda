@@ -1,35 +1,75 @@
+/* ListHotel.css */
 .list-hotel-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    padding-left: 30rem;
-    width: 150rem;
-    
-  }
-  
-  .hotel-card {
-    display: flex;
-    flex-direction: row;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 7rem;
-    margin-bottom: 0px;
-    
-  }
-  
-  .hotel-card img {
-    width: 200px;
-    height: auto;
-  }
-  
-  .hotel-card-content {
-    padding: 16px;
-  }
-  
-  .divider {
-    height: 1px;
-    background-color: #ddd;
-    margin: 0px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hotel-card {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  align-items: center;
+}
+
+.hotel-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 16px;
+}
+
+.hotel-card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.hotel-info {
+  flex: 1;
+}
+
+.hotel-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #ffb400;
+}
+
+.star-filled {
+  color: #ffb400;
+}
+
+.star-empty {
+  color: #ddd;
+}
+
+.hotel-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.hotel-price {
+  text-align: right;
+}
+
+.hotel-price span {
+  display: block;
+  font-weight: bold;
+}
+
+.hotel-price small {
+  display: block;
+  color: #888;
+}

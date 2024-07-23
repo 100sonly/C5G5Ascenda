@@ -11,7 +11,7 @@ function LocationMap({position}) {
     console.log(position);
     //const position = [51.505, -0.09]
     return (
-        <Map defaultZoom={zoomLevel} center={position} height={300} provider={osm}>
+        <Map defaultZoom={zoomLevel} center={position} height={500} provider={osm}>
             <Marker 
                 width={50}
                 anchor={position} 

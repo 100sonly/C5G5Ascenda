@@ -7,7 +7,9 @@ import NavTabs from "../components/NavTabs";
 import HalfRating from "../components/HalfRating";
 import AutoGrid from "../components/AutoLayout";
 import Highlights from "../components/HighlightsBox"; 
+import SearchForm from "../components/SearchForm"
 import { Button, Skeleton } from '@mui/material';
+import { PlaceRounded } from '@mui/icons-material';
 import './HotelInformation.css';
 
 const Hotel = () => {
@@ -15,6 +17,7 @@ const Hotel = () => {
   const [image_details, setImageDetails] = useState("");
   const [name, setName] = useState("");
   const [rating, setRating] = useState("");
+  const [address, setAddress] = useState("");
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [amenities, setAmenities] = useState([]);
@@ -45,6 +48,7 @@ const Hotel = () => {
       setDesc(json_hotel.description);
       setName(json_hotel.name);
       setRating(json_hotel.rating);
+      setAddress(json_hotel.address)
       setImageDetails(json_hotel.image_details);
       setLatitude(json_hotel.latitude);
       setLongitude(json_hotel.longitude);
@@ -79,7 +83,14 @@ const Hotel = () => {
 
   return (
     <div style={{ paddingLeft: '10%', paddingRight: '10%' }}> 
-      <div id="hotel-images" style={{ paddingTop: '5%' }}>
+      <div id="searchform">
+          {loading ? (
+            <Skeleton variant="rectangular" width="100%" height={40} />
+          ) : (
+            <SearchForm customClass="search-form-hotel" />
+          )}
+        </div>
+      <div id="hotel-images" style={{ paddingTop: '8%' }}>
         {loading ? (
           <Skeleton variant="rectangular" width="100%" height={400} />
         ) : (
@@ -87,13 +98,14 @@ const Hotel = () => {
         )}
       </div>
 
-      <div id="nav-tabs" style={{ paddingTop: '2%' }}>
+      <div id="nav-tabs" className="sticky-nav-tabs" style={{ paddingTop: '2%' }}>
         {loading ? (
           <Skeleton variant="text" width="100%" height={40} />
         ) : (
           <NavTabs />
         )}
       </div>
+
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '2%' }}>
         <h1 id="hotel-name">
@@ -120,6 +132,29 @@ const Hotel = () => {
           <Skeleton variant="text" width="20%" height={40} />
         ) : (
           <HalfRating rating={rating} />
+        )}
+      </div>
+
+      <div id="address" style={{ paddingTop: '1%', display: 'flex', alignItems: 'center' }}>
+        {loading ? (
+          <Skeleton variant="text" width="20%" height={40} />
+        ) : (
+          <>
+            <PlaceRounded style={{ color: '#1A1E43', marginRight: '8px' }} />
+            <span>{address}</span>
+            <div
+              onClick={() => window.location.href = '#location'} 
+              style={{ 
+                textTransform: 'none',
+                marginLeft: '10px',
+                color: '#2F80ED',
+                padding: '0',
+                cursor: 'pointer'
+              }}
+            >
+              show map
+            </div>
+          </>
         )}
       </div>
 

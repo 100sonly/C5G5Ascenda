@@ -1,0 +1,111 @@
+.room-card {
+  display: flex;
+  padding: 20px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.room-image-wrapper {
+  position: relative;
+  width: 300px;
+  height: auto;
+  margin-right: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.room-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button.prev-button {
+  left: 10px;
+}
+
+.nav-button.next-button {
+  right: 10px;
+}
+
+.room-image-wrapper:hover .nav-button {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.room-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.room-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.room-title {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.room-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.room-select-button {
+  background-color: #2F80ED;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-transform: none;
+}
+
+.room-price {
+  text-align: right;
+  padding-top: 50%;
+}
+
+.room-price .room-guests,
+.room-price .room-taxes {
+  font-size: 0.875rem;
+}
+
+.amenities-section {
+  margin-top: 16px;
+}
+
+.amenities-section .MuiBox-root {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.amenities-section .MuiTypography-caption {
+  text-align: center;
+}
