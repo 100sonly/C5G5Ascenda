@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 
@@ -15,7 +14,6 @@ import React from 'react';
 import Hotels from "./components/pages/Hotels";
 
 function App() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
   return (
     <Router>
@@ -24,7 +22,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/hotels' element={< Hotels/>} />
-        <Route path='/signin' element={!isLoggedIn ? <SignIn /> : <Navigate to="/" />} />
+        <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Hotel />} />
         <Route path='/services' element={<Hotel />} />
       </Routes>

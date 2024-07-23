@@ -63,10 +63,6 @@ function AuthForm() {
                 toast.success(data.message);
                 console.log("Login successful");
 
-                 // Store login state and username in localStorage
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('username', signInUsername);
-
                 // Navigate to home page
                 navigate('/');
             } else if (data.error) {
