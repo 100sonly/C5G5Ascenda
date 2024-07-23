@@ -7,6 +7,7 @@ import NavTabs from "../components/NavTabs";
 import HalfRating from "../components/HalfRating";
 import AutoGrid from "../components/AutoLayout";
 import Highlights from "../components/HighlightsBox"; 
+import SearchForm from "../components/SearchForm"
 import { Button, Skeleton } from '@mui/material';
 import { PlaceRounded } from '@mui/icons-material';
 import './HotelInformation.css';
@@ -82,7 +83,14 @@ const Hotel = () => {
 
   return (
     <div style={{ paddingLeft: '10%', paddingRight: '10%' }}> 
-      <div id="hotel-images" style={{ paddingTop: '5%' }}>
+      <div id="searchform">
+          {loading ? (
+            <Skeleton variant="rectangular" width="100%" height={40} />
+          ) : (
+            <SearchForm customClass="search-form-hotel" />
+          )}
+        </div>
+      <div id="hotel-images" style={{ paddingTop: '8%' }}>
         {loading ? (
           <Skeleton variant="rectangular" width="100%" height={400} />
         ) : (

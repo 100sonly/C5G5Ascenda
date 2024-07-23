@@ -30,4 +30,14 @@ body {
     background-color: none; 
     padding-top: 20px; 
   }
+
+  .search-form-hotel {
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+    width: 60%; 
+}
+
+
+  
   

@@ -12,7 +12,7 @@ function HeroSection() {
                 <h1>Chase elegance. Reserve your<br/> dream stay now.</h1>
                 <p>Discover the finest hotels from all over the world.</p>
             </div>
-            <SearchForm />
+            <SearchForm customClass={"search-form-hero"} />
         </div>
     );
 }
