@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 
 import Hotel from "./pages/HotelInformation";
 import SignIn from "./components/pages/SignIn"
@@ -13,12 +14,14 @@ import React from 'react';
 import Hotels from "./components/pages/Hotels";
 
 function App() {
+
   return (
     <Router>
       <Navbar />
+      <Toaster position='bottom-right' toastOptions={{duration:2000}} />
       <Routes>
         <Route path='/' element={<Home />} />
-          <Route path='/hotels' element={< Hotels/>} />
+        <Route path='/hotels' element={< Hotels/>} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Hotel />} />
         <Route path='/services' element={<Hotel />} />

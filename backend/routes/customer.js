@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const customerModel = require('../models/customer.js');
+const {register, login, defaultResponse, getAllCustomers, deleteCustomerByID, deleteCustomerByEmail, getUserByEmail} = require('../controllers/customer.js');
+const app = express();
 
+router.post('/reg', register);
+router.post('/login', login);
+/*
 router.get('/addCustomer/:username/:name/:email/:password_hash', async function(req, res, next) {
   // example: http://localhost:3000/customers/addCustomer/test/somethingsomething/test2@test.com/cccccc
   const customerID = await customerModel.getNumCustomers();
@@ -24,69 +29,30 @@ router.get('/addCustomer/:username/:name/:email/:password_hash', async function(
     res.send("Creation failed!");
   }
 });
+*/
 
 router.get('/deleteCustomer/:customerID', async function(req, res, next) {
   // example: http://localhost:3000/customers/deleteCustomer/cusID
-  const customerID = Number(req.params.customerID);
-
-  try {
-    await customerModel.deleteCustomer(customerID);
-    res.send("Deletion successful!");
-  } catch (err) {
-    console.log(err);
-    res.send("Deletion failed :(");
-  }
+  deleteCustomerByID(req, res);
 });
 
-router.get('/deleteCustomerEmail/:email', async function(req, res, next) {
+router.get('/deleteCustomerByEmail/:email', async function(req, res, next) {
   // example: http://localhost:3000/customers/deleteCustomer/email#emaul.com
-  const email = req.params.email;
-
-  try {
-    const customer = await customerModel.getCustomer(email)
-    if (customer) {
-        await customerModel.deleteCustomerEmail(email);
-        res.send("Deletion successful!");
-    } else {
-        res.status(409).send("Email not found!")
-    }
-  } catch (err) {
-    console.log(err);
-    res.send("Deletion failed :(");
-  }
+  deleteCustomerByEmail(req, res);
 });
 
 router.get('/all', async function(req, res, next) {
   // example: http://localhost:3000/customers/all
-  try {
-    const all = await customerModel.getAll();
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
-    res.send(all);
-  } catch (err) {
-    console.log(err);
-    res.send("Failed to fetch customers");
-  }
+  getAllCustomers(req, res);
 });
 
 router.get('/one/:email', async function(req, res) {
   // example: http://localhost:3000/one/user@email.com
-  const { email } = req.params;
-
-  try {
-      const customer = await customerModel.getCustomer(email);
-      if (customer) {
-          res.send(customer);
-      } else {
-          res.status(404).send("Customer not found");
-      }
-  } catch (err) {
-      console.log(err);
-      res.status(500).send("Error fetching customer");
-  }
+  getUserByEmail(req, res);
 });
 
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  defaultResponse(req, res);
 });
 
 module.exports = router;
