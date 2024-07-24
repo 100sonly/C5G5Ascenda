@@ -72,10 +72,10 @@ const login = async (req, res) => {
         // Login failed
         res.status(401).json({ error: 'Invalid username or password' });
     }
-} catch (err) {
+  } catch (err) {
     console.error('Error during login:', err);
     res.status(500).json({ error: 'An error occurred during login' });
-}
+  }
 }
 
 async function getAllCustomers(req, res) {
@@ -89,8 +89,53 @@ async function getAllCustomers(req, res) {
   }
 }
 
+async function deleteCustomerByID(req, res) {
+  const customerID = Number(req.params.customerID);
+
+  try {
+    await customerModel.deleteCustomer(customerID);
+    res.send("Deletion successful!");
+  } catch (err) {
+    console.log(err);
+    res.send("Deletion failed :(");
+  }
+}
+
+async function deleteCustomerByEmail(req, res) {
+  const email = req.params.email;
+
+  try {
+    const customer = await customerModel.getCustomerByEmail(email)
+    if (customer) {
+        await customerModel.deleteCustomerEmail(email);
+        res.send("Deletion successful!");
+    } else {
+        res.status(409).send("Email not found!")
+    }
+  } catch (err) {
+    console.log(err);
+    res.send("Deletion failed :(");
+  }
+}
+
+async function getUserByEmail(req, res) {
+  const { email } = req.params;
+
+  try {
+      const customer = await customerModel.getCustomerByEmail(email);
+      if (customer) {
+          res.send(customer);
+      } else {
+          res.status(404).send("Customer not found");
+      }
+  } catch (err) {
+      console.log(err);
+      res.status(500).send("Error fetching customer");
+  }
+}
+
 function defaultResponse(req, res) {
   res.send('respond with a resource');
 }
 
-module.exports = { register,login, getAllCustomers, defaultResponse };
+module.exports = { register, login, getAllCustomers, deleteCustomerByID, deleteCustomerByEmail, getUserByEmail, defaultResponse };

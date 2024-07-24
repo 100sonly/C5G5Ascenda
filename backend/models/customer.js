@@ -91,7 +91,7 @@ async function getNumCustomers() {
     return cust_array.length;
 }
 
-async function getCustomer(email) {
+async function getCustomerByEmail(email) {
     let con;
     try {
         con = await connectModel.create_connection(customer_col_name);
@@ -187,4 +187,4 @@ async function checkEmailExists(email) {
 }
 
 
-module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, getCustomer, deleteCustomer, deleteCustomerEmail, checkEmailExists, checkUsernameExists, verifyCustomer };
+module.exports = { Customer, addNewCustomer, getAll, getNumCustomers, getCustomerByEmail, deleteCustomer, deleteCustomerEmail, checkEmailExists, checkUsernameExists, verifyCustomer };
