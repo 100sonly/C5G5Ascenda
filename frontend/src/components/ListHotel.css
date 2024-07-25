@@ -78,3 +78,9 @@
   align-items: center;
   margin: 8px;
 }
+
+.select-button {
+  font-family: 'Inter';
+  width: 158px;
+  height: 'hug';
+}

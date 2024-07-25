@@ -86,7 +86,7 @@ function ListHotel({ filter }) {
                 {hotel.description}
               </Typography>
               <Box className="hotel-card-footer">
-                <Button size="small" color="primary" variant="contained" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
+                <Button className="select-button" size="small" color="primary" variant="contained" style={{ fontWeight: 'bold', fontFamily: 'Inter', backgroundColor: '#1A1A48',}}>
                   Select
                 </Button>
                 <Box className="hotel-price">
