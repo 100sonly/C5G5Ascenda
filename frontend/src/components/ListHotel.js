@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, CardActions } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 import { AiFillEnvironment } from 'react-icons/ai';
 import './ListHotel.css';
 
@@ -60,32 +60,40 @@ function ListHotel({ filter }) {
     <div className="list-hotel-container">
       {filteredHotels.map((hotel) => (
         <Card key={hotel.id} className="hotel-card">
-          <CardMedia
-            component="img"
-            height="200"
-            image={hotel.imageUrl}
-            alt={hotel.name}
-            className="hotel-image"
-          />
-          <CardContent>
-            <Typography variant="h5" component="div" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
-              {hotel.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter'}}>
-              <AiFillEnvironment /> {hotel.location}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter'}}>
-              {hotel.description}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02'}}>
-              {hotel.price} SGD <small>Taxes incl.</small>
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color="primary" variant="contained" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
-              Select
-            </Button>
-          </CardActions>
+          <Box className="hotel-card-box">
+            <Box className="hotel-image-box">
+              <CardMedia
+                component="img"
+                image={hotel.imageUrl}
+                alt={hotel.name}
+                className="hotel-image"
+              />
+            </Box>
+            <Box className="hotel-card-content">
+              <Typography variant="h5" component="div" style={{ fontFamily: 'Inter' }}>
+                {hotel.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
+                <AiFillEnvironment /> {hotel.location}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
+                {hotel.description}
+              </Typography>
+              <Box className="hotel-card-footer">
+                <Button size="small" color="primary" variant="contained" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
+                  Select
+                </Button>
+                <Box className="hotel-price">
+                  <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02' }}>
+                    {hotel.price} SGD
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
+                    Taxes incl.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
         </Card>
       ))}
     </div>
