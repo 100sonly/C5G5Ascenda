@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Box, Rating } from '@mui/material';
 import { AiFillEnvironment } from 'react-icons/ai';
 import './ListHotel.css';
 
@@ -10,7 +10,7 @@ function ListHotel({ filter }) {
     {
       id: 1,
       name: 'The Fullerton Hotel Singapore',
-      rating: 4.5,
+      rating: 4.4,
       reviews: 543,
       price: 560,
       imageUrl: '/placeholder.jpg',
@@ -70,9 +70,15 @@ function ListHotel({ filter }) {
               />
             </Box>
             <Box className="hotel-card-content">
-              <Typography variant="h5" component="div" style={{ fontFamily: 'Inter' }}>
+              <Typography variant="h5" component="div" style={{ fontFamily: 'Inter', fontSize: '20px' }}>
                 {hotel.name}
               </Typography>
+              <Box className="hotel-rating">
+                <Rating value={hotel.rating} precision={0.1} readOnly />
+                <Typography variant="body2" color="text.secondary" style={{ marginLeft: '8px', fontFamily: 'Inter' }}>
+                  {hotel.rating} ({hotel.reviews} Reviews)
+                </Typography>
+              </Box>
               <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
                 <AiFillEnvironment /> {hotel.location}
               </Typography>

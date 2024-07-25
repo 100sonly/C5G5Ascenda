@@ -24,9 +24,8 @@
 }
 
 .hotel-image-box {
-  width: 285px;  /* Adjust width as needed */
-  height: 200px; /* Adjust height as needed */
-  background-color: #f0f0f0; /* Light gray background color */
+  width: 285px;  /* Adjust image size here*/
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,4 +71,10 @@
 .hotel-price small {
   display: block;
   color: #888;
+}
+
+.hotel-rating {
+  display: flex;
+  align-items: center;
+  margin: 8px;
 }
