@@ -22,6 +22,7 @@ const Hotel = () => {
   const [longitude, setLongitude] = useState(0);
   const [amenities, setAmenities] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [marketRates, setMarketRates] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,21 +56,19 @@ const Hotel = () => {
 
       const amenitiesArray = Object.keys(json_hotel.amenities).filter(amenity => json_hotel.amenities[amenity]);
       setAmenities(amenitiesArray);
-
       setRooms(json_rooms);
+      setMarketRates(json_rooms.marketRates)
 
-      // Extract categories and sort them
       const categoriesArray = Object.values(json_hotel.categories);
       const sortedCategories = categoriesArray.sort((a, b) => b.score - a.score);
 
-      // Ensure 'overall' is first
       const overallCategory = sortedCategories.find(cat => cat.name === 'Overall');
       if (overallCategory) {
         sortedCategories.splice(sortedCategories.indexOf(overallCategory), 1);
         sortedCategories.unshift(overallCategory);
       }
 
-      setCategories(sortedCategories);  // Set all categories
+      setCategories(sortedCategories);  
 
       setLoading(false);
     } catch (error) {
@@ -85,14 +84,14 @@ const Hotel = () => {
     <div style={{ paddingLeft: '10%', paddingRight: '10%' }}> 
       <div id="searchform">
           {loading ? (
-            <Skeleton variant="rectangular" width="100%" height={40} />
+            <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={40} />
           ) : (
             <SearchForm customClass="search-form-hotel" />
           )}
         </div>
       <div id="hotel-images" style={{ paddingTop: '8%' }}>
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height={400} />
+          <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }} width="100%" height={400} />
         ) : (
           <HotelImgSection image_details={image_details} />
         )}
@@ -100,7 +99,7 @@ const Hotel = () => {
 
       <div id="nav-tabs" className="sticky-nav-tabs" style={{ paddingTop: '2%' }}>
         {loading ? (
-          <Skeleton variant="text" width="100%" height={40} />
+          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="100%" height={40} />
         ) : (
           <NavTabs />
         )}
@@ -109,7 +108,7 @@ const Hotel = () => {
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '2%' }}>
         <h1 id="hotel-name">
-          {loading ? <Skeleton variant="text" width="60%" /> : name}
+          {loading ? <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="60%" /> : name}
         </h1>
         <Button 
           variant="contained" 
@@ -129,7 +128,7 @@ const Hotel = () => {
 
       <div id="rating" style={{ paddingTop: '1%' }}>
         {loading ? (
-          <Skeleton variant="text" width="20%" height={40} />
+          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="20%" height={40} />
         ) : (
           <HalfRating rating={rating} />
         )}
@@ -137,7 +136,7 @@ const Hotel = () => {
 
       <div id="address" style={{ paddingTop: '1%', display: 'flex', alignItems: 'center' }}>
         {loading ? (
-          <Skeleton variant="text" width="20%" height={40} />
+          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="20%" height={40} />
         ) : (
           <>
             <PlaceRounded style={{ color: '#1A1E43', marginRight: '8px' }} />
@@ -163,7 +162,7 @@ const Hotel = () => {
           <h2 id="overview">Overview</h2>
           <div>
             {loading ? (
-              <Skeleton variant="text" width="80%" height={60} />
+              <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }} width="80%" height={60} />
             ) : (
               <div className='description' dangerouslySetInnerHTML={{ __html: desc }} />
             )}
@@ -171,7 +170,7 @@ const Hotel = () => {
         </div>
         <div style={{ width: '30%' }}>
           {loading ? (
-            <Skeleton variant="rectangular" width="100%" height={200} />
+            <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
           ) : (
             <Highlights ratings={categories} />
           )}
@@ -181,7 +180,7 @@ const Hotel = () => {
       <h2 id="amenities" style={{ paddingTop: '2%' }}>Amenities</h2>
       <div style={{ paddingTop: '2%' }}>
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height={200} />
+          <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }} width="100%" height={200} />
         ) : (
           <AutoGrid amenities={amenities} />
         )}
@@ -190,7 +189,7 @@ const Hotel = () => {
       <h2 id="rooms" style={{ paddingTop: '2%' }}>Rooms</h2>
       <div style={{ paddingTop: '2%' }}>
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height={200} />
+          <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
         ) : (
           <RoomList className='roomlist' json={rooms} />
         )}
@@ -199,7 +198,7 @@ const Hotel = () => {
       <h2 id="location" style={{ paddingTop: '2%' }}>Location</h2>
       <div style={{ paddingTop: '2%' }}>
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height={300} />
+          <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={300} />
         ) : (
           <LocationMap className='map' position={[latitude, longitude]} />
         )}

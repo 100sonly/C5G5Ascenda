@@ -22,20 +22,16 @@ body {
     background: #f9f9f9;
 }
 
-.sticky-nav-tabs {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 8%;
-    z-index: 1000; 
-    background-color: none; 
-    padding-top: 20px; 
-  }
-
   .search-form-hotel {
     position: absolute;
     left: 50%; 
     transform: translateX(-50%);
     width: 60%; 
+    transition: box-shadow 0.5s;
+}
+
+  .search-form-hotel:hover {
+    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1), -10px -10px 10px white;
 }
 
 

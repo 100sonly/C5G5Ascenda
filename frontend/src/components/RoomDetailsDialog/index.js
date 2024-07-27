@@ -4,7 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckCircleIcon from '@mui/icons-material/DoneRounded';
 import { amenityIcons } from '../RoomAmenityIcons/index.js';
-import './index.css'
+import './index.css';
 
 const RoomDetailsDialog = ({ open, onClose, room }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,6 +19,21 @@ const RoomDetailsDialog = ({ open, onClose, room }) => {
 
     const handlePreviewClick = (index) => {
         setCurrentIndex(index);
+    };
+
+    const renderMarketRates = () => {
+        if (room.market_rates && room.market_rates.length > 0) {
+            return room.market_rates.map((rate, index) => (
+                <Typography key={index} variant="body2" style={{ fontFamily: 'Inter', fontWeight: 'bold', color: '#229935' }}>
+                    ${rate.rate ? rate.rate.toFixed(2) : 'Currently unavailable'} (Supplier: {rate.supplier})
+                </Typography>
+            ));
+        }
+        return (
+            <Typography variant="body2" style={{ fontFamily: 'Inter', color: '#FF0000' }}>
+                Currently unavailable
+            </Typography>
+        );
     };
 
     return (
@@ -65,13 +80,7 @@ const RoomDetailsDialog = ({ open, onClose, room }) => {
                                 src={image.high_resolution_url}
                                 alt={`Preview ${index + 1}`}
                                 onClick={() => handlePreviewClick(index)}
-                                style={{
-                                    cursor: 'pointer',
-                                    width: '50px',
-                                    height: '50px',
-                                    borderRadius: '5px',
-                                    border: currentIndex === index ? '2px solid #2F80ED' : 'none'
-                                }}
+                                className={`preview-image ${currentIndex === index ? 'selected' : ''}`}
                             />
                         ))}
                     </Box>
@@ -89,6 +98,22 @@ const RoomDetailsDialog = ({ open, onClose, room }) => {
                                 </Typography>
                             </Box>
                         ))}
+                    </Box>
+                    <Box className="rates" style={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
+                        <Box className="rates" style={{ display: 'flex'}}>
+                        <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', marginRight: '5px' }}>
+                            Price:
+                        </Typography>
+                        <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02' }}>
+                            ${room.price}
+                        </Typography>
+                        </Box>
+                        <Box className="rates" style={{ display: 'flex'}}>
+                        <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', marginRight: '5px' }}>
+                           Available Market Rates:
+                        </Typography>
+                        {renderMarketRates()}
+                        </Box>
                     </Box>
                     <Typography variant="body2" style={{ marginTop: '10px' }}>
                         <div dangerouslySetInnerHTML={{ __html: room.long_description }} />
