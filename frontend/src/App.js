@@ -12,6 +12,8 @@ import SignIn from "./components/pages/SignIn"
 import Home from "./components/pages/Home"
 import React from 'react';
 import Hotels from "./components/pages/Hotels";
+import BookingConfirmation from "./components/pages/BookingConfirmation";
+
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
         <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Hotel />} />
         <Route path='/services' element={<Hotel />} />
+          <Route path='/checkout' element={<BookingConfirmation />} />
+
       </Routes>
     </Router>
   );

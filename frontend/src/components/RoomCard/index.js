@@ -5,8 +5,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RoomDetailsDialog from '../RoomDetailsDialog/index.js';
 import './index.css';
 import { amenityIcons } from '../RoomAmenityIcons/index.js';
-
-const RoomCard = ({ room }) => {
+import { Helmet } from "react-helmet"
+const RoomCard = ({giveRoomName,givePrice, room }) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
@@ -32,10 +32,20 @@ const RoomCard = ({ room }) => {
     setOpen(false);
   };
 
+
   const displayedAmenities = room.amenities.slice(0, 5);
   const additionalAmenitiesCount = room.amenities.length - displayedAmenities.length;
 
-  return (
+
+
+  function sendUpdate(price,name){
+
+    givePrice(price);
+    giveRoomName(name);
+  }
+
+    return (
+
     <Card className="room-card">
       <Box className="room-image-wrapper" style={{ position: 'relative' }}>
         <Box 
@@ -60,6 +70,7 @@ const RoomCard = ({ room }) => {
             backgroundColor: '#fff' 
           }}
         >
+
           <ArrowBackIcon />
         </IconButton>
         <IconButton 
@@ -106,7 +117,8 @@ const RoomCard = ({ room }) => {
         </Box>
       </CardContent>
       <Box className="room-actions" component="div">
-        <Button variant="contained" color="primary" className="room-select-button" fontFamily={'Inter'}>
+
+        <Button variant="contained" color="primary" className="room-select-button" onClick={() => sendUpdate(room.price,room.roomNormalizedDescription)} fontFamily={'Inter'}>
           Select
         </Button>
         <Box className="room-price" component="div">
