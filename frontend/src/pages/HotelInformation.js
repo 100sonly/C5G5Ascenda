@@ -15,6 +15,14 @@ import { Helmet } from "react-helmet"
 import {Link} from "react-router-dom";
 
 const Hotel = () => {
+
+  useEffect(() => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'auto'
+    });
+}, []);
+
   const [desc, setDesc] = useState("");
   const [image_details, setImageDetails] = useState("");
   const [name, setName] = useState("");
@@ -31,6 +39,7 @@ const Hotel = () => {
     const [roomName, setRoomName] = useState("");
 
   // HARDCODED VALUES FOR DEV PURPOSES
+  //diH7-fullerton, QDaO-panpacific
   const hotelId = 'diH7';
   const destID = 'A0HL';
   const startDate = new Date('2024-12-25');

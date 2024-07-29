@@ -6,11 +6,14 @@ import RoomDetailsDialog from '../RoomDetailsDialog/index.js';
 import './index.css';
 import { amenityIcons } from '../RoomAmenityIcons/index.js';
 import { Helmet } from "react-helmet"
+
 const RoomCard = ({giveRoomName,givePrice, room }) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
-  const currentImage = room.images[currentIndex]?.high_resolution_url || '';
+  const currentImage = room.images[currentIndex]?.high_resolution_url || 
+                        room.images[currentIndex]?.url || 
+                        '';
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : room.images.length - 1));
