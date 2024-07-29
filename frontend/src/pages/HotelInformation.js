@@ -97,7 +97,7 @@ const Hotel = () => {
 
   return (
 
-    <div style={{ paddingLeft: '10%', paddingRight: '10%' }}>
+    <div style={{ paddingTop: '2%', paddingLeft: '10%', paddingRight: '10%' }}>
 
       <div id="searchform">
           {loading ? (
