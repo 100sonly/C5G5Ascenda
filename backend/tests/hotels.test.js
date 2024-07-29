@@ -15,6 +15,7 @@ describe('Test findByDestination', () => {
     test('Should return an empty body with an invalid destination_id', async () => {
         //const response = await request(backend).get('/hotels/destination/hihi');
         const response = await request(backend).get(`/hotels/destination/${data.invalid_dest}`);
+        //console.log(response.body)
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(0);
     });
