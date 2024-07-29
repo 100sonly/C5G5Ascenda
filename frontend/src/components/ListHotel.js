@@ -4,41 +4,35 @@ import { AiFillEnvironment } from 'react-icons/ai';
 import './ListHotel.css';
 
 function ListHotel({ filter }) {
+  const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
+  
+  // Function to fetch hotel data from the backend
+  const fetchHotels = async () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const destinationId = urlParams.get('destination_id');
+    const checkin = urlParams.get('checkin');
+    const checkout = urlParams.get('checkout');
+    const guests = urlParams.get('guests');
 
-  const hotels = [
-    {
-      id: 1,
-      name: 'The Fullerton Hotel Singapore',
-      rating: 4.4,
-      reviews: 543,
-      price: 560,
-      imageUrl: '/placeholder.jpg',
-      location: 'Singapore',
-      description: 'Descriptive details about the hotel may include the amenities.',
-    },
-    {
-      id: 2,
-      name: 'Marina Bay Sands',
-      rating: 4.5,
-      reviews: 543,
-      price: 380,
-      imageUrl: '/placeholder.jpg',
-      location: 'Singapore',
-      description: 'Descriptive details about the hotel may include the amenities.',
-    },
-    {
-      id: 3,
-      name: 'Hotel 81',
-      rating: 3.5,
-      reviews: 183,
-      price: 85,
-      imageUrl: '/placeholder.jpg',
-      location: 'Singapore',
-      description: 'Descriptive details about the hotel may include the amenities.',
-    },
-  ];
+    try {
+      const response = await fetch(`http://localhost:3000/prices/destination/${destinationId}/${checkin}/${checkout}/en_US/SGD/${guests}`);
+      const data = await response.json();
+      console.log(data);
+      setHotels(data);
+      setFilteredHotels(data);  // Set the initial filteredHotels to all fetched hotels
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
+  // Fetch hotel data when component mounts
+  useEffect(() => {
+    fetchHotels();
+  }, []);
+
+  // Filter hotels based on price range and star rating
   useEffect(() => {
     if (!filter.priceRange.length && !filter.starRating.length) {
       setFilteredHotels(hotels);
@@ -54,7 +48,7 @@ function ListHotel({ filter }) {
       });
       setFilteredHotels(filtered);
     }
-  }, [filter]);
+  }, [filter, hotels]);
 
   return (
     <div className="list-hotel-container">
