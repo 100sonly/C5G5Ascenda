@@ -1,7 +1,7 @@
 const customerModel = require('../models/customer.js');
 
 const register = async (req, res) => {
-  console.log("Received request body:", req.body);
+  //console.log("Received request body:", req.body);
   const { username, name, email, password } = req.body;
   const bookings = [];
 

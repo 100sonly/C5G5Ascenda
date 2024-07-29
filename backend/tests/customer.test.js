@@ -1,5 +1,6 @@
 const request = require('supertest');
 const backend = require('../app');
+const data = require ('./test_data')
 
 jest.setTimeout(30000); // Sets timeout to 30 seconds
 
@@ -10,9 +11,44 @@ const user = {
   password: 'mocapw123' // Ensure password meets minimum length requirement
 };
 
+const user2 = {
+  username: 'notmoca',
+  name: 'notmoca',
+  email: 'moca@gmail.com',
+  password: 'mocapw123' // Ensure password meets minimum length requirement
+};
+
+const user3 = {
+  username: '',
+  name: 'notmoca',
+  email: 'moca3@gmail.com',
+  password: 'mocapw123' // Ensure password meets minimum length requirement
+};
+
+const user4 = {
+  username: 'notmoca',
+  name: '',
+  email: 'moca4@gmail.com',
+  password: 'mocapw123' // Ensure password meets minimum length requirement
+};
+
+const user5 = {
+  username: 'notmoca',
+  name: 'notmoca',
+  email: '',
+  password: 'mocapw123' // Ensure password meets minimum length requirement
+};
+
+const user6 = {
+  username: 'notmoca',
+  name: 'notmoca',
+  email: 'moca5@gmail.com',
+  password: 'mocapw' // Ensure password meets minimum length requirement
+};
+
 describe('Customer Registration and Login Tests', () => {
 
-  describe('Test createAccount (valid)', () => { 
+  describe('Test register (valid)', () => { 
     test('It should respond with status 201 and create an account for a valid body', async () => {
       const response = await request(backend).post('/customers/reg').send(user);
       expect(response.statusCode).toBe(201);
@@ -24,6 +60,42 @@ describe('Customer Registration and Login Tests', () => {
       expect(response.statusCode).toBe(409);
       expect(response.body).toHaveProperty('error', 'Username is already taken');
     });
+    
+    test('It should fail to create an account for a registered email', async () => {
+      const response = await request(backend).post('/customers/reg').send(user2);
+      //console.log(response.text);
+      expect(response.statusCode).toBe(409);
+      expect(response.body).toHaveProperty('error', 'Email is already registered');
+    });
+
+    test('It should fail to create an account for missing username', async () => {
+      const response = await request(backend).post('/customers/reg').send(user3);
+      console.log(response.text);
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('error', 'Username is required');
+    });
+
+    test('It should fail to create an account for missing name', async () => {
+      const response = await request(backend).post('/customers/reg').send(user4);
+      console.log(response.text);
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('error', 'Name is required');
+    });
+
+    test('It should fail to create an account for missing email', async () => {
+      const response = await request(backend).post('/customers/reg').send(user5);
+      console.log(response.text);
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('error', 'Email is required');
+    });
+
+    test('It should fail to create an account for invalid password', async () => {
+      const response = await request(backend).post('/customers/reg').send(user6);
+      console.log(response.text);
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('error', 'Password is required and should be at least 8 characters long');
+    });
+    
   });
 
   describe('Test login', () => {
