@@ -47,6 +47,7 @@ const Hotel = () => {
   const language = 'en_US';
   const currency = 'SGD';
   const guest_num = '2';
+
   const booking_id=hotelId+destID+Math.floor(Math.random() * 10000).toString();
 
   var nights=Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
@@ -57,6 +58,30 @@ const Hotel = () => {
     }
     const getRoomName = (roomName) => {
       setRoomName(roomName);
+    }
+    //for formatting date
+    function formatDate(date) {
+        // Array to convert day index to day name
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        // Get components of the date
+        const dayName = days[date.getDay()];
+        const day = date.getDate();
+        const monthName = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        // Format hours and minutes
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        const strMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+        // Assemble the formatted string
+        const formattedTime = `${hours}:${strMinutes} ${ampm}`;
+        return `${dayName}, ${day} ${monthName}, ${year}#${formattedTime}`;
     }
 
   async function InitHotel() {
@@ -229,11 +254,11 @@ const Hotel = () => {
           <LocationMap className='map' position={[latitude, longitude]} />
         )}
       </div>
-        <Link to={`../checkout?price=${price}&roomName=${roomName}&nights=${nights}&hotelId=${hotelId}&destID=${destID}&rating=${rating}&address=${address}&booking_id=${booking_id}&name=${name}`}>
+        <Link to={`../checkout?price=${price}&roomName=${roomName}&nights=${nights}&hotelId=${hotelId}&destID=${destID}&rating=${rating}&address=${address}&booking_id=${booking_id}&name=${name}&startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}&image_details=${image_details}&amenities=${amenities}`}>
         <Button
             variant="contained"
             color="primary"
-            onClick={() => console.log(price,roomName,nights,hotelId,destID)}
+            onClick={() => console.log(price,roomName,nights,hotelId,destID,formatDate(startDate),formatDate(endDate),image_details,amenities)}
             style={{
                 backgroundColor: '#2F80ED',
                 color: '#fff',
