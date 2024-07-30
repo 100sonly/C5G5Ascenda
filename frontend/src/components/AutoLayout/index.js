@@ -59,8 +59,30 @@ const amenityIcons = {
   roomService: 'roomService.svg',
   safe: 'safe.svg',
   tVInRoom: 'tVInRoom.svg',
-  voiceMail: 'voiceMail.svg'
-
+  voiceMail: 'voiceMail.svg',
+  carRentDesk: 'carRentDesk.svg',
+  childrenAllowed: 'childrenAllowed.svg',
+  coffeeTeaMaker: 'coffeeTeaMaker.svg',
+  continentalBreakfast: 'continentalBreakfast.svg',
+  exteriorRoomEntrance: 'exteriorRoomEntrance.svg',
+  fitnessFacility: 'fitnessFacility.svg',
+  gameRoom: 'gameRoom.svg',
+  golfCourse: 'golfCourse.svg',
+  handicapAccessible: 'handicapAccessible.svg',
+  inHouseBar: 'inHouseBar.svg',
+  inHouseDining: 'inHouseDining.svg',
+  indoorPool: 'indoorPool.svg',
+  interiorRoomEntrance: 'interiorRoomEntrance.svg',
+  kitchen: 'kitchen.svg',
+  miniBarInRoom: 'miniBarInRoom.svg',
+  nonSmokingRooms: 'nonSmokingRooms.svg',
+  petsAllowed: 'petsAllowed.svg',
+  restrictedAccess: 'restrictedAccess.svg',
+  sauna: 'sauna.svg',
+  tennisCourt: 'tennisCourt.svg',
+  valetParking: 'valetParking.svg',
+  videoCheckOut: 'videoCheckOut.svg',
+  wakeUpService: 'wakeUpService.svg'
 };
 
 const AutoGrid = ({ amenities }) => {

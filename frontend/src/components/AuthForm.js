@@ -26,7 +26,7 @@ function AuthForm() {
             email,
             password: signUpPassword 
         };
-        fetch('http://localhost:3001/customers/reg',{
+        fetch('http://localhost:3000/customers/reg',{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(regDetails)
@@ -52,7 +52,7 @@ function AuthForm() {
             username: signInUsername,
             password: signInPassword 
         };
-        fetch('http://localhost:3001/customers/login',{
+        fetch('http://localhost:3000/customers/login',{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(regDetails)

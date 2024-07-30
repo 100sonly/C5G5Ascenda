@@ -27,7 +27,7 @@ async function addNewBooking(destination_id, hotel_id, start_date, end_date, gue
     col = con[1];
     const p = await col.insertMany(userToInsert);
     connectModel.close_connection(client);
-    console.log(p);
+    //console.log(p);
 }
 
 module.exports = { Booking, addNewBooking }
