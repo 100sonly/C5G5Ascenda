@@ -254,7 +254,7 @@ const Hotel = () => {
           <LocationMap className='map' position={[latitude, longitude]} />
         )}
       </div>
-        <Link to={`../checkout?price=${price}&roomName=${roomName}&nights=${nights}&hotelId=${hotelId}&destID=${destID}&rating=${rating}&address=${address}&booking_id=${booking_id}&name=${name}&startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}&image_details=${image_details}&amenities=${amenities}`}>
+        <Link to={`../checkout?price=${price}&roomName=${roomName}&nights=${nights}&hotelId=${hotelId}&destID=${destID}&rating=${rating}&address=${address}&booking_id=${booking_id}&name=${name}&startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}&image_details=${image_details.toString()}&amenities=${amenities}`}>
         <Button
             variant="contained"
             color="primary"
