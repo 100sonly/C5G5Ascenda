@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
-import {createSearchParams, useLocation} from "react-router-dom";
-import AmenitiesList from '../AmenitiesList';
+import {useLocation} from "react-router-dom";
+
+
 
 function BookingConfirmation() {
     // State for managing checkbox and form values
@@ -88,17 +89,35 @@ function BookingConfirmation() {
     const bookingId=location.state.params.params[5];
     const strt=location.state.params.params[7];
     const end=location.state.params.params[8];
-    const img=location.state.params.params[9];
-    const amenities=location.state.params.params[10];
-    console.log(hotelName,roomName,hotelRating,hotelAddress,nights,price,bookingId,strt,end,img,amenities)
+    const img = location.state.params.params[9];
+    const amenitiesArray=location.state.params.params[10];
+    console.log(hotelName,roomName,hotelRating,hotelAddress,nights,price,bookingId,strt,end,img,amenitiesArray)
+
+    const heroImage = `${img.prefix}${0}${img.suffix}`;
+
+    console.log('Amenities Array:', amenitiesArray); 
+
+    const limitedAmenitiesArray = amenitiesArray.slice(0, 4);
+    
+    const amenities = {};
+    limitedAmenitiesArray.forEach(item => amenities[item] = true);
+    console.log('Amenities Object:', amenities); 
 
     const hotelData = {
-        heroImage: "bg.png",
-        hotelName: hotelName || "Sample Hotel",
+        heroImage: heroImage,
+        hotelName: hotelName,
         hotelRating: hotelRating,
         hotelAddress: hotelAddress,
-        hotelAmenities: ["Free Wi-Fi", "Parking", "Breakfast Included", "Pool"]
+        hotelAmenities: amenities
     };
+
+    const formatDateTime = (datetime) => {
+        const [date, time] = datetime.split('#');
+        return { date, time };
+    };
+
+    const checkIn = formatDateTime(strt);
+    const checkOut = formatDateTime(end);
 
     return (
         <>
@@ -267,14 +286,13 @@ function BookingConfirmation() {
                             <div className="checkin-checkout-info">
                                 <div className="checkin-column">
                                     <p className="section-title">Check-in</p>
-                                    <p className="date-info">[Check-in Date]</p>
-                                    <p className="time-info">[Time]</p>
+                                    <p className="date-info">{checkIn.date}</p>
+                                    <p className="time-info">{checkIn.time}</p>
                                 </div>
-                                <div className="separator">|</div>
                                 <div className="checkout-column">
                                     <p className="section-title">Check-out</p>
-                                    <p className="date-info">[Check-out Date]</p>
-                                    <p className="time-info">[Time]</p>
+                                    <p className="date-info">{checkOut.date}</p>
+                                    <p className="time-info">{checkOut.time}</p>
                                 </div>
                             </div>
                             <p>{roomName}</p>
