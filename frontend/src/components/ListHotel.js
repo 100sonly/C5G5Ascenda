@@ -6,7 +6,19 @@ import './ListHotel.css';
 function ListHotel({ filter }) {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
-  
+
+  async function processHotels(hotels,all_hotels) {
+    console.log(all_hotels);
+    for (const item of hotels) {
+      var result = all_hotels.find(hotel => {
+        return hotel.id == item.hotel_id
+      })
+      item.details=result;
+    }
+  }
+
+
+
   // Function to fetch hotel data from the backend
   const fetchHotels = async () => {
     const queryString = window.location.search;
@@ -19,8 +31,18 @@ function ListHotel({ filter }) {
     try {
       const response = await fetch(`http://localhost:3000/prices/destination/${destinationId}/${checkin}/${checkout}/en_US/SGD/${guests}`);
       const data = await response.json();
+
+
+
       console.log(data);
+
+      const all_hotels = (await fetch(`http://localhost:3000/hotels/destination/${destinationId}`));
+      const hotel_info=await all_hotels.json();
+
+      processHotels(data,hotel_info);
+      // hotel details are now under each entry's "details" attribute after processHotels @augustine
       setHotels(data);
+
       setFilteredHotels(data);  // Set the initial filteredHotels to all fetched hotels
     } catch (error) {
       console.error('Error fetching data:', error);
