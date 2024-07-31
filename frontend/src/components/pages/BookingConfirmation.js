@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
+import AmenitiesList from '../AmenitiesList';
 
 function BookingConfirmation() {
     // State for managing checkbox and form values
@@ -75,19 +76,29 @@ function BookingConfirmation() {
 
     const query = new URLSearchParams(document.location.search);
 
+    const hotelImage = query.get("image_details")
     const hotelName = query.get("name");
     const roomName = query.get("roomName");
     const hotelRating = parseFloat(query.get("rating"));
     const hotelAddress = query.get("address");
     const nights = query.get("nights");
     const price = query.get("price");
+    console.log("img:",hotelImage)
+
+    const startDate = query.get("startDate");
+    const endDate = query.get("endDate");
+
+    const amenitiesParam = query.get("amenities"); 
+    console.log("amen:",amenitiesParam);
+    const amenitiesArray = amenitiesParam ? amenitiesParam.split(',') : []; 
+    const firstFourAmenities = amenitiesArray.slice(0, 4);
 
     const hotelData = {
         heroImage: "bg.png",
         hotelName: hotelName || "Sample Hotel",
         hotelRating: hotelRating,
         hotelAddress: hotelAddress,
-        hotelAmenities: ["Free Wi-Fi", "Parking", "Breakfast Included", "Pool"]
+        hotelAmenities: firstFourAmenities
     };
 
     return (
