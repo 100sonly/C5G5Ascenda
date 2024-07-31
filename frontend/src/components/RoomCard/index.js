@@ -122,7 +122,7 @@ const RoomCard = ({giveRoomName,givePrice, room,params }) => {
         </Box>
       </CardContent>
       <Box className="room-actions" component="div">
-        <Link to={`../checkout?price=${room.price}&roomName=${room.roomNormalizedDescription}&nights=${params[0]}&hotelId=${params[1]}&destID=${params[2]}&rating=${params[3]}&address=${params[4]}&booking_id=${params[5]}&name=${params[6]}&startDate=${params[7]}&endDate=${params[8]}&image_details=${params[9]}&amenities=${params[10]}`}>
+        <Link to={`../checkout?price=${room.price}&roomName=${room.roomNormalizedDescription}`} state={{ params: {params} }}>
         <Button variant="contained" color="primary" className="room-select-button" fontFamily={'Inter'}>
           Select
         </Button>

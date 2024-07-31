@@ -85,7 +85,7 @@ const Hotel = () => {
       setRoomName(roomName);
     }
 
-    const params=[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),JSON.stringify(image_details),amenities];
+
   async function InitHotel() {
     try {
       const req_hotel = await fetch(`http://localhost:3000/hotels/hotel/${hotelId}`);
@@ -246,7 +246,7 @@ const Hotel = () => {
         {loading ? (
           <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
         ) : (
-          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={params} />
+          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] } />
         )}
       </div>
 

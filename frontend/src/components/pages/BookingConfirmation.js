@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
+import {createSearchParams, useLocation} from "react-router-dom";
 import AmenitiesList from '../AmenitiesList';
 
 function BookingConfirmation() {
@@ -35,6 +36,7 @@ function BookingConfirmation() {
             [name]: value
         }));
     };
+
 
     // Handle input changes for billing info
     const handleBillingInfoChange = (e) => {
@@ -75,30 +77,27 @@ function BookingConfirmation() {
     };
 
     const query = new URLSearchParams(document.location.search);
-
-    const hotelImage = query.get("image_details")
-    const hotelName = query.get("name");
+    const location = useLocation();
+    //params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] }
+    const hotelName = location.state.params.params[6]
     const roomName = query.get("roomName");
-    const hotelRating = parseFloat(query.get("rating"));
-    const hotelAddress = query.get("address");
-    const nights = query.get("nights");
+    const hotelRating = parseFloat(location.state.params.params[3]);
+    const hotelAddress = location.state.params.params[4]
+    const nights = location.state.params.params[0];
     const price = query.get("price");
-    console.log("img:",hotelImage)
-
-    const startDate = query.get("startDate");
-    const endDate = query.get("endDate");
-
-    const amenitiesParam = query.get("amenities"); 
-    console.log("amen:",amenitiesParam);
-    const amenitiesArray = amenitiesParam ? amenitiesParam.split(',') : []; 
-    const firstFourAmenities = amenitiesArray.slice(0, 4);
+    const bookingId=location.state.params.params[5];
+    const strt=location.state.params.params[7];
+    const end=location.state.params.params[8];
+    const img=location.state.params.params[9];
+    const amenities=location.state.params.params[10];
+    console.log(hotelName,roomName,hotelRating,hotelAddress,nights,price,bookingId,strt,end,img,amenities)
 
     const hotelData = {
         heroImage: "bg.png",
         hotelName: hotelName || "Sample Hotel",
         hotelRating: hotelRating,
         hotelAddress: hotelAddress,
-        hotelAmenities: firstFourAmenities
+        hotelAmenities: ["Free Wi-Fi", "Parking", "Breakfast Included", "Pool"]
     };
 
     return (
