@@ -121,6 +121,10 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.booking-details-card p{
+    padding-top: 2%;
+}
+
 .checkin-checkout-info {
     display: flex;
     align-items: center;
