@@ -71,7 +71,7 @@ export default function NavTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%', bgcolor: '#f9f9f9' }}>
+    <Box sx={{ width: '100%', bgcolor: '#F4F4F4' }}>
       <Tabs
         value={value}
         onChange={handleChange}

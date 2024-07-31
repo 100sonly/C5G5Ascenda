@@ -6,7 +6,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Button from "@mui/material/Button";
 import "./index.css";
 
-const CircularButton = ({ onClick, icon,  className, ...props }) => {
+const CircularButton = ({ onClick, icon, className, ...props }) => {
   return (
     <Button
       onClick={onClick}
@@ -16,13 +16,13 @@ const CircularButton = ({ onClick, icon,  className, ...props }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 40, 
-        height: 40, 
+        width: 40,
+        height: 40,
         borderRadius: '50%',
         minWidth: 0,
         padding: 0,
-        backgroundColor: '#1A1E43', 
-        color: '#fff',  
+        backgroundColor: '#1A1E43',
+        color: '#fff',
         ...props.style,
       }}
     >
@@ -55,34 +55,42 @@ function HotelImgSection({ image_details }) {
 
   return (
     <div className="carousel-wrapper">
-      <div className="carousel-container">
-        <ImageList variant="quilted" cols={3} rowHeight={200} gap={16}>
-          {currentImages.map((URL, index) => (
-            <ImageListItem key={index} cols={index === 0 ? 2 : 1} rows={index === 0 ? 2 : 1}>
-              <img
-                src={URL}
-                alt={`Hotel Image ${index}`}
-                loading="lazy"
-                style={{ objectFit: "cover", width: "100%", height: "100%", borderRadius: 5 }}
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      </div>
-      <div className="controls">
-        <CircularButton
-          onClick={handlePrev}
-          className="circularbutton"
-          icon={<ArrowBackIcon />}
-          style={{ marginRight: 8 }} 
-        />
-        <CircularButton
-          onClick={handleNext}
-          className="circularbutton"
-          icon={<ArrowForwardIcon />}
-          style={{ marginLeft: 8 }} 
-        />
-      </div>
+      {image_list.length === 0 ? (
+        <div className="no-images-message" style={{ textAlign: 'center', fontSize: '2rem', fontFamily: 'Inter', padding: '50px 0' }}>
+          Oops! There's currently no images provided by this hotel.
+        </div>
+      ) : (
+        <>
+          <div className="carousel-container">
+            <ImageList variant="quilted" cols={3} rowHeight={200} gap={16}>
+              {currentImages.map((URL, index) => (
+                <ImageListItem key={index} cols={index === 0 ? 2 : 1} rows={index === 0 ? 2 : 1}>
+                  <img
+                    src={URL}
+                    alt={`Hotel Image ${index}`}
+                    loading="lazy"
+                    style={{ objectFit: "cover", width: "100%", height: "100%", borderRadius: 5 }}
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </div>
+          <div className="controls">
+            <CircularButton
+              onClick={handlePrev}
+              className="circularbutton"
+              icon={<ArrowBackIcon />}
+              style={{ marginRight: 8 }}
+            />
+            <CircularButton
+              onClick={handleNext}
+              className="circularbutton"
+              icon={<ArrowForwardIcon />}
+              style={{ marginLeft: 8 }}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }
