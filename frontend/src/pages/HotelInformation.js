@@ -51,14 +51,6 @@ const Hotel = () => {
   const booking_id=hotelId+destID+Math.floor(Math.random() * 10000).toString();
 
   var nights=Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
-
-  const getPrice = (price) => {
-        setPrice(price);
-
-    }
-    const getRoomName = (roomName) => {
-      setRoomName(roomName);
-    }
     //for formatting date
     function formatDate(date) {
         // Array to convert day index to day name
@@ -84,6 +76,16 @@ const Hotel = () => {
         return `${dayName}, ${day} ${monthName}, ${year}#${formattedTime}`;
     }
 
+
+  const getPrice = (price) => {
+        setPrice(price);
+
+    }
+    const getRoomName = (roomName) => {
+      setRoomName(roomName);
+    }
+
+    const params=[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),JSON.stringify(image_details),amenities];
   async function InitHotel() {
     try {
       const req_hotel = await fetch(`http://localhost:3000/hotels/hotel/${hotelId}`);
@@ -120,6 +122,7 @@ const Hotel = () => {
       setCategories(sortedCategories);  
 
       setLoading(false);
+
     } catch (error) {
       console.error("Failed to fetch hotel data:", error);
     }
@@ -127,6 +130,7 @@ const Hotel = () => {
 
   useEffect(() => {
     InitHotel();
+
   }, []);
 
   return (
@@ -242,7 +246,7 @@ const Hotel = () => {
         {loading ? (
           <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
         ) : (
-          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} />
+          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={params} />
         )}
       </div>
 
@@ -254,22 +258,7 @@ const Hotel = () => {
           <LocationMap className='map' position={[latitude, longitude]} />
         )}
       </div>
-        <Link to={`../checkout?price=${price}&roomName=${roomName}&nights=${nights}&hotelId=${hotelId}&destID=${destID}&rating=${rating}&address=${address}&booking_id=${booking_id}&name=${name}&startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}&image_details=${image_details.toString()}&amenities=${amenities}`}>
-        <Button
-            variant="contained"
-            color="primary"
-            onClick={() => console.log(price,roomName,nights,hotelId,destID,formatDate(startDate),formatDate(endDate),image_details,amenities)}
-            style={{
-                backgroundColor: '#2F80ED',
-                color: '#fff',
-                borderRadius: '5px',
-                padding: '10px 20px',
-                textTransform: 'none',
-            }}
-        >
-            Make Booking
-        </Button>
-        </Link>
+
     </div>
   );
 }

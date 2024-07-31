@@ -6,8 +6,10 @@ import RoomDetailsDialog from '../RoomDetailsDialog/index.js';
 import './index.css';
 import { amenityIcons } from '../RoomAmenityIcons/index.js';
 import { Helmet } from "react-helmet"
+import {Link} from "react-router-dom";
+import HotelInformation from "../../pages/HotelInformation";
 
-const RoomCard = ({giveRoomName,givePrice, room }) => {
+const RoomCard = ({giveRoomName,givePrice, room,params }) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
@@ -120,10 +122,12 @@ const RoomCard = ({giveRoomName,givePrice, room }) => {
         </Box>
       </CardContent>
       <Box className="room-actions" component="div">
-
-        <Button variant="contained" color="primary" className="room-select-button" onClick={() => sendUpdate(room.price,room.roomNormalizedDescription)} fontFamily={'Inter'}>
+        <Link to={`../checkout?price=${room.price}&roomName=${room.roomNormalizedDescription}&nights=${params[0]}&hotelId=${params[1]}&destID=${params[2]}&rating=${params[3]}&address=${params[4]}&booking_id=${params[5]}&name=${params[6]}&startDate=${params[7]}&endDate=${params[8]}&image_details=${params[9]}&amenities=${params[10]}`}>
+        <Button variant="contained" color="primary" className="room-select-button" fontFamily={'Inter'}>
           Select
         </Button>
+        </Link>
+
         <Box className="room-price" component="div">
           <Typography variant="body2" color="textSecondary" fontFamily={'Inter'}>
             1 Room | 2 Adults, 0 Children
