@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './StarFilter.css';
+import './Filters.css';
 
 const StarFilter = ({ onFilterChange }) => {
   const [selectedStars, setSelectedStars] = useState([]);

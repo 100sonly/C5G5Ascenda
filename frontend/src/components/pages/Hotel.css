@@ -13,10 +13,12 @@
 }
 
 .filter-section {
+  border: none;
   flex: 1;
   max-width: 300px; /* Adjust width as needed */
-  padding-right: 10px; /* Space between filters and list */
-  margin-right: 50px;
+  padding-right: 10px;
+  transform: translateX(-30px);
+  
 }
 
 .list-hotel-section {

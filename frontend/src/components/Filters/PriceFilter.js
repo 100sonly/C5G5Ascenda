@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PriceFilter.css';
+import './Filters.css';
 
 const PriceFilter = ({ onFilterChange }) => {
   const [selectedPrices, setSelectedPrices] = useState([]);
