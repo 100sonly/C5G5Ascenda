@@ -1,0 +1,37 @@
+.filter-section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background-color: #1A1A48;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .filter-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .filter-section ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+  }
+  
+  .filter-section ul li input {
+    margin-right: 10px;
+  }
+  
+  .filter-section ul li label {
+    flex: 1;
+  }

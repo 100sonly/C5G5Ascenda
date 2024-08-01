@@ -28,6 +28,7 @@ body {
     transform: translateX(-50%);
     width: 60%; 
     transition: box-shadow 0.5s;
+    
 }
 
   .search-form-hotel:hover {
