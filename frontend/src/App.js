@@ -14,6 +14,9 @@ import React from 'react';
 import Hotels from "./components/pages/Hotels";
 import BookingConfirmation from "./components/pages/BookingConfirmation";
 import Footer from "./components/Footer/index.js"
+import StripePayment from "./components/StripePayment/index.js"; 
+import Success from "./components/StripePayment/success.js"; 
+import Cancel from "./components/StripePayment/cancel.js"; 
 
 
 function App() {
@@ -28,6 +31,7 @@ function App() {
         <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Hotel />} />
         <Route path='/services' element={<Hotel />} />
+        <Route path='/payment' element={<StripePayment />} />
           <Route path='/checkout' element={<BookingConfirmation />} />
       </Routes>
       <Footer />
