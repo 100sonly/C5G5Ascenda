@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import HalfRating from '../HalfRating';
 
+
 export default function ConfirmationHotelCard({
   heroImage,
   hotelName,

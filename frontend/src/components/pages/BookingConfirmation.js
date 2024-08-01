@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
+import StripePayment from '../StripePayment/index.js';
+import { Link, useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import Button from "react-bootstrap/Button"; 
+import Card from "react-bootstrap/Card"; 
+import { loadStripe } from "@stripe/stripe-js"; 
+import { useLocation, useSearchParams } from "react-router-dom";
+
+const PUB_KEY = "pk_test_51PiA322N4766J9DW5Q3mhcIzmbKgz7MQIhY0G33eFYsY6yRFehmsJZkagjofzb5jLergWoofsCrCZKYBBgbQNF2000c7M34kK9"
 
 function BookingConfirmation() {
     // State for managing checkbox and form values
@@ -73,6 +82,8 @@ function BookingConfirmation() {
         }
     };
 
+    const navigate = useNavigate();
+
     const query = new URLSearchParams(document.location.search);
 
     const hotelName = query.get("name");
@@ -81,14 +92,62 @@ function BookingConfirmation() {
     const hotelAddress = query.get("address");
     const nights = query.get("nights");
     const price = query.get("price");
+    
 
-    const hotelData = {
+    const [hotelData, setHotelData] = useState({
         heroImage: "bg.png",
         hotelName: hotelName || "Sample Hotel",
         hotelRating: hotelRating,
         hotelAddress: hotelAddress,
         hotelAmenities: ["Free Wi-Fi", "Parking", "Breakfast Included", "Pool"]
-    };
+    });
+
+
+
+    const paymentPage = () => {
+        navigate("/payment", {
+            state: {
+                // TODO: REMOVE SAMPLE DATA
+                roomName: "SampleRoom",
+                roomPrice: 1000,
+                emailAddress: personalInfo.emailAddress
+            }
+        });
+    }
+
+    const [product, setProduct] = useState({
+        name: roomName,
+        price: price,
+        email: personalInfo.emailAddress,
+        description: "This is a sample room"
+    });
+
+    const makePayment = async () => { 
+        const stripe = await loadStripe(PUB_KEY); 
+        const body = { product }; 
+        const headers = { 
+          "Content-Type": "application/json", 
+        }; 
+
+    const response = await fetch( 
+      "http://localhost:3000/payment/api/create-checkout-session", 
+      { 
+        method: "POST", 
+        headers: headers, 
+        body: JSON.stringify(body), 
+      } 
+    ); 
+
+    const session = await response.json(); 
+ 
+    const result = stripe.redirectToCheckout({ 
+      sessionId: session.id, 
+    }); 
+ 
+    if (result.error) { 
+      console.log(result.error); 
+    } 
+  }; 
 
     return (
         <>
@@ -277,7 +336,7 @@ function BookingConfirmation() {
                     </div>
                 </div>
                 <div className="confirm-button-container">
-                    <button
+                    <button onClick={paymentPage}
                         className="confirm-button"
                     >
                         Confirm & Proceed
