@@ -6,9 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button"; 
 import Card from "react-bootstrap/Card"; 
 import { loadStripe } from "@stripe/stripe-js"; 
-
-const PUB_KEY = "pk_test_51PiA322N4766J9DW5Q3mhcIzmbKgz7MQIhY0G33eFYsY6yRFehmsJZkagjofzb5jLergWoofsCrCZKYBBgbQNF2000c7M34kK9"
 import {useLocation} from "react-router-dom";
+const PUB_KEY = "pk_test_51PiA322N4766J9DW5Q3mhcIzmbKgz7MQIhY0G33eFYsY6yRFehmsJZkagjofzb5jLergWoofsCrCZKYBBgbQNF2000c7M34kK9"
+
 
 
 
@@ -125,6 +125,41 @@ function BookingConfirmation() {
 
     const checkIn = formatDateTime(strt);
     const checkOut = formatDateTime(end);
+
+    const [product, setProduct] = useState({
+        name: "SampleRoom",
+        price: 1000,
+        email: personalInfo.emailAddress,
+        description: "This is a sample room"
+    });
+
+    const makePayment = async () => { 
+        const stripe = await loadStripe(PUB_KEY); 
+        const body = { product }; 
+        const headers = { 
+          "Content-Type": "application/json", 
+        }; 
+
+    const response = await fetch( 
+      "http://localhost:3000/payment/api/create-checkout-session", 
+      { 
+        method: "POST", 
+        headers: headers, 
+        body: JSON.stringify(body), 
+      } 
+    ); 
+
+    const session = await response.json(); 
+ 
+    const result = stripe.redirectToCheckout({ 
+      sessionId: session.id, 
+    }); 
+ 
+    if (result.error) { 
+      console.log(result.error); 
+    } 
+  }; 
+
 
     return (
         <>
