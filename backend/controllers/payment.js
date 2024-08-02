@@ -1,8 +1,13 @@
 const paymentModel = require("../models/payment.js");
+const bookingModel = require("../models/booking.js");
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function createCheckoutSession(req, res) {
-    const { product } = req.body; 
+    const product = req.body.product;
+    const customer = req.body.customer;
+    const destination = req.body.destInfo;
+    console.log(destination);
+    console.log(customer);
     console.log(product.price);
     const session = await stripe.checkout.sessions.create({ 
         payment_method_types: ["card"], 

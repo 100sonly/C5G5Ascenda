@@ -87,6 +87,8 @@ function BookingConfirmation() {
     const location = useLocation();
     //params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] }
     const hotelName = location.state.params.params[6]
+    const hotel_id = location.state.params.params[1]
+    const dest_id = location.state.params.params[2]
     const roomName = query.get("roomName");
     const hotelRating = parseFloat(location.state.params.params[3]);
     const hotelAddress = location.state.params.params[4]
@@ -128,13 +130,26 @@ function BookingConfirmation() {
     console.log(price);
     const [product, setProduct] = useState({
         name: roomName,
-        price: price,
-        email: personalInfo.emailAddress
+        price: price
+    });
+    const [customer, setCustomer] = useState({
+        email: personalInfo.emailAddress,
+        custFirstName: personalInfo.firstName,
+        custLastName: personalInfo.lastName
+    });
+    const [destInfo, setDestInfo] = useState({
+        dest_id: dest_id,
+        hotel_id: hotel_id
     });
 
     const makePayment = async () => { 
         const stripe = await loadStripe(PUB_KEY); 
-        const body = { product }; 
+        setCustomer({
+            email: personalInfo.emailAddress,
+            custFirstName: personalInfo.firstName,
+            custLastName: personalInfo.lastName
+        });
+        const body = { product, customer, destInfo }; 
         const headers = { 
           "Content-Type": "application/json", 
         }; 
