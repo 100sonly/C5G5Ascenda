@@ -35,8 +35,8 @@ const Hotel = () => {
   const [marketRates, setMarketRates] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-    const [price, setPrice] = useState(0);
-    const [roomName, setRoomName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [roomName, setRoomName] = useState("");
 
   // HARDCODED VALUES FOR DEV PURPOSES
   //diH7-fullerton, QDaO-panpacific
@@ -47,9 +47,35 @@ const Hotel = () => {
   const language = 'en_US';
   const currency = 'SGD';
   const guest_num = '2';
+
   const booking_id=hotelId+destID+Math.floor(Math.random() * 10000).toString();
 
   var nights=Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+    //for formatting date
+    function formatDate(date) {
+        // Array to convert day index to day name
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        // Get components of the date
+        const dayName = days[date.getDay()];
+        const day = date.getDate();
+        const monthName = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        // Format hours and minutes
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        const strMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+        // Assemble the formatted string
+        const formattedTime = `${hours}:${strMinutes} ${ampm}`;
+        return `${dayName}, ${day} ${monthName}, ${year}#${formattedTime}`;
+    }
+
 
   const getPrice = (price) => {
         setPrice(price);
@@ -58,6 +84,7 @@ const Hotel = () => {
     const getRoomName = (roomName) => {
       setRoomName(roomName);
     }
+
 
   async function InitHotel() {
     try {
@@ -95,6 +122,7 @@ const Hotel = () => {
       setCategories(sortedCategories);  
 
       setLoading(false);
+
     } catch (error) {
       console.error("Failed to fetch hotel data:", error);
     }
@@ -102,6 +130,7 @@ const Hotel = () => {
 
   useEffect(() => {
     InitHotel();
+
   }, []);
 
   return (
@@ -134,7 +163,7 @@ const Hotel = () => {
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '2%' }}>
         <h1 id="hotel-name">
-          {loading ? <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="60%" /> : name}
+          {loading ? <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="100%" /> : name}
         </h1>
         <Button 
           variant="contained" 
@@ -154,7 +183,7 @@ const Hotel = () => {
 
       <div id="rating" style={{ paddingTop: '1%' }}>
         {loading ? (
-          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="20%" height={40} />
+          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="50%" height={40} />
         ) : (
           <HalfRating rating={rating} />
         )}
@@ -162,7 +191,7 @@ const Hotel = () => {
 
       <div id="address" style={{ paddingTop: '1%', display: 'flex', alignItems: 'center' }}>
         {loading ? (
-          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="20%" height={40} />
+          <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="50%" height={40} />
         ) : (
           <>
             <PlaceRounded style={{ color: '#1A1E43', marginRight: '8px' }} />
@@ -188,7 +217,7 @@ const Hotel = () => {
           <h2 id="overview">Overview</h2>
           <div>
             {loading ? (
-              <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }} width="80%" height={60} />
+              <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }} width="80%" height={200} />
             ) : (
               <div className='description' dangerouslySetInnerHTML={{ __html: desc }} />
             )}
@@ -217,7 +246,7 @@ const Hotel = () => {
         {loading ? (
           <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
         ) : (
-          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} />
+          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] } />
         )}
       </div>
 
@@ -229,22 +258,7 @@ const Hotel = () => {
           <LocationMap className='map' position={[latitude, longitude]} />
         )}
       </div>
-        <Link to={`../checkout?price=${price}&roomName=${roomName}&nights=${nights}&hotelId=${hotelId}&destID=${destID}&rating=${rating}&address=${address}&booking_id=${booking_id}&name=${name}`}>
-        <Button
-            variant="contained"
-            color="primary"
-            onClick={() => console.log(price,roomName,nights,hotelId,destID)}
-            style={{
-                backgroundColor: '#2F80ED',
-                color: '#fff',
-                borderRadius: '5px',
-                padding: '10px 20px',
-                textTransform: 'none',
-            }}
-        >
-            Make Booking
-        </Button>
-        </Link>
+
     </div>
   );
 }

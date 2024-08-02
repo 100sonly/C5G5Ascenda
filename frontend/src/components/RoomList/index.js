@@ -2,7 +2,7 @@ import React from "react";
 import RoomCard from "../RoomCard/index.js";
 import {Helmet} from "react-helmet";
 import Hotel from "../../pages/HotelInformation";
-function RoomList({ giveRoomName,givePrice,json }) {
+function RoomList({ giveRoomName,givePrice,json,params }) {
     let keys = Object.keys(json);
     let items = Object.values(json);
 
@@ -17,7 +17,7 @@ function RoomList({ giveRoomName,givePrice,json }) {
     return (
 
         items.map((item, i) => (
-            <RoomCard givePrice={getPrice} giveRoomName={getRoomName} setRoomName={Hotel.setRoomName} key={keys[i]} room={item} />
+            <RoomCard givePrice={getPrice} giveRoomName={getRoomName} setRoomName={Hotel.setRoomName} key={keys[i]} room={item} params={params} />
         ))
 
     );

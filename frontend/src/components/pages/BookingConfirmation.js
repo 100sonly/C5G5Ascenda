@@ -8,6 +8,9 @@ import Card from "react-bootstrap/Card";
 import { loadStripe } from "@stripe/stripe-js"; 
 
 const PUB_KEY = "pk_test_51PiA322N4766J9DW5Q3mhcIzmbKgz7MQIhY0G33eFYsY6yRFehmsJZkagjofzb5jLergWoofsCrCZKYBBgbQNF2000c7M34kK9"
+import {useLocation} from "react-router-dom";
+
+
 
 function BookingConfirmation() {
     // State for managing checkbox and form values
@@ -41,6 +44,7 @@ function BookingConfirmation() {
             [name]: value
         }));
     };
+
 
     // Handle input changes for billing info
     const handleBillingInfoChange = (e) => {
@@ -81,56 +85,46 @@ function BookingConfirmation() {
     };
 
     const query = new URLSearchParams(document.location.search);
-
-    const hotelName = query.get("name");
+    const location = useLocation();
+    //params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] }
+    const hotelName = location.state.params.params[6]
     const roomName = query.get("roomName");
-    const hotelRating = parseFloat(query.get("rating"));
-    const hotelAddress = query.get("address");
-    const nights = query.get("nights");
+    const hotelRating = parseFloat(location.state.params.params[3]);
+    const hotelAddress = location.state.params.params[4]
+    const nights = location.state.params.params[0];
     const price = query.get("price");
-    
+    const bookingId=location.state.params.params[5];
+    const strt=location.state.params.params[7];
+    const end=location.state.params.params[8];
+    const img = location.state.params.params[9];
+    const amenitiesArray=location.state.params.params[10];
+    console.log(hotelName,roomName,hotelRating,hotelAddress,nights,price,bookingId,strt,end,img,amenitiesArray)
 
-    const [hotelData, setHotelData] = useState({
-        heroImage: "bg.png",
-        hotelName: hotelName || "Sample Hotel",
+    const heroImage = `${img.prefix}${0}${img.suffix}`;
+
+    console.log('Amenities Array:', amenitiesArray); 
+
+    const limitedAmenitiesArray = amenitiesArray.slice(0, 4);
+    
+    const amenities = {};
+    limitedAmenitiesArray.forEach(item => amenities[item] = true);
+    console.log('Amenities Object:', amenities); 
+
+    const hotelData = {
+        heroImage: heroImage,
+        hotelName: hotelName,
         hotelRating: hotelRating,
         hotelAddress: hotelAddress,
-        hotelAmenities: ["Free Wi-Fi", "Parking", "Breakfast Included", "Pool"]
-    });
+        hotelAmenities: amenities
+    };
 
-    const [product, setProduct] = useState({
-        name: "SampleRoom",
-        price: 1000,
-        email: personalInfo.emailAddress,
-        description: "This is a sample room"
-    });
+    const formatDateTime = (datetime) => {
+        const [date, time] = datetime.split('#');
+        return { date, time };
+    };
 
-    const makePayment = async () => { 
-        const stripe = await loadStripe(PUB_KEY); 
-        const body = { product }; 
-        const headers = { 
-          "Content-Type": "application/json", 
-        }; 
-
-    const response = await fetch( 
-      "http://localhost:3000/payment/api/create-checkout-session", 
-      { 
-        method: "POST", 
-        headers: headers, 
-        body: JSON.stringify(body), 
-      } 
-    ); 
-
-    const session = await response.json(); 
- 
-    const result = stripe.redirectToCheckout({ 
-      sessionId: session.id, 
-    }); 
- 
-    if (result.error) { 
-      console.log(result.error); 
-    } 
-  }; 
+    const checkIn = formatDateTime(strt);
+    const checkOut = formatDateTime(end);
 
     return (
         <>
@@ -299,14 +293,13 @@ function BookingConfirmation() {
                             <div className="checkin-checkout-info">
                                 <div className="checkin-column">
                                     <p className="section-title">Check-in</p>
-                                    <p className="date-info">[Check-in Date]</p>
-                                    <p className="time-info">[Time]</p>
+                                    <p className="date-info">{checkIn.date}</p>
+                                    <p className="time-info">{checkIn.time}</p>
                                 </div>
-                                <div className="separator">|</div>
                                 <div className="checkout-column">
                                     <p className="section-title">Check-out</p>
-                                    <p className="date-info">[Check-out Date]</p>
-                                    <p className="time-info">[Time]</p>
+                                    <p className="date-info">{checkOut.date}</p>
+                                    <p className="time-info">{checkOut.time}</p>
                                 </div>
                             </div>
                             <p>{roomName}</p>
