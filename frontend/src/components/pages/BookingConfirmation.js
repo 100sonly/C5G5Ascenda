@@ -127,10 +127,9 @@ function BookingConfirmation() {
     const checkOut = formatDateTime(end);
 
     const [product, setProduct] = useState({
-        name: "SampleRoom",
-        price: 1000,
+        name: roomName,
+        price: price,
         email: personalInfo.emailAddress,
-        description: "This is a sample room"
     });
 
     const makePayment = async () => { 
