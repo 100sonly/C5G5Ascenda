@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const paymentController = require("../controllers/payment.js")
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.post("/api/create-checkout-session", async (req, res) => { 
     paymentController.createCheckoutSession(req, res);
