@@ -125,9 +125,10 @@ function BookingConfirmation() {
     const checkIn = formatDateTime(strt);
     const checkOut = formatDateTime(end);
 
+    console.log(price);
     const [product, setProduct] = useState({
         name: roomName,
-        price: Math.round(price),
+        price: price,
         email: personalInfo.emailAddress
     });
 
