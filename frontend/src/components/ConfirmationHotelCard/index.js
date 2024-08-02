@@ -9,6 +9,7 @@ import Icon from '@mui/material/Icon';
 import ConfirmationAmenities from '../ConfirmationAmenities'; 
 import LocationOnRounded from '@mui/icons-material/LocationOnRounded';
 
+
 export default function ConfirmationHotelCard({
   heroImage,
   hotelName,
