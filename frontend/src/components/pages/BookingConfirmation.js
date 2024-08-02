@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
 import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; 
 import Button from "react-bootstrap/Button"; 
 import Card from "react-bootstrap/Card"; 
 import { loadStripe } from "@stripe/stripe-js"; 
@@ -128,8 +127,8 @@ function BookingConfirmation() {
 
     const [product, setProduct] = useState({
         name: roomName,
-        price: price,
-        email: personalInfo.emailAddress,
+        price: Math.round(price),
+        email: personalInfo.emailAddress
     });
 
     const makePayment = async () => { 
