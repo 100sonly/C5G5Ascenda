@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 
 export default function HalfRating({ rating }) {
   return (
-    <Stack spacing={1}>
+    <Stack paddingTop={0} spacing={1}>
       <Rating name="half-rating-read" value={rating} precision={0.5} readOnly />
     </Stack>
   );

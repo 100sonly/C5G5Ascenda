@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var customerRouter = require('./routes/customer');
 var hotelsRouter = require('./routes/hotels');
 var pricesRouter = require('./routes/prices');
+var paymentRouter = require('./routes/payment');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/', indexRouter);
 app.use('/customers', customerRouter);
 app.use('/hotels', hotelsRouter);
 app.use('/prices', pricesRouter);
+app.use('/payment', paymentRouter);
 
 //const port = 3000;
 //app.listen(port, () => console.log(`Server is running on ${port}`));
