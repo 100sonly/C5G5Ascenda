@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
-import StripePayment from '../StripePayment/index.js';
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import Button from "react-bootstrap/Button"; 
 import Card from "react-bootstrap/Card"; 
 import { loadStripe } from "@stripe/stripe-js"; 
-import { useLocation, useSearchParams } from "react-router-dom";
 
 const PUB_KEY = "pk_test_51PiA322N4766J9DW5Q3mhcIzmbKgz7MQIhY0G33eFYsY6yRFehmsJZkagjofzb5jLergWoofsCrCZKYBBgbQNF2000c7M34kK9"
 
@@ -82,8 +80,6 @@ function BookingConfirmation() {
         }
     };
 
-    const navigate = useNavigate();
-
     const query = new URLSearchParams(document.location.search);
 
     const hotelName = query.get("name");
@@ -102,22 +98,9 @@ function BookingConfirmation() {
         hotelAmenities: ["Free Wi-Fi", "Parking", "Breakfast Included", "Pool"]
     });
 
-
-
-    const paymentPage = () => {
-        navigate("/payment", {
-            state: {
-                // TODO: REMOVE SAMPLE DATA
-                roomName: "SampleRoom",
-                roomPrice: 1000,
-                emailAddress: personalInfo.emailAddress
-            }
-        });
-    }
-
     const [product, setProduct] = useState({
-        name: roomName,
-        price: price,
+        name: "SampleRoom",
+        price: 1000,
         email: personalInfo.emailAddress,
         description: "This is a sample room"
     });
@@ -206,8 +189,8 @@ function BookingConfirmation() {
                             <textarea />
                         </div>
                     </div>
-
-                    <div className="container-payment-details">
+                    
+                    {/* <div className="container-payment-details">
                         <h4>Payment Information</h4>
                         <div className="name-labels">
                             <p>Name on card <span className="required-asterisk">*</span></p>
@@ -300,7 +283,7 @@ function BookingConfirmation() {
                                 onChange={handleBillingInfoChange}
                             />
                         </div>
-                    </div>
+                    </div> */}
  
                     </div>
                     <div className="container-booking-details">
@@ -336,7 +319,7 @@ function BookingConfirmation() {
                     </div>
                 </div>
                 <div className="confirm-button-container">
-                    <button onClick={paymentPage}
+                    <button onClick={makePayment}
                         className="confirm-button"
                     >
                         Confirm & Proceed
