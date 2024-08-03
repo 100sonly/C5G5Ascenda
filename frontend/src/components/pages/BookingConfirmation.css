@@ -26,7 +26,7 @@ body {
 .container-payment-details {
     background: #FFFFFF;
     border-radius: 10px;
-    padding: 2% 2%;
+    padding: 5% 3%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -47,40 +47,13 @@ body {
 
 .name-fields,
 .contact-fields,
-.salutation-fields,
-.requests-fields {
+.salutation-fields{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin-bottom: 24px;
 }
 
-.name-labels p,
-.contact-labels p,
-.salutation-labels p,
-.requests-labels p {
-    margin: 0;
-}
-
-.name-fields input,
-.contact-fields input,
-.salutation-fields input {
-    width: 70%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.requests-fields textarea {
-    width: 175%;
-    height: 150px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none;
-}
 
 .checkbox-container {
     display: flex;
@@ -128,6 +101,8 @@ body {
 .checkin-checkout-info {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     margin-top: 20px; 
 }
 
@@ -139,7 +114,7 @@ body {
 }
 
 .section-title {
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 8px;
 }
 
@@ -156,9 +131,7 @@ body {
 
 .confirm-button-container {
     display: flex;
-    justify-content: start;
-    margin-top: 32px;
-    padding-left: 25%;
+    justify-content: center;
 }
 
 .confirm-button {
