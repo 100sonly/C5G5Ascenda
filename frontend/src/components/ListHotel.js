@@ -3,7 +3,7 @@ import { Card, CardContent, CardMedia, Typography, Button, Box, Rating } from '@
 import { AiFillEnvironment } from 'react-icons/ai';
 import './ListHotel.css';
 
-function ListHotel({ filter }) {
+function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
 

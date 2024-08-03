@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
+import { Rating } from '@mui/material';
 import './Filters.css';
 
 const StarFilter = ({ onFilterChange }) => {
   const [selectedStars, setSelectedStars] = useState([]);
 
   const starRatings = [
-    { label: "⭐⭐⭐⭐⭐", value: 5, count: 83 },
-    { label: "⭐⭐⭐⭐", value: 4, count: 24 },
-    { label: "⭐⭐⭐", value: 3, count: 10 },
-    { label: "⭐⭐", value: 2, count: 26 },
-    { label: "⭐", value: 1, count: 34 },
+    { value: 5, count: 83 },
+    { value: 4, count: 24 },
+    { value: 3, count: 10 },
+    { value: 2, count: 26 },
+    { value: 1, count: 34 },
   ];
 
-  const handleStarChange = (value) => {
-    let updatedStars;
-    if (selectedStars.includes(value)) {
-      updatedStars = selectedStars.filter(star => star !== value);
-    } else {
-      updatedStars = [...selectedStars, value];
-    }
+  const handleStarChange = (e) => {
+    const value = Number(e.target.value);
+    const updatedStars = selectedStars.includes(value)
+      ? selectedStars.filter(star => star !== value)
+      : [...selectedStars, value];
+
     setSelectedStars(updatedStars);
     onFilterChange({ starRating: updatedStars });
   };
@@ -31,12 +31,13 @@ const StarFilter = ({ onFilterChange }) => {
           <li key={index}>
             <input 
               type="checkbox" 
-              id={`star${index}`} 
-              onChange={() => handleStarChange(starRating.value)} 
+              value={starRating.value} 
+              onChange={handleStarChange} 
+              checked={selectedStars.includes(starRating.value)}
             />
             <label htmlFor={`star${index}`}>
               <div className="star-rating">
-                <span>{starRating.label}</span>
+                <Rating value={starRating.value} readOnly />
                 <span>{starRating.count}</span>
               </div>
             </label>

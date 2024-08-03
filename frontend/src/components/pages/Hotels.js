@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../../App.css';
 import ListHotel from "../ListHotel";
-import HeroSection from '../HeroSection';
 import PriceFilter from '../Filters/PriceFilter';
 import StarFilter from '../Filters/StarFilter';
 import './Hotel.css';
@@ -11,7 +10,10 @@ function Hotels() {
   const [filter, setFilter] = useState({ priceRange: [], starRating: [] });
 
   const handleFilterChange = (selectedFilters) => {
-    setFilter(selectedFilters);
+    setFilter(prevFilter => ({
+      ...prevFilter,
+      ...selectedFilters,
+    }));
   };
 
   return (
