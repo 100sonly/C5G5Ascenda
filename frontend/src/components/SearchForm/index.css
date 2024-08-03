@@ -77,3 +77,12 @@
 #result ul li:hover {
     background: #eee;
 }
+
+#destination_id {
+  cursor: text; 
+}
+
+#checkin,
+#checkout {
+  cursor: pointer;
+}
