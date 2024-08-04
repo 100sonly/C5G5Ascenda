@@ -13,6 +13,7 @@ import { PlaceRounded } from '@mui/icons-material';
 import './HotelInformation.css';
 import { Helmet } from "react-helmet"
 import {Link} from "react-router-dom";
+import {Typography} from '@mui/material'
 
 const Hotel = () => {
 
@@ -245,6 +246,10 @@ const Hotel = () => {
       <div style={{ paddingTop: '2%' }}>
         {loading ? (
           <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
+        ) : rooms.length === 0 ? (
+          <Typography variant="body1" color="textSecondary" align="center" style={{ fontFamily: 'Inter', marginTop: '20px' }}>
+          All rooms are fully booked. Try updating your search criteria?
+          </Typography>
         ) : (
           <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] } />
         )}

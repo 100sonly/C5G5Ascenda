@@ -4,11 +4,13 @@ import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button"; 
 import Card from "react-bootstrap/Card"; 
+import { Box } from '@mui/material';
 import { loadStripe } from "@stripe/stripe-js"; 
 import {useLocation} from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import CustomizedSteppers from '../CustomizedSteppers'; 
 
 
 
@@ -69,6 +71,7 @@ function BookingConfirmation() {
     const nights = location.state.params.params[0];
     const price = query.get("price");
     const bookingId = location.state.params.params[5];
+    const numberOfRooms = query.get("roomNum")
     const strt = location.state.params.params[7];
     const end = location.state.params.params[8];
     const img = location.state.params.params[9];
@@ -153,7 +156,8 @@ function BookingConfirmation() {
     return (
         <>
             <div className="container-booking-confirmation">
-                <h1 className='bookingConfirmation' style={{ color: '#282c34' }}>Confirm Booking</h1>
+                <CustomizedSteppers style={{ marginTop: '4%'}}/>
+                <h1 className='bookingConfirmation' style={{ marginTop: '2%', color: '#282c34' }}>Confirm Booking</h1>
                 <div className='elements'>
                     <div className='container-forms'>
                         <div className="container-personal-details">
@@ -262,11 +266,17 @@ function BookingConfirmation() {
                             <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '500', marginTop: '2%'}} gutterBottom>
                                 You've selected:
                             </Typography>
-                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{roomName}</Typography>
+                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{numberOfRooms} x {roomName}</Typography>
+                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '400', color: '#2F80ED', marginTop: '2%'}} component={Link} to="/bookings">
+                                    Change your selection
+                            </Typography>
                         </div>
                         <div className="booking-pricing-card">
                             <h3>Pricing Summary</h3>
-                            <p>{price}</p>
+                            <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'4%' }}>
+                                <Typography variant="h5" style={{fontFamily: 'Inter', fontWeight: 'bold'}} gutterBottom>Total:</Typography>
+                                <Typography variant="h5" style={{fontFamily: 'Inter', fontWeight: 'bold', color:"#FEBB02"}} gutterBottom>${price}</Typography>
+                            </Box>
                         </div>
                     </div>
                 </div>
