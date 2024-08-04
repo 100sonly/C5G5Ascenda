@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography, Button, Box, Rating } from '@mui/material';
 import { AiFillEnvironment } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import './ListHotel.css';
 
 function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
+  const navigate = useNavigate();
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const destinationId = urlParams.get('destination_id');
+  const checkin = urlParams.get('checkin');
+  const checkout = urlParams.get('checkout');
+  const guests = urlParams.get('guests');
 
   async function processHotels(hotels, all_hotels) {
     for (const item of hotels) {
@@ -14,15 +23,13 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
     }
   }
 
+  // navigate to URL when 'SELECT' is clicked
+  const handleSelect = (hotel) => {
+    navigate(`/hotelinformation/${hotel.hotel_id}`, { state: { hotel, destinationId, checkin, checkout, guests } });
+  };
+
   // Function to fetch hotel data from the backend
   const fetchHotels = async () => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const destinationId = urlParams.get('destination_id');
-    const checkin = urlParams.get('checkin');
-    const checkout = urlParams.get('checkout');
-    const guests = urlParams.get('guests');
-
     try {
       const response = await fetch(`http://localhost:3000/prices/destination/${destinationId}/${checkin}/${checkout}/en_US/SGD/${guests}`);
       const data = await response.json();
@@ -93,7 +100,14 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
                 {hotel.details ? hotel.details.description : 'Description'}
               </Typography>
               <Box className="hotel-card-footer">
-                <Button className="select-button" size="small" color="primary" variant="contained" style={{ fontWeight: 'bold', fontFamily: 'Inter', backgroundColor: '#1A1A48',}}>
+                <Button
+                  className="select-button"
+                  size="small"
+                  color="primary"
+                  variant="contained"
+                  style={{ fontWeight: 'bold', fontFamily: 'Inter', backgroundColor: '#1A1A48' }}
+                  onClick={() => handleSelect(hotel)}
+                >
                   Select
                 </Button>
                 <Box className="hotel-price">
