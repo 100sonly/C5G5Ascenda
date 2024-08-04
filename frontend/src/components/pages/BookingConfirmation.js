@@ -10,7 +10,7 @@ import {useLocation} from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import CustomizedSteppers from '../CustomizedSteppers'; 
+import CustomizedSteppers from '../CustomizedSteppers/index.js'; 
 
 
 
