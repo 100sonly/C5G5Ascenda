@@ -1,9 +1,8 @@
 /* this styles are applicable to both PriceFilter and StarFilter */
 
 .filter-section {
-  border: 1px solid #ddd;
+  
   border-radius: 8px;
-  background-color: #fff;
   padding: 20px;
   margin-bottom: 20px;
   }

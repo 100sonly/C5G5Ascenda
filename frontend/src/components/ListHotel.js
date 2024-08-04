@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import './ListHotel.css';
 
-function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
+function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHotels, updatePriceRangeCounts }) {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,6 +17,14 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
   const checkin = urlParams.get('checkin');
   const checkout = urlParams.get('checkout');
   const guests = urlParams.get('guests');
+
+  const priceRanges = [
+    { label: "$0 - $200", min: 0, max: 200 },
+    { label: "$200 - $500", min: 200, max: 500 },
+    { label: "$500 - $1,000", min: 500, max: 1000 },
+    { label: "$1,000 - $2,000", min: 1000, max: 2000 },
+    { label: "$2,000 - $5,000", min: 2000, max: 5000 },
+  ];
 
   async function processHotels(hotels, all_hotels) {
     for (const item of hotels) {
@@ -42,10 +50,20 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
 
       await processHotels(data, hotel_info);
 
-      // Hotel details are now under each entry's "details" attribute after processHotels
+      // Calculate price range counts
+      const priceRangeCounts = priceRanges.map(range => {
+        return {
+          ...range,
+          count: data.filter(hotel => hotel.price >= range.min && hotel.price <= range.max).length
+        };
+      });
+
+      // Update state and counts
       setHotels(data);
       setFilteredHotels(data);
       setLoading(false);
+      updateTotalHotels(data.length); // Update total number of hotels
+      updatePriceRangeCounts(priceRangeCounts); // Update price range counts
     } catch (error) {
       console.error('Error fetching data:', error);
       setLoading(false);
