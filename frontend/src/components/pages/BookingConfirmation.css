@@ -251,3 +251,14 @@ body {
         margin-top: 8px;
     }
 }
+
+@media (max-width: 768px) {
+    .elements {
+        flex-direction: column;
+    }
+    
+    .container-forms,
+    .container-booking-details {
+        width: 100%;
+    }
+}

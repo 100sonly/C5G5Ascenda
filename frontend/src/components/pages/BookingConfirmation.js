@@ -1,48 +1,85 @@
 import React, { useEffect, useState } from 'react';
 import './BookingConfirmation.css';
 import ConfirmationHotelCard from '../ConfirmationHotelCard/index.js';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button"; 
 import Card from "react-bootstrap/Card"; 
 import { Box } from '@mui/material';
 import { loadStripe } from "@stripe/stripe-js"; 
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CustomizedSteppers from '../CustomizedSteppers/index.js'; 
 
-
-
-
 const PUB_KEY = "pk_test_51PiA322N4766J9DW5Q3mhcIzmbKgz7MQIhY0G33eFYsY6yRFehmsJZkagjofzb5jLergWoofsCrCZKYBBgbQNF2000c7M34kK9"
 
 function BookingConfirmation() {
+    const location = useLocation();
+    const query = new URLSearchParams(window.location.search);
+
+    const [bookingData, setBookingData] = useState(null);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: '',
         lastName: '',
         phoneNumber: '',
         emailAddress: ''
     });
-
     const [errors, setErrors] = useState({
         firstName: false,
         lastName: false,
         phoneNumber: false,
         emailAddress: false
     });
+    const [product, setProduct] = useState({
+        name: '',
+        price: '',
+        email: ''
+    });
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+        //window.scrollTo(0, 0);
+
+        const params = location.state?.params?.params || [];
+        const safeGet = (index, defaultValue = '') => params[index] || defaultValue;
+
+        const newBookingData = {
+            hotelName: safeGet(6),
+            roomName: query.get("roomName") || '',
+            hotelRating: parseFloat(safeGet(3, '0')),
+            hotelAddress: safeGet(4),
+            nights: safeGet(0),
+            price: query.get("price") || '',
+            bookingId: safeGet(5),
+            numberOfRooms: query.get("roomNum") || '',
+            strt: safeGet(7),
+            end: safeGet(8),
+            img: safeGet(9, { prefix: '', suffix: '' }),
+            amenitiesArray: safeGet(10, []),
+        };
+
+        setBookingData(newBookingData);
+        setProduct(prevProduct => ({
+            ...prevProduct,
+            name: newBookingData.roomName,
+            price: newBookingData.price,
+        }));
+    }, [location, query]);
+
+    useEffect(() => {
+        setProduct(prevProduct => ({
+            ...prevProduct,
+            email: personalInfo.emailAddress
+        }));
+    }, [personalInfo.emailAddress]);
 
     const handlePersonalInfoChange = (e) => {
         const { name, value } = e.target;
-        setPersonalInfo((prevState) => ({
+        setPersonalInfo(prevState => ({
             ...prevState,
             [name]: value
         }));
-        setErrors((prevState) => ({
+        setErrors(prevState => ({
             ...prevState,
             [name]: value.trim() === ''
         }));
@@ -56,86 +93,109 @@ function BookingConfirmation() {
             emailAddress: personalInfo.emailAddress.trim() === ''
         };
         setErrors(newErrors);
-        return Object.values(newErrors).every((error) => !error);
+        return Object.values(newErrors).every(error => !error);
     };
 
-    const query = new URLSearchParams(document.location.search);
-    const location = useLocation();
-    const hotelName = location.state.params.params[6];
-    const roomName = query.get("roomName");
-    const hotelRating = parseFloat(location.state.params.params[3]);
-    const hotelAddress = location.state.params.params[4];
-    const nights = location.state.params.params[0];
-    const price = query.get("price");
-    const bookingId = location.state.params.params[5];
-    const numberOfRooms = query.get("roomNum")
-    const strt = location.state.params.params[7];
-    const end = location.state.params.params[8];
-    const img = location.state.params.params[9];
-    const amenitiesArray = location.state.params.params[10];
-    console.log(hotelName, roomName, hotelRating, hotelAddress, nights, price, bookingId, strt, end, img, amenitiesArray);
+    const sendBookingData = async (bookingData) => {
+        try {
+            const response = await fetch('http://localhost:3000/booking/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
+            });
 
-    const heroImage = `${img.prefix}${0}${img.suffix}`;
-    console.log('Amenities Array:', amenitiesArray);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-    const limitedAmenitiesArray = amenitiesArray.slice(0, 4);
-    const amenities = {};
-    limitedAmenitiesArray.forEach(item => amenities[item] = true);
-    console.log('Amenities Object:', amenities);
-
-    const hotelData = {
-        heroImage: heroImage,
-        hotelName: hotelName,
-        hotelRating: hotelRating,
-        hotelAddress: hotelAddress,
-        hotelAmenities: amenities
+            return await response.json();
+        } catch (error) {
+            console.error('Error sending booking data:', error);
+            throw error;
+        }
     };
-
-    const formatDateTime = (datetime) => {
-        const [date, time] = datetime.split('#');
-        return { date, time };
-    };
-
-    const checkIn = formatDateTime(strt);
-    const checkOut = formatDateTime(end);
-
-    const [product, setProduct] = useState({
-        name: roomName,
-        price: price,
-        email: personalInfo.emailAddress
-    });
-
+    
     const makePayment = async () => { 
         if (!validateForm()) {
             console.log('Validation failed');
             return;
         }
+    
+        if (!bookingData) {
+            console.log('Booking data not available');
+            return;
+        }
 
-        const stripe = await loadStripe(PUB_KEY); 
-        const body = { product }; 
-        const headers = { 
-          "Content-Type": "application/json", 
-        }; 
+        const formatDateTime = (datetime) => {
+            const [date, time] = datetime.split('#');
+            return { date, time };
+        };
 
-        const response = await fetch( 
-            "http://localhost:3000/payment/api/create-checkout-session", 
-            { 
-                method: "POST", 
-                headers: headers, 
-                body: JSON.stringify(body), 
-            } 
-        ); 
+        const checkIn = formatDateTime(bookingData.strt);
+        const checkOut = formatDateTime(bookingData.end);
 
-        const session = await response.json(); 
- 
-        const result = stripe.redirectToCheckout({ 
-            sessionId: session.id, 
-        }); 
- 
-        if (result.error) { 
-            console.log(result.error); 
-        } 
-    }; 
+        const heroImage = `${bookingData.img.prefix}${0}${bookingData.img.suffix}`;
+
+        const limitedAmenitiesArray = bookingData.amenitiesArray.slice(0, 4);
+        const amenities = {};
+        limitedAmenitiesArray.forEach(item => amenities[item] = true);
+        
+        const hotelData = {
+            heroImage: heroImage, 
+            hotelName: bookingData.hotelName,
+            hotelRating: bookingData.hotelRating,
+            hotelAddress: bookingData.hotelAddress,
+            hotelAmenities: amenities
+        };
+
+        // Prepare booking data
+        const bookingDataToSend = {
+            personalInfo: {
+                ...personalInfo,
+                salutation: document.querySelector('input[name="salutation"]')?.value || '',
+                specialRequests: document.querySelector('textarea[name="specialRequests"]')?.value || ''
+            },
+            bookingDetails: {
+                ...bookingData,
+                checkIn,
+                checkOut,
+                heroImage,
+                amenities: bookingData.amenitiesArray,
+            },
+            hotelData
+        };   
+        // Send booking data to backend
+        const bookingConfirmation = await sendBookingData(bookingDataToSend);
+        console.log('Booking confirmed:', bookingConfirmation);
+
+        // Payment logic commented out as in your original code
+        // const stripe = await loadStripe(PUB_KEY); 
+        // const body = { product }; 
+        // const headers = { 
+        //   "Content-Type": "application/json", 
+        // }; 
+        // const response = await fetch( 
+        //     "http://localhost:3000/payment/api/create-checkout-session", 
+        //     { 
+        //         method: "POST", 
+        //         headers: headers, 
+        //         body: JSON.stringify(body), 
+        //     } 
+        // ); 
+        // const session = await response.json(); 
+        // const result = stripe.redirectToCheckout({ 
+        //     sessionId: session.id, 
+        // }); 
+        // if (result.error) { 
+        //     console.log(result.error); 
+        // } 
+    };
+
+    if (!bookingData) {
+        return <div>Loading booking details...</div>;
+    }
 
     return (
         <>
@@ -221,36 +281,36 @@ function BookingConfirmation() {
                     </div>
                     <div className="container-booking-details">
                         <ConfirmationHotelCard
-                            heroImage={hotelData.heroImage}
-                            hotelName={hotelData.hotelName}
-                            hotelRating={hotelData.hotelRating}
-                            hotelAddress={hotelData.hotelAddress}
-                            hotelAmenities={hotelData.hotelAmenities}
+                            heroImage={`${bookingData.img.prefix}${0}${bookingData.img.suffix}`}
+                            hotelName={bookingData.hotelName}
+                            hotelRating={bookingData.hotelRating}
+                            hotelAddress={bookingData.hotelAddress}
+                            hotelAmenities={bookingData.amenitiesArray.slice(0, 4).reduce((acc, item) => ({ ...acc, [item]: true }), {})}
                         />
                         <div className="booking-details-card">
                             <h3>Your Booking Details</h3>
                             <div className="checkin-checkout-info">
                                 <div className="checkin-column">
                                     <p className="section-title">Check-in</p>
-                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{checkIn.date}</Typography>
-                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '400', color: 'gray', marginTop: '2%'}} gutterBottom>{checkIn.time}</Typography>
+                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{bookingData.strt.split('#')[0]}</Typography>
+                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '400', color: 'gray', marginTop: '2%'}} gutterBottom>{bookingData.strt.split('#')[1]}</Typography>
                                 </div>
                                 <Divider orientation="vertical" variant="middle" flexItem />
                                 <div className="checkout-column">
                                     <p className="section-title">Check-out</p>
-                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{checkOut.date}</Typography>
-                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '400', color: 'gray', marginTop: '2%'}} gutterBottom>{checkOut.time}</Typography>
+                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{bookingData.end.split('#')[0]}</Typography>
+                                    <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '400', color: 'gray', marginTop: '2%'}} gutterBottom>{bookingData.end.split('#')[1]}</Typography>
                                 </div>
                             </div>
                             <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '500', marginTop: '2%'}} gutterBottom>
                                 Total length of stay:
                             </Typography>
-                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{nights} nights</Typography>
+                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{bookingData.nights} nights</Typography>
                             <Divider style={{marginTop: '10%', height: '2px'}} gutterBottom/>
                             <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '500', marginTop: '2%'}} gutterBottom>
                                 You've selected:
                             </Typography>
-                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{numberOfRooms} x {roomName}</Typography>
+                            <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: 'bold', marginTop: '2%'}} gutterBottom>{bookingData.numberOfRooms} x {bookingData.roomName}</Typography>
                             <Typography variant="body2" style={{fontFamily: 'Inter', fontWeight: '400', color: '#2F80ED', marginTop: '2%'}} component={Link} to="/bookings">
                                     Change your selection
                             </Typography>
@@ -259,7 +319,7 @@ function BookingConfirmation() {
                             <h3>Pricing Summary</h3>
                             <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'4%' }}>
                                 <Typography variant="h5" style={{fontFamily: 'Inter', fontWeight: 'bold'}} gutterBottom>Total:</Typography>
-                                <Typography variant="h5" style={{fontFamily: 'Inter', fontWeight: 'bold', color:"#FEBB02"}} gutterBottom>${price}</Typography>
+                                <Typography variant="h5" style={{fontFamily: 'Inter', fontWeight: 'bold', color:"#FEBB02"}} gutterBottom>${bookingData.price}</Typography>
                             </Box>
                         </div>
                     </div>
