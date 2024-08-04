@@ -1,26 +1,25 @@
+/* Hotel.css */
 .hotel-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
-  
 }
 
 .content-container {
   display: flex;
-  padding: 20px;
+  width: 100%;
+  max-width: 1500px;
   margin-top: 90px;
-}
-
-.filter-section {
-  border: none;
-  flex: 1;
-  max-width: 300px; /* Adjust width as needed */
-  padding-right: 10px;
-  transform: translateX(-30px);
   
 }
 
+.filter-section {
+  flex: 0 0 320px;
+  margin-right: 10px;
+}
+
 .list-hotel-section {
-  flex: 4;
+  flex: 1; /* Takes the remaining width */
+  display: flex;
+  justify-content: center;
 }

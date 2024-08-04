@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography, Button, Box, Rating } from '@mui/material';
 import { AiFillEnvironment } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 import './ListHotel.css';
 
 function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const queryString = window.location.search;
@@ -23,7 +25,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
     }
   }
 
-  // navigate to URL when 'SELECT' is clicked
+  // Navigate to URL when 'SELECT' is clicked
   const handleSelect = (hotel) => {
     navigate(`/hotelinformation/${hotel.hotel_id}`, { state: { hotel, destinationId, checkin, checkout, guests } });
   };
@@ -31,19 +33,22 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
   // Function to fetch hotel data from the backend
   const fetchHotels = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`http://localhost:3000/prices/destination/${destinationId}/${checkin}/${checkout}/en_US/SGD/${guests}`);
       const data = await response.json();
 
       const all_hotels = await fetch(`http://localhost:3000/hotels/destination/${destinationId}`);
       const hotel_info = await all_hotels.json();
-  console.log(hotel_info);
+
       await processHotels(data, hotel_info);
-      console.log(data);
+
       // Hotel details are now under each entry's "details" attribute after processHotels
       setHotels(data);
-      setFilteredHotels(data);  // Set the initial filteredHotels to all fetched hotels
+      setFilteredHotels(data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setLoading(false);
     }
   };
 
@@ -69,6 +74,10 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
       setFilteredHotels(filtered);
     }
   }, [filter, hotels]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="list-hotel-container">
