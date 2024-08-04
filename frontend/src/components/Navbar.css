@@ -164,4 +164,26 @@
     color: #242424;
     transition: 250ms;
   }
+
+
+/* Added styles for logout button */
+.btn--outline {
+  background-color: transparent;
+  color: #fff;
+  padding: 8px 20px;
+  border: 1px solid #fff;
+  transition: all 0.3s ease-out;
+}
+
+.btn--outline:hover {
+  background: #fff;
+  color: #1A1E43;
+  transition: 250ms;
+}
+
+/* Added styles for logout button in mobile view */
+.btn--outline {
+  display: none;
+}
+
 }

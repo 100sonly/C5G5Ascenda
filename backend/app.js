@@ -10,7 +10,7 @@ var customerRouter = require('./routes/customer');
 var hotelsRouter = require('./routes/hotels');
 var pricesRouter = require('./routes/prices');
 var paymentRouter = require('./routes/payment');
-
+var bookingsRouter = require('./routes/booking');
 var app = express();
 
 var cors = require('cors');
@@ -32,9 +32,7 @@ app.use('/customers', customerRouter);
 app.use('/hotels', hotelsRouter);
 app.use('/prices', pricesRouter);
 app.use('/payment', paymentRouter);
-
-//const port = 3000;
-//app.listen(port, () => console.log(`Server is running on ${port}`));
+app.use('/booking', bookingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

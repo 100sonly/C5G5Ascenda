@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import './Navbar.css';
 
-function Navbar() {
+function Navbar({ isLoggedIn, onLogout }) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
+  const navigate = useNavigate();
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -24,11 +26,24 @@ function Navbar() {
 
   window.addEventListener('resize', showButton);
 
+
+  const handleNavClick = (e, path) => {
+    if (!isLoggedIn && (path === '/services' || path === '/bookings' || path === '/')) {
+      e.preventDefault();
+      toast.error('Please log in to access this page');
+    } else {
+      navigate(path);
+    }
+    closeMobileMenu();
+  };
+  
+
+
   return (
     <>
       <nav className='navbar'>
         <div className='navbar-container'>
-          <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+          <Link to='/' className='navbar-logo' onClick={(e) => handleNavClick(e, '/')}>
             <img className='logo' src='../ascenda.png' />
             <i class='fab fa-typo3' />
           </Link>
@@ -37,7 +52,7 @@ function Navbar() {
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+              <Link to='/' className='nav-links' onClick={(e) => handleNavClick(e, '/')}>
                 HOME
               </Link>
             </li>
@@ -45,7 +60,8 @@ function Navbar() {
               <Link
                 to='/services'
                 className='nav-links'
-                onClick={closeMobileMenu}
+                onClick={(e) => handleNavClick(e, '/services')}
+                //onClick={closeMobileMenu}
               >
                 SERVICES
               </Link>
@@ -54,13 +70,40 @@ function Navbar() {
               <Link
                 to='/bookings'
                 className='nav-links'
-                onClick={closeMobileMenu}
+                onClick={(e) => handleNavClick(e, '/bookings')}
+                //onClick={closeMobileMenu}
               >
                 BOOKINGS
               </Link>
             </li>
+            {!isLoggedIn && (
+              <li>
+                <Link
+                  to='/signin'
+                  className='nav-links-mobile'
+                  onClick={closeMobileMenu}
+                >
+                  Login
+                </Link>
+              </li>
+            )}
+          </ul>
+          {isLoggedIn ? (
+            button && <Button onClick={onLogout} buttonStyle='btn--outline'>Logout</Button>
+          ) : (
+            button && <Button to='/signin' buttonStyle='btn--fill'>Login</Button>
+          )}
+        </div>
+      </nav>
+    </>
+  );
+}
+ 
+  
 
-            <li>
+
+
+            {/* <li>
               <Link
                 to='/register'
                 className='nav-links-mobile'
@@ -76,6 +119,6 @@ function Navbar() {
       </nav>
     </>
   );
-}
+} */}
 
 export default Navbar;

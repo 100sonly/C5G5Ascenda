@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './SignIn.css';
 import AuthForm from "../AuthForm";
 
-export default function SignIn() {
+export default function SignIn({setIsLoggedIn}) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
@@ -13,7 +13,7 @@ export default function SignIn() {
 
   return (
     <div className="auth-form-container">
-      <AuthForm className="auth-form" />
+      <AuthForm className="auth-form" setIsLoggedIn={setIsLoggedIn}/>
     </div>
   );
 }

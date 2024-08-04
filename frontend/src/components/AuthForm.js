@@ -3,7 +3,8 @@ import './AuthForm.css'; // We'll create this file for styles
 import {toast} from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-function AuthForm() {
+
+function AuthForm({setIsLoggedIn}) {
     const [isActive, setIsActive] = useState(false);
     const handleLogin = () => setIsActive(false);
     const handleRegister = () => setIsActive(true);
@@ -35,6 +36,8 @@ function AuthForm() {
         .then(data => {
             if (data.message) {
                 toast.success(data.message);
+                setIsLoggedIn(true); //update login state
+                navigate('/');
                 console.log("Registration successful");
             } else if (data.error) {
                 toast.error(data.error)
@@ -64,6 +67,7 @@ function AuthForm() {
                 console.log("Login successful");
 
                 // Navigate to home page
+                setIsLoggedIn(true); //update login state 
                 navigate('/');
             } else if (data.error) {
                 toast.error(data.error)
@@ -98,7 +102,6 @@ function AuthForm() {
                         <h1>Sign In</h1>
                         <input type="username" placeholder="Username" value={signInUsername} onChange={(e) => setSignInUsername(e.target.value)}/>
                         <input type="password" placeholder="Password" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)}/>
-                        <a href="#">Forget Your Password?</a>
                         <button type="submit">Sign In</button>
                     </form>
                 </div>
