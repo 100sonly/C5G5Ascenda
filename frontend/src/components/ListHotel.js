@@ -36,9 +36,9 @@ function ListHotel({ filter = { priceRange: [], starRating: [] } }) {
 
       const all_hotels = await fetch(`http://localhost:3000/hotels/destination/${destinationId}`);
       const hotel_info = await all_hotels.json();
-
+  console.log(hotel_info);
       await processHotels(data, hotel_info);
-
+      console.log(data);
       // Hotel details are now under each entry's "details" attribute after processHotels
       setHotels(data);
       setFilteredHotels(data);  // Set the initial filteredHotels to all fetched hotels
