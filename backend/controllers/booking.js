@@ -5,6 +5,7 @@ const newBooking = async (req, res) => {
     //console.log("Received request body:", req.body);
     const { personalInfo, bookingDetails, hotelData, booking_id } = req.body;
     // const booking_id = hotel_id + destination_id + Math.floor(Math.random() * 10000).toString();
+    //console.log(req.body);
 
     try{
         await bookingModel.addNewBooking(personalInfo, bookingDetails, hotelData, booking_id);
