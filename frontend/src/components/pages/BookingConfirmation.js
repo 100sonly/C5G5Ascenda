@@ -215,8 +215,8 @@ function BookingConfirmation() {
         
         // PROBLEM: Email sends before payment is complete
         // Sending confirmation email
-        //const sendConfirmEmail = await sendEmail(bookingDataToSend);
-        //console.log(sendConfirmEmail);
+        const sendConfirmEmail = await sendEmail(bookingDataToSend);
+        console.log(sendConfirmEmail);
 
         // Send booking data to backend
         const bookingConfirmation = await sendBookingData(bookingDataToSend);
