@@ -4,8 +4,8 @@ module.exports = {
     invalid_dest: 'hihi',
     valid_hotel: 'diH7',
     invalid_hotel: 'diHx',
-    checkin: '2024-08-01',
-    checkout: '2024-08-07',
+    checkin: '2024-08-08',
+    checkout: '2024-08-09',
     lang: 'en_US',
     currency: 'SGD',
     guests: '2'
