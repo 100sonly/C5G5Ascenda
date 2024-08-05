@@ -150,6 +150,28 @@ function BookingConfirmation() {
             hotelAmenities: amenities
         };
 
+
+        const stripe = await loadStripe(PUB_KEY); 
+        const body = { product }; 
+        const headers = { 
+          "Content-Type": "application/json", 
+        }; 
+        const response = await fetch( 
+            "http://localhost:3000/payment/api/create-checkout-session", 
+            { 
+                method: "POST", 
+                headers: headers, 
+                body: JSON.stringify(body), 
+            } 
+        ); 
+        const session = await response.json(); 
+        const result = stripe.redirectToCheckout({ 
+            sessionId: session.id, 
+        }); 
+        if (result.error) { 
+            console.log(result.error); 
+        } 
+
         // Prepare booking data
         const bookingDataToSend = {
             personalInfo: {
@@ -170,27 +192,7 @@ function BookingConfirmation() {
         const bookingConfirmation = await sendBookingData(bookingDataToSend);
         console.log('Booking confirmed:', bookingConfirmation);
 
-        // Payment logic commented out as in your original code
-        // const stripe = await loadStripe(PUB_KEY); 
-        // const body = { product }; 
-        // const headers = { 
-        //   "Content-Type": "application/json", 
-        // }; 
-        // const response = await fetch( 
-        //     "http://localhost:3000/payment/api/create-checkout-session", 
-        //     { 
-        //         method: "POST", 
-        //         headers: headers, 
-        //         body: JSON.stringify(body), 
-        //     } 
-        // ); 
-        // const session = await response.json(); 
-        // const result = stripe.redirectToCheckout({ 
-        //     sessionId: session.id, 
-        // }); 
-        // if (result.error) { 
-        //     console.log(result.error); 
-        // } 
+
     };
 
     if (!bookingData) {
