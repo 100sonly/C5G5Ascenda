@@ -12,7 +12,8 @@ import { Button, Skeleton } from '@mui/material';
 import { PlaceRounded } from '@mui/icons-material';
 import './HotelInformation.css';
 import { Helmet } from "react-helmet"
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import {Typography} from '@mui/material'
 
 const Hotel = () => {
 
@@ -40,13 +41,17 @@ const Hotel = () => {
 
   // HARDCODED VALUES FOR DEV PURPOSES
   //diH7-fullerton, QDaO-panpacific
-  const hotelId = 'diH7';
-  const destID = 'A0HL';
-  const startDate = new Date('2024-12-25');
-  const endDate = new Date('2025-01-07');
+    let location = useLocation();
+
+    console.log(location.state.adultchildren);
+  const hotelId = location.state.hotel.hotel_id;
+  const destID = location.state.destinationId;
+  const startDate =new Date(location.state.checkin);
+  const endDate =new Date(location.state.checkout);
   const language = 'en_US';
   const currency = 'SGD';
-  const guest_num = '2';
+  const guest_num = location.state.guests;
+  const adultchildren=location.state.adultchildren;
 
   const booking_id=hotelId+destID+Math.floor(Math.random() * 10000).toString();
 
@@ -245,8 +250,12 @@ const Hotel = () => {
       <div style={{ paddingTop: '2%' }}>
         {loading ? (
           <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={200} />
+        ) : rooms.length === 0 ? (
+          <Typography variant="body1" color="textSecondary" align="center" style={{ fontFamily: 'Inter', marginTop: '20px' }}>
+          All rooms are fully booked. Try updating your search criteria?
+          </Typography>
         ) : (
-          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities] } />
+          <RoomList className='roomlist' json={rooms} givePrice={getPrice} giveRoomName={getRoomName} params={[nights,hotelId,destID,rating,address,booking_id,name,formatDate(startDate),formatDate(endDate),image_details,amenities,adultchildren] } />
         )}
       </div>
 

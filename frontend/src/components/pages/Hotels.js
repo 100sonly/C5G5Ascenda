@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 import '../../App.css';
 import ListHotel from "../ListHotel";
-import HeroSection from '../HeroSection';
 import PriceFilter from '../Filters/PriceFilter';
 import StarFilter from '../Filters/StarFilter';
 import './Hotel.css';
 import SearchForm from '../SearchForm/index.js';
+import {useLocation} from "react-router-dom";
 
 function Hotels() {
   const [filter, setFilter] = useState({ priceRange: [], starRating: [] });
+  const [totalHotels, setTotalHotels] = useState(0);
+  const [priceRangeCounts, setPriceRangeCounts] = useState([]);
+
 
   const handleFilterChange = (selectedFilters) => {
-    setFilter(selectedFilters);
+    setFilter(prevFilter => ({
+      ...prevFilter,
+      ...selectedFilters,
+    }));
+  };
+
+  const updateTotalHotels = (total) => {
+    setTotalHotels(total);
+  };
+
+  const updatePriceRangeCounts = (counts) => {
+    setPriceRangeCounts(counts);
   };
 
   return (
@@ -19,11 +33,14 @@ function Hotels() {
       <SearchForm customClass={"search-form-hotel"} />
       <div className="content-container">
         <div className="filter-section">
-          <PriceFilter onFilterChange={handleFilterChange} />
+          <PriceFilter onFilterChange={handleFilterChange} priceRangeCounts={priceRangeCounts} />
           <StarFilter onFilterChange={handleFilterChange} />
         </div>
         <div className="list-hotel-section">
-          <ListHotel filter={filter} />
+          <div className="results-header">
+            <h2>{totalHotels} results found</h2>
+          </div>
+          <ListHotel filter={filter} updateTotalHotels={updateTotalHotels} updatePriceRangeCounts={updatePriceRangeCounts} />
         </div>
       </div>
     </div>

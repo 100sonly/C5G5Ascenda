@@ -85,6 +85,7 @@ function GuestDropdown() {
         setChildren(tempChildren);
         setRooms(tempRooms);
         setOpen(false);
+        document.getElementById("adultchildren").value=tempAdults.toString().concat(",",tempChildren.toString());
     };
 
     const totalGuests = tempAdults + tempChildren;

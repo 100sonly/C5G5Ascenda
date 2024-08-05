@@ -2,6 +2,12 @@ import React from 'react';
 import { Card, Typography } from '@mui/material';
 import './index.css';
 
+const getScoreColor = (score) => {
+  if (score >= 80) return '#229935';
+  if (score >= 60) return '#f0ad4e'; 
+  return '#d9534f'; 
+};
+
 const Highlights = ({ ratings }) => {
   if (!ratings || ratings.length === 0) {
     return (
@@ -21,16 +27,23 @@ const Highlights = ({ ratings }) => {
       <Typography variant="h6" component="div" style={{ fontFamily: 'Inter', fontWeight: 'bold', marginBottom: '16px' }}>
         Highlights
       </Typography>
-      {ratings.map((rating, index) => (
-        <div key={index} className="highlight-item">
-          <Typography variant="subtitle1" component="div">
-            {rating.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Score: {rating.score}
-          </Typography>
-        </div>
-      ))}
+      <div className="highlight-grid">
+        {ratings.map((rating, index) => (
+          <div key={index} className="highlight-item">
+            <div
+              className="score-box"
+              style={{ backgroundColor: getScoreColor(rating.score) }}
+            >
+              {rating.score}
+            </div>
+            <div>
+              <Typography variant="subtitle1" style={{ fontFamily: 'Inter' }} component="div">
+                {rating.name}
+              </Typography>
+            </div>
+          </div>
+        ))}
+      </div>
     </Card>
   );
 };
