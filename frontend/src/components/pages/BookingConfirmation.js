@@ -99,8 +99,30 @@ function BookingConfirmation() {
     };
 
     const sendBookingData = async (bookingData) => {
+        console.log("here");
         try {
             const response = await fetch('http://localhost:3000/booking/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error sending booking data:', error);
+            throw error;
+        }
+    };
+
+    const sendEmail = async (bookingData) => {
+        try {
+            const response = await fetch('http://localhost:3000/email/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,9 +212,17 @@ function BookingConfirmation() {
             },
             hotelData
         };   
+        
+        // PROBLEM: Email sends before payment is complete
+        // Sending confirmation email
+        const sendConfirmEmail = await sendEmail(bookingDataToSend);
+        console.log(sendConfirmEmail);
+
         // Send booking data to backend
         const bookingConfirmation = await sendBookingData(bookingDataToSend);
         console.log('Booking confirmed:', bookingConfirmation);
+
+
 
 
     };
