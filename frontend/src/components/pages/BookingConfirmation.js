@@ -56,6 +56,8 @@ function BookingConfirmation() {
             end: safeGet(8),
             img: safeGet(9, { prefix: '', suffix: '' }),
             amenitiesArray: safeGet(10, []),
+            //adultchildren: safeGet(11,'0'),
+            //@harsh adultchildren has info if u need # of adults and children in format "3,2" (3 adult 2 children e.g)
         };
 
         setBookingData(newBookingData);

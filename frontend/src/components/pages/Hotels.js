@@ -5,11 +5,13 @@ import PriceFilter from '../Filters/PriceFilter';
 import StarFilter from '../Filters/StarFilter';
 import './Hotel.css';
 import SearchForm from '../SearchForm/index.js';
+import {useLocation} from "react-router-dom";
 
 function Hotels() {
   const [filter, setFilter] = useState({ priceRange: [], starRating: [] });
   const [totalHotels, setTotalHotels] = useState(0);
   const [priceRangeCounts, setPriceRangeCounts] = useState([]);
+
 
   const handleFilterChange = (selectedFilters) => {
     setFilter(prevFilter => ({

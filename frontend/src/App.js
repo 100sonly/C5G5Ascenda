@@ -34,6 +34,8 @@ function App() {
         <Route path='/checkout' element={<BookingConfirmation />} />
         <Route path='/success' element={<Success />} />
         <Route path='/cancel' element={<Cancel />} />
+          <Route path='/hotelinformation' element={<Hotel />} />
+
       </Routes>
       <Footer />
     </Router>

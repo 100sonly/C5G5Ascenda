@@ -17,6 +17,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
   const checkin = urlParams.get('checkin');
   const checkout = urlParams.get('checkout');
   const guests = urlParams.get('guests');
+  const adultchildren=urlParams.get('adultchildren');//# of adults and children
 
   const priceRanges = [
     { label: "$0 - $200", min: 0, max: 200 },
@@ -35,7 +36,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
 
   // Navigate to URL when 'SELECT' is clicked
   const handleSelect = (hotel) => {
-    navigate(`/hotelinformation/${hotel.hotel_id}`, { state: { hotel, destinationId, checkin, checkout, guests } });
+    navigate(`/hotelinformation`, { state: { hotel, destinationId, checkin, checkout, guests, adultchildren} });
   };
 
   // Function to fetch hotel data from the backend
@@ -127,6 +128,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
                 {hotel.details ? hotel.details.description : 'Description'}
               </Typography>
               <Box className="hotel-card-footer">
+
                 <Button
                   className="select-button"
                   size="small"
@@ -137,6 +139,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
                 >
                   Select
                 </Button>
+
                 <Box className="hotel-price">
                   <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02' }}>
                     {hotel.price} SGD
