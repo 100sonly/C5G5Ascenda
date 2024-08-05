@@ -6,9 +6,7 @@ function Success() {
       <h2>Thanks for your order!</h2> 
       <h4>Your payment is successful.</h4> 
       <p> 
-        We appreciate your business! If you have any questions, please email us 
-        at 
-        <a href="mailto:orders@example.com">orders@example.com</a>. 
+        Thank you for your booking. We will send you an email with details of your booking. 
       </p> 
       <div> 
       </div> 
