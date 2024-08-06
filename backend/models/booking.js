@@ -74,4 +74,24 @@ async function getBookingsByEmail(email) {
     }
 }
 
-module.exports = { Booking, addNewBooking, getBookingDetails, getBookingsByEmail }
+async function deleteBookingsByEmail(email) {
+    let con;
+    try {
+        con = await connectModel.create_connection("bookings");
+        client = con[0];
+        col = con[1];
+        const condition = {
+            "personalInfo.emailAddress": email,
+        }
+        const p = await col.deleteMany(condition);
+    } catch (err) {
+        console.log(err.stack);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
+}
+
+module.exports = { Booking, addNewBooking, getBookingDetails, getBookingsByEmail, deleteBookingsByEmail }

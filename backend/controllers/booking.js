@@ -46,7 +46,6 @@ const getBookingDetails = async (req, res) => {
 
 async function getBookingsByEmail(req, res) {
     const email = req.params.email;
-    console.log(email);
 
     try {
         const bookings = await bookingModel.getBookingsByEmail(email);
@@ -64,6 +63,23 @@ async function getBookingsByEmail(req, res) {
     }
 }
 
+async function deleteByEmail(req, res) {
+    const email = req.params.email;
+    try {
+        const bookings = await bookingModel.deleteBookingsByEmail(email);
+
+        if (bookings != []) {
+            res.status(200).json(bookings);
+        } else {
+            console.log(bookings);
+            res.status(404).send("Bookings not found");
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error fetching bookings");
+    }
+}
 
 
-module.exports = {newBooking, getBookingDetails, getBookingsByEmail};
+
+module.exports = { newBooking, getBookingDetails, getBookingsByEmail, deleteByEmail };
