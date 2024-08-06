@@ -58,7 +58,6 @@ async function getBookingsByEmail(email) {
     const col = con[1];
     try {
         const booking = await col.find({ "personalInfo.emailAddress": email }).toArray();
-        console.log(booking[0]);
         await connectModel.close_connection(client);
         if (!booking) {
             return null;

@@ -5,14 +5,16 @@ const { newBooking, getBookingDetails, getBookingsByEmail } = require('../contro
 
 
 
-// Route to get booking details by ID
-router.get("/getBookingById/:bookingId", async function(req, res, next) {
-  getBookingDetails(req, res);  
-});
+
 
 // Route to get get bookings details by Email
 router.get('/getBookingsByEmail/:email', async function(req, res, next) {
   getBookingsByEmail(req, res);  
+});
+
+// Route to get booking details by ID
+router.get("/:bookingId", async function(req, res, next) {
+  getBookingDetails(req, res);  
 });
 
 // Route to add a new booking
