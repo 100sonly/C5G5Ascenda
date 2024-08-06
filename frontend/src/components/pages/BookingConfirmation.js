@@ -31,6 +31,7 @@ function BookingConfirmation() {
         phoneNumber: false,
         emailAddress: false
     });
+    
     const [product, setProduct] = useState({
         name: '',
         price: '',
@@ -174,28 +175,6 @@ function BookingConfirmation() {
             hotelAmenities: amenities
         };
 
-
-        const stripe = await loadStripe(PUB_KEY); 
-        const body = { product }; 
-        const headers = { 
-          "Content-Type": "application/json", 
-        }; 
-        const response = await fetch( 
-            "http://localhost:3000/payment/api/create-checkout-session", 
-            { 
-                method: "POST", 
-                headers: headers, 
-                body: JSON.stringify(body), 
-            } 
-        ); 
-        const session = await response.json(); 
-        const result = stripe.redirectToCheckout({ 
-            sessionId: session.id, 
-        }); 
-        if (result.error) { 
-            console.log(result.error); 
-        } 
-
         // Prepare booking data
         const bookingDataToSend = {
             personalInfo: {
@@ -212,19 +191,54 @@ function BookingConfirmation() {
             },
             hotelData
         };   
+
+        const stripe = await loadStripe(PUB_KEY); 
+        const body = { product }; 
+        const headers = { 
+          "Content-Type": "application/json", 
+        }; 
+        const response = await fetch( 
+            "http://localhost:3000/payment/api/create-checkout-session", 
+            { 
+                method: "POST", 
+                headers: headers, 
+                body: JSON.stringify(bookingDataToSend), 
+            } 
+        ); 
+        const session = await response.json(); 
+        const result = stripe.redirectToCheckout({ 
+            sessionId: session.id, 
+        }); 
+        if (result.error) { 
+            console.log(result.error); 
+        } 
+        /*
+        // Prepare booking data
+        const bookingDataToSend = {
+            personalInfo: {
+                ...personalInfo,
+                salutation: document.querySelector('input[name="salutation"]')?.value || '',
+                specialRequests: document.querySelector('textarea[name="specialRequests"]')?.value || ''
+            },
+            bookingDetails: {
+                ...bookingData,
+                checkIn,
+                checkOut,
+                heroImage,
+                amenities: bookingData.amenitiesArray,
+            },
+            hotelData
+        };   
+        */
         
         // PROBLEM: Email sends before payment is complete
         // Sending confirmation email
-        //const sendConfirmEmail = await sendEmail(bookingDataToSend);
-        //console.log(sendConfirmEmail);
+        const sendConfirmEmail = await sendEmail(bookingDataToSend);
+        console.log(sendConfirmEmail);
 
         // Send booking data to backend
         const bookingConfirmation = await sendBookingData(bookingDataToSend);
         console.log('Booking confirmed:', bookingConfirmation);
-
-
-
-
     };
 
     if (!bookingData) {
