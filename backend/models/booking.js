@@ -52,4 +52,26 @@ async function getBookingDetails(bookingId) {
     }
 }
 
-module.exports = { Booking, addNewBooking, getBookingDetails }
+async function getBookingsByEmail(email) {
+    const con = await connectModel.create_connection("bookings");
+    const client = con[0];
+    const col = con[1];
+    try {
+        const booking = await col.find({ "personalInfo.emailAddress": email }).toArray();
+        await connectModel.close_connection(client);
+        if (!booking) {
+            return null;
+        }
+        
+        return booking;
+    } catch (err) {
+        console.log(err.stack);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
+}
+
+module.exports = { Booking, addNewBooking, getBookingDetails, getBookingsByEmail }
