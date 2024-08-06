@@ -154,15 +154,15 @@ describe('Booking Tests', () => {
       expect(response.body).toHaveProperty('message', 'Booking added successfully');
     });
 
-    test('Ensure booking can be viewed through email', async () => {
-      const response = await request(backend).get(`/booking/getBookingsByEmail/teds@mail.com`);
-      expect(response.statusCode).toBe(200);
-    });
-
     test('It should retrieve a booking by booking_id with status 200', async () => {
       const response = await request(backend).get(`/booking/${booking_info.booking_id}`);
       expect(response.statusCode).toBe(200);
       //expect(response.body).toHaveProperty('email', user.email);
+    });
+
+    test('Ensure booking can be viewed through email', async () => {
+      const response = await request(backend).get(`/booking/getBookingsByEmail/teds@mail.com`);
+      expect(response.statusCode).toBe(200);
     });
 
     test('It should respond with status 200 and delete booking by ID', async () => {
@@ -196,6 +196,13 @@ describe('Booking Tests', () => {
       expect(response.statusCode).toBe(200); //should be 404?
       //const responseBody = JSON.parse(response.text);
       //expect(responseBody).toHaveProperty('error', 'Bookings not found');
+    });
+
+    test('It should respond with status 404 and return error message', async () => {
+      const response = await request(backend).get(`/booking/deleteBookingsById/obxMRsBU5182`);
+      //console.log(response);
+      expect(response.statusCode).toBe(404);
+      //expect(response.body).toHaveProperty('message', 'Booking added successfully');
     });
 
     test('It should respond with status 404 and return error message', async () => {
