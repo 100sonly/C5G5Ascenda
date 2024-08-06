@@ -49,12 +49,12 @@ async function getBookingsByEmail(req, res) {
 
     try {
         const bookings = await bookingModel.getBookingsByEmail(email);
-        console.log(bookings);
+        //console.log(bookings);
 
         if (bookings != []) {
             res.status(200).json(bookings);
         } else {
-            console.log(bookings);
+            //console.log(bookings);
             res.status(404).send("Bookings not found");
         }
     } catch (err) {
@@ -71,7 +71,7 @@ async function deleteByEmail(req, res) {
         if (bookings.deletedCount > 0) {
             res.status(200).json("Deleted bookings");
         } else {
-            console.log(bookings);
+            //console.log(bookings);
             res.status(404).send("Bookings not found");
         }
     } catch (err) {
@@ -88,8 +88,8 @@ async function deleteById(req, res) {
         if (bookings.deletedCount > 0) {
             res.status(200).json("Deleted bookings");
         } else {
-            console.log(bookings);
-            res.status(404).send("Bookings not found");
+            //console.log(bookings);
+            res.status(404).send("Booking not found");
         }
     } catch (err) {
         console.log(err);
