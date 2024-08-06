@@ -69,7 +69,24 @@ async function deleteByEmail(req, res) {
         const bookings = await bookingModel.deleteBookingsByEmail(email);
         // console.log(bookings);
         if (bookings.deletedCount > 0) {
-            res.status(200).json(bookings);
+            res.status(200).json("Deleted bookings");
+        } else {
+            console.log(bookings);
+            res.status(404).send("Bookings not found");
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error fetching bookings");
+    }
+}
+
+async function deleteById(req, res) {
+    const id = req.params.id;
+    try {
+        const bookings = await bookingModel.deleteBookingsById(id);
+        // console.log(bookings);
+        if (bookings.deletedCount > 0) {
+            res.status(200).json("Deleted bookings");
         } else {
             console.log(bookings);
             res.status(404).send("Bookings not found");
@@ -82,4 +99,4 @@ async function deleteByEmail(req, res) {
 
 
 
-module.exports = { newBooking, getBookingDetails, getBookingsByEmail, deleteByEmail };
+module.exports = { newBooking, getBookingDetails, getBookingsByEmail, deleteByEmail, deleteById };

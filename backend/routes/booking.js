@@ -1,6 +1,6 @@
 const express = require('express');
 var router = express.Router();
-const { newBooking, getBookingDetails, getBookingsByEmail, deleteByEmail } = require('../controllers/booking.js');
+const { newBooking, getBookingDetails, getBookingsByEmail, deleteByEmail, deleteById } = require('../controllers/booking.js');
 
 
 
@@ -14,6 +14,10 @@ router.get('/getBookingsByEmail/:email', async function(req, res, next) {
 
 router.get("/deleteBookingsByEmail/:email", async function(req, res, next) {
   deleteByEmail(req, res);  
+});
+
+router.get("/deleteBookingsById/:id", async function(req, res, next) {
+  deleteById(req, res);
 });
 
 // Route to get booking details by ID

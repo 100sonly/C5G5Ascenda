@@ -95,4 +95,25 @@ async function deleteBookingsByEmail(email) {
     }
 }
 
-module.exports = { Booking, addNewBooking, getBookingDetails, getBookingsByEmail, deleteBookingsByEmail }
+async function deleteBookingsById(id) {
+    let con;
+    try {
+        con = await connectModel.create_connection("bookings");
+        client = con[0];
+        col = con[1];
+        const condition = {
+            "bookingDetails.bookingId": id,
+        }
+        const p = await col.deleteOne(condition);
+        return p;
+    } catch (err) {
+        console.log(err.stack);
+        throw err;
+    } finally {
+        if (con) {
+            await connectModel.close_connection(client);
+        }
+    }
+}
+
+module.exports = { Booking, addNewBooking, getBookingDetails, getBookingsByEmail, deleteBookingsByEmail, deleteBookingsById }
