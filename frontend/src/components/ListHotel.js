@@ -219,7 +219,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
             </Box>
           </Card>
         ))}
-        <Box className="pagination-container" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <Box className="pagination-container" style={{ marginTop: '20px', textAlign: 'center', marginLeft:'200px' }}>
           <Pagination
             count={Math.ceil(filteredHotels.length / hotelsPerPage)}
             page={currentPage}
