@@ -250,7 +250,9 @@ function BookingConfirmation() {
     return (
         <>
             <div className="container-booking-confirmation">
-                <CustomizedSteppers style={{ marginTop: '4%'}}/>
+             <div className="stepper-container">
+                <CustomizedSteppers activeStep={1} style={{ marginTop: '4%'}}/>
+            </div>
                 <h1 className='bookingConfirmation' style={{ marginTop: '2%', color: '#282c34' }}>Confirm Booking</h1>
                 <div className='elements'>
                     <div className='container-forms'>
