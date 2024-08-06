@@ -1,14 +1,28 @@
 const express = require('express');
 var router = express.Router();
-const { newBooking, getBookingDetails } = require('../controllers/booking');
+const { newBooking, getBookingDetails, getBookingsByEmail, deleteByEmail } = require('../controllers/booking.js');
 
+
+
+
+
+
+// Route to get get bookings details by Email
+router.get('/getBookingsByEmail/:email', async function(req, res, next) {
+  getBookingsByEmail(req, res);  
+});
+
+router.get("/deleteBookingsByEmail/:email", async function(req, res, next) {
+  deleteByEmail(req, res);  
+});
+
+// Route to get booking details by ID
+router.get("/:bookingId", async function(req, res, next) {
+  getBookingDetails(req, res);  
+});
 
 // Route to add a new booking
 router.post('/add', newBooking);
-
-// Route to get booking details by ID
-router.get("/:bookingId", getBookingDetails)
-
 
 // router.get('/addCustomer/:destination_id/:hotel_id/:start_date/:end_date/:guests/:price', async function(req, res, next) {
 //     const destination_id = req.params.destination_id;
