@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, Box, Rating } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Box, Rating, Pagination } from '@mui/material';
 import { AiFillEnvironment } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
@@ -9,6 +9,8 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hotelsPerPage] = useState(20);
   const navigate = useNavigate();
 
   const queryString = window.location.search;
@@ -17,7 +19,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
   const checkin = urlParams.get('checkin');
   const checkout = urlParams.get('checkout');
   const guests = urlParams.get('guests');
-  const adultchildren=urlParams.get('adultchildren');//# of adults and children
+  const adultchildren = urlParams.get('adultchildren'); // # of adults and children
 
   const priceRanges = [
     { label: "$0 - $200", min: 0, max: 200 },
@@ -36,7 +38,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
 
   // Navigate to URL when 'SELECT' is clicked
   const handleSelect = (hotel) => {
-    navigate(`/hotelinformation`, { state: { hotel, destinationId, checkin, checkout, guests, adultchildren} });
+    navigate(`/hotelinformation`, { state: { hotel, destinationId, checkin, checkout, guests, adultchildren } });
   };
 
   // Function to fetch hotel data from the backend
@@ -94,13 +96,22 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
     }
   }, [filter, hotels]);
 
+  // Paginate filtered hotels
+  const indexOfLastHotel = currentPage * hotelsPerPage;
+  const indexOfFirstHotel = indexOfLastHotel - hotelsPerPage;
+  const currentHotels = filteredHotels.slice(indexOfFirstHotel, indexOfLastHotel);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   if (loading) {
     return <Loader />;
   }
 
   return (
     <div className="list-hotel-container">
-      {filteredHotels.map((hotel) => (
+      {currentHotels.map((hotel) => (
         <Card key={hotel.hotel_id} className="hotel-card">
           <Box className="hotel-card-box">
             <Box className="hotel-image-box">
@@ -128,7 +139,6 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
                 {hotel.details ? hotel.details.description : 'Description'}
               </Typography>
               <Box className="hotel-card-footer">
-
                 <Button
                   className="select-button"
                   size="small"
@@ -139,7 +149,6 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
                 >
                   Select
                 </Button>
-
                 <Box className="hotel-price">
                   <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02' }}>
                     {hotel.price} SGD
@@ -153,6 +162,14 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
           </Box>
         </Card>
       ))}
+      <Box className="pagination-container" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <Pagination
+          count={Math.ceil(filteredHotels.length / hotelsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Box>
     </div>
   );
 }
