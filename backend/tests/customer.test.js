@@ -70,28 +70,28 @@ describe('Customer Registration and Login Tests', () => {
 
     test('It should fail to create an account for missing username', async () => {
       const response = await request(backend).post('/customers/reg').send(user3);
-      console.log(response.text);
+      //console.log(response.text);
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', 'Username is required');
     });
 
     test('It should fail to create an account for missing name', async () => {
       const response = await request(backend).post('/customers/reg').send(user4);
-      console.log(response.text);
+      //console.log(response.text);
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', 'Name is required');
     });
 
     test('It should fail to create an account for missing email', async () => {
       const response = await request(backend).post('/customers/reg').send(user5);
-      console.log(response.text);
+      //console.log(response.text);
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', 'Email is required');
     });
 
     test('It should fail to create an account for invalid password', async () => {
       const response = await request(backend).post('/customers/reg').send(user6);
-      console.log(response.text);
+      //console.log(response.text);
       expect(response.statusCode).toBe(400);
       expect(response.body).toHaveProperty('error', 'Password is required and should be at least 8 characters long');
     });
