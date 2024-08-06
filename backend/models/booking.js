@@ -84,6 +84,7 @@ async function deleteBookingsByEmail(email) {
             "personalInfo.emailAddress": email,
         }
         const p = await col.deleteMany(condition);
+        return p;
     } catch (err) {
         console.log(err.stack);
         throw err;
