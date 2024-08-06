@@ -67,8 +67,8 @@ async function deleteByEmail(req, res) {
     const email = req.params.email;
     try {
         const bookings = await bookingModel.deleteBookingsByEmail(email);
-
-        if (bookings != []) {
+        // console.log(bookings);
+        if (bookings.deletedCount > 0) {
             res.status(200).json(bookings);
         } else {
             console.log(bookings);
