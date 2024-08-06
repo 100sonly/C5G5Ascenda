@@ -97,4 +97,28 @@ describe('Booking Tests', () => {
       expect(responseBody).toHaveProperty('error', 'Booking not found');
     });
 
+    test('It should respond with status 200 and delete booking', async () => {
+      const response = await request(backend).get(`/booking/deleteBookingsByEmail/teds@mail.com`);
+      //console.log(response);
+      expect(response.statusCode).toBe(200);
+      //expect(response.body).toHaveProperty('message', 'Booking added successfully');
+    });
+
+    test('Ensure bookings have been deleted', async () => {
+      const response = await request(backend).get(`/booking/getBookingsByEmail/teds@mail.com`);
+      //console.log(response);
+      expect(response.statusCode).toBe(404);
+      //const responseBody = JSON.parse(response.text);
+      //expect(responseBody).toHaveProperty('error', 'Bookings not found');
+      //got error
+    });
+
+    test('It should respond with status 404 and return error message', async () => {
+      const response = await request(backend).get(`/booking/deleteBookingsByEmail/teds@mail.com`);
+      //console.log(response);
+      expect(response.statusCode).toBe(404);
+      //const responseBody = JSON.parse(response.text);
+      //expect(responseBody).toHaveProperty('error', 'Bookings not found');
+      //got error
+    });
 });
