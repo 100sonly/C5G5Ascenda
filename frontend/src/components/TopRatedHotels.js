@@ -4,9 +4,9 @@ import './TopRatedHotels.css';
 
 function TopRatedHotels() {
   const topHotels = [
-    { id: 1, name: 'Hotel A', rating: 4.5, price: 2024, imageUrl: '/hotel-a.jpg' },
-    { id: 2, name: 'Hotel B', rating: 4.2, price: 2024, imageUrl: '/hotel-b.jpg' },
-    { id: 3, name: 'Hotel C', rating: 4.8, price: 2024, imageUrl: '/hotel-c.jpg' },
+    { id: 1, name: 'Four Seasons Villa', rating: 5, price: 2643.32, address: 'Jimbaran Bay Jimbaran Denpasar 80361', imageUrl: "https://d2ey9sqrvkqdfs.cloudfront.net/epfM/4.jpg" },
+    { id: 2, name: 'The Fullerton Hotel Singapore', rating: 5, price: 1187.42, address: '1 Fullerton Square', imageUrl: "https://d2ey9sqrvkqdfs.cloudfront.net/diH7/0.jpg" },
+    { id: 3, name: 'Park Hyatt New York', rating: 5, price: 3145.83, address: '153 West 57Th Street', imageUrl: 'https://d2ey9sqrvkqdfs.cloudfront.net/V0RQ/8.jpg' },
   ];
 
   return (
@@ -16,23 +16,28 @@ function TopRatedHotels() {
       </Typography>
       <div className="divider"></div>
       <div className="top-hotels-list">
-        {topHotels.map(hotel => (
-          <Card key={hotel.id} className="tophotel-card">
-            <CardMedia
-              component="img"
-              height="200"
-              image={hotel.imageUrl}
-              alt={hotel.name}
-            />
+          {topHotels.map(hotel => (
+            <Card key={hotel.id} className="tophotel-card">
+              <div className="card-media-wrapper">
+                <CardMedia
+                  component="img"
+                  image={hotel.imageUrl}
+                  alt={hotel.name}
+                  style={{ objectFit: 'cover', objectPosition: 'center', width: '100%', height: '100%' }}
+                />
+              </div>
             <CardContent>
               <Typography variant="h5" component="div" style={{ fontWeight: 'bold', fontFamily: 'Inter' }}>
                 {hotel.name}
               </Typography>
-              <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter'}}>
+              <Typography variant="body2" color="text.secondary" style={{ fontWeight: 'bold', fontFamily: 'Inter'}}>
                 Rating: {hotel.rating}
               </Typography>
+              <Typography variant="body2" color="text.secondary" style={{ fontWeight: 'bold', fontFamily: 'Inter'}}>
+                {hotel.address}
+              </Typography>
               <Typography variant="body2" color="text.secondary" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02'}}>
-                Price: {hotel.price}
+                ${hotel.price}/night
               </Typography>
             </CardContent>
             <CardActions>
