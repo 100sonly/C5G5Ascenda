@@ -33,6 +33,7 @@
   margin-right: 16px;
   overflow: hidden;
   flex-shrink: 0;
+  margin-top: 9px;
 }
 
 .hotel-image {

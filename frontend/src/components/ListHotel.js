@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography, Button, Box, Rating, Pagination } from '@mui/material';
-import { AiFillEnvironment } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import './ListHotel.css';
@@ -12,6 +11,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
   const [currentPage, setCurrentPage] = useState(1);
   const [hotelsPerPage] = useState(20);
   const navigate = useNavigate();
+  const [expandedHotelId, setExpandedHotelId] = useState(null);
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -114,6 +114,31 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
     }
   }, [filter, hotels]);
 
+  // Function to parse and render the description
+  const parseDescription = (description) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(description, 'text/html');
+    return Array.from(doc.body.childNodes).map((node, index) => {
+      if (node.nodeName === 'P') {
+        return <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }} key={index}>{node.textContent}</Typography>;
+      }
+      if (node.nodeName === 'B') {
+        return <b key={index}>{node.textContent}</b>;
+      }
+      // Handle other tags if needed
+      return node.textContent;
+    });
+  };
+
+  // Function to truncate the description
+  const truncateDescription = (description, wordLimit) => {
+    const words = description.split(' ');
+    if (words.length <= wordLimit) {
+      return description;
+    }
+    return words.slice(0, wordLimit).join(' ') + '...';
+  };
+
   // Paginate filtered hotels
   const indexOfLastHotel = currentPage * hotelsPerPage;
   const indexOfFirstHotel = indexOfLastHotel - hotelsPerPage;
@@ -153,45 +178,57 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
                 </Box>
               </Box>
               <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
-                <AiFillEnvironment /> {hotel.details ? hotel.details.location : 'Location'}
+                {hotel.details ? hotel.details.location : 'Location'}
               </Typography>
               <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
-                {hotel.details ? hotel.details.description : 'Description'}
-              </Typography>
-              <Box className="hotel-card-footer">
-                <Button
-                  className="select-button"
-                  size="small"
-                  color="primary"
-                  variant="contained"
-                  style={{ fontWeight: 'bold', fontFamily: 'Inter', backgroundColor: '#1A1A48' }}
-                  onClick={() => handleSelect(hotel)}
-                >
-                  Select
-                </Button>
-                <Box className="hotel-price">
-                  <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02' }}>
-                    {hotel.price} SGD
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
-                    Taxes incl.
-                  </Typography>
+                {hotel.details && hotel.details.description
+                  ? expandedHotelId === hotel.hotel_id
+                    ? parseDescription(hotel.details.description)
+                    : parseDescription(truncateDescription(hotel.details.description, 50))
+                  : 'Description'}
+                {hotel.details && hotel.details.description && (
+                  <span
+                    onClick={() => setExpandedHotelId(expandedHotelId === hotel.hotel_id ? null : hotel.hotel_id)}
+                    style={{ color: 'blue', cursor: 'pointer' }}
+                    >
+                      {expandedHotelId === hotel.hotel_id ? ' Show less' : ' Show more'}
+                    </span>
+                  )}
+                </Typography>
+                <Box className="hotel-card-footer">
+                  <Button
+                    className="select-button"
+                    size="small"
+                    color="primary"
+                    variant="contained"
+                    style={{ fontWeight: 'bold', fontFamily: 'Inter', backgroundColor: '#1A1A48' }}
+                    onClick={() => handleSelect(hotel)}
+                  >
+                    Select
+                  </Button>
+                  <Box className="hotel-price">
+                    <Typography variant="body2" style={{ fontWeight: 'bold', fontFamily: 'Inter', color: '#FEBB02' }}>
+                      {hotel.price} SGD
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
+                      Taxes incl.
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>
-          </Box>
-        </Card>
-      ))}
-      <Box className="pagination-container" style={{ marginTop: '20px', textAlign: 'center' }}>
-        <Pagination
-          count={Math.ceil(filteredHotels.length / hotelsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </Box>
-    </div>
-  );
-}
-
-export default ListHotel;
+          </Card>
+        ))}
+        <Box className="pagination-container" style={{ marginTop: '20px', textAlign: 'center' }}>
+          <Pagination
+            count={Math.ceil(filteredHotels.length / hotelsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Box>
+      </div>
+        );
+      }
+      
+      export default ListHotel;
