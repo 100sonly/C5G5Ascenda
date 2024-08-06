@@ -69,7 +69,7 @@ function Hotels() {
         </div>
         <div className="list-hotel-section">
           <div className="results-header">
-            <h2>{totalHotels} results found</h2>
+            <h2>{totalHotels} results found for your destination</h2>
           </div>
           <ListHotel filter={filter} updateTotalHotels={updateTotalHotels} 
           updatePriceRangeCounts={updatePriceRangeCounts}
