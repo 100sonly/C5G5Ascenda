@@ -11,6 +11,7 @@ function Hotels() {
   const [filter, setFilter] = useState({ priceRange: [], starRating: [] });
   const [totalHotels, setTotalHotels] = useState(0);
   const [priceRangeCounts, setPriceRangeCounts] = useState([]);
+  const [starRatingCounts, setStarRatingCounts] = useState([]);
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -54,19 +55,25 @@ function Hotels() {
     setPriceRangeCounts(counts);
   };
 
+  const updateStarRatingCounts = (counts) => {
+    setStarRatingCounts(counts);
+  };
+
   return (
     <div className='hotel-page'>
       <SearchForm customClass={"search-form-hotel"} params={params} />
       <div className="content-container">
         <div className="filter-section">
           <PriceFilter onFilterChange={handleFilterChange} priceRangeCounts={priceRangeCounts} />
-          <StarFilter onFilterChange={handleFilterChange} />
+          <StarFilter onFilterChange={handleFilterChange} starRatingCounts={starRatingCounts} />/
         </div>
         <div className="list-hotel-section">
           <div className="results-header">
             <h2>{totalHotels} results found</h2>
           </div>
-          <ListHotel filter={filter} updateTotalHotels={updateTotalHotels} updatePriceRangeCounts={updatePriceRangeCounts} />
+          <ListHotel filter={filter} updateTotalHotels={updateTotalHotels} 
+          updatePriceRangeCounts={updatePriceRangeCounts}
+          updateStarRatingCounts={updateStarRatingCounts} />
         </div>
       </div>
     </div>

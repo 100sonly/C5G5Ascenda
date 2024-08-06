@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import './ListHotel.css';
 
-function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHotels, updatePriceRangeCounts }) {
+function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHotels, updatePriceRangeCounts, updateStarRatingCounts}) {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,6 +27,14 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
     { label: "$500 - $1,000", min: 500, max: 1000 },
     { label: "$1,000 - $2,000", min: 1000, max: 2000 },
     { label: "$2,000 - $5,000", min: 2000, max: 5000 },
+  ];
+
+  const starRatings = [
+    { label: "5 stars", value: 5, min: 4.5, max: 5.0 },
+    { label: "4 stars", value: 4, min: 3.5, max: 4.49 },
+    { label: "3 stars", value: 3, min: 2.5, max: 3.49 },
+    { label: "2 stars", value: 2, min: 1.5, max: 2.49 },
+    { label: "1 star", value: 1, min: 0.5, max: 1.49 },
   ];
 
   async function processHotels(hotels, all_hotels) {
@@ -61,12 +69,21 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
         };
       });
 
+      // Calculate star rating counts
+      const starRatingCounts = starRatings.map(rating => {
+        return {
+          ...rating,
+          count: data.filter(hotel => hotel.details && hotel.details.trustyou?.score?.kaligo_overall >= rating.min && hotel.details.trustyou?.score?.kaligo_overall <= rating.max).length
+        };
+      });
+
       // Update state and counts
       setHotels(data);
       setFilteredHotels(data);
       setLoading(false);
       updateTotalHotels(data.length); // Update total number of hotels
       updatePriceRangeCounts(priceRangeCounts); // Update price range counts
+      updateStarRatingCounts(starRatingCounts); // Update star rating counts
     } catch (error) {
       console.error('Error fetching data:', error);
       setLoading(false);
@@ -87,10 +104,11 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
         const matchesPrice = filter.priceRange.length
           ? filter.priceRange.some(range => hotel.price >= range.min && hotel.price <= range.max)
           : true;
-        const matchesStar = filter.starRating.length
-          ? filter.starRating.includes(Math.round(hotel.details.rating))
-          : true;
-        return matchesPrice && matchesStar;
+          const starRating = hotel.details?.trustyou?.score?.kaligo_overall || 0;
+          const matchesStar = filter.starRating.length
+            ? filter.starRating.some(range => starRating >= range.min && starRating <= range.max)
+            : true;
+          return matchesPrice && matchesStar;
       });
       setFilteredHotels(filtered);
     }
@@ -127,10 +145,12 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
                 {hotel.details ? hotel.details.name : 'Hotel Name'}
               </Typography>
               <Box className="hotel-rating">
-                <Rating value={hotel.details ? hotel.details.rating : 0} precision={0.1} readOnly />
-                <Typography variant="body2" color="text.secondary" style={{ marginLeft: '8px', fontFamily: 'Inter' }}>
-                  {hotel.details ? hotel.details.rating : '0'} ({hotel.details ? hotel.details.reviews : '0'} Reviews)
-                </Typography>
+                <Rating value={hotel.details?.trustyou?.score?.kaligo_overall || 0} precision={0.1} readOnly />
+                <Box className="hotel-score">
+                  <Typography variant="body2" color="text.secondary" style={{ marginLeft: '8px', fontFamily: 'Inter' }}>
+                    {hotel.details?.trustyou?.score?.kaligo_overall || '0'}
+                  </Typography>
+                </Box>
               </Box>
               <Typography variant="body2" color="text.secondary" style={{ fontFamily: 'Inter' }}>
                 <AiFillEnvironment /> {hotel.details ? hotel.details.location : 'Location'}

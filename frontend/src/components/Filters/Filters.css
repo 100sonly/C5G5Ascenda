@@ -1,11 +1,10 @@
-/* this styles are applicable to both PriceFilter and StarFilter */
+/* This style is applicable to both PriceFilter and StarFilter */
 
 .filter-section {
-  
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
-  }
+}
 
 .filter-section h3 {
   font-size: 16px;
@@ -37,4 +36,15 @@
 
 .filter-section ul li label {
   flex: 1;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.star-rating .MuiRating-root {
+  margin-right: 10px;
 }
