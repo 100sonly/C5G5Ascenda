@@ -4,6 +4,16 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+.stepper-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+  }
+
 .container-booking-confirmation {
     padding: 32px 12%;
 }
@@ -262,3 +272,14 @@ body {
         width: 100%;
     }
 }
+
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

@@ -204,7 +204,7 @@ function Bookings() {
                   <Box display="flex" flexDirection="column" justifyContent="center">
                       <ConfirmationAmenities amenities={hotelData.hotelAmenities} />
                   </Box>
-                  <Box display="flex" flexDirection="column" justifyContent='flex-end'>
+                  <Box display="flex" flexDirection="column" justifyContent=''>
                     <Typography variant="body" style={{ fontFamily: 'Inter', fontWeight: '500' }}>
                       {bookingDetails.roomName}
                     </Typography>
