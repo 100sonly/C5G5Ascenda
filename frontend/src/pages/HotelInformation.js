@@ -43,7 +43,6 @@ const Hotel = () => {
   //diH7-fullerton, QDaO-panpacific
     let location = useLocation();
 
-    console.log(location.state.adultchildren);
   const hotelId = location.state.hotel.hotel_id;
   const destID = location.state.destinationId;
   const startDate =new Date(location.state.checkin);
@@ -146,7 +145,7 @@ const Hotel = () => {
           {loading ? (
             <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={40} />
           ) : (
-            <SearchForm customClass="search-form-hotel" />
+            <SearchForm customClass="search-form-hotel" params={[]} />
           )}
         </div>
       <div id="hotel-images" style={{ paddingTop: '8%' }}>

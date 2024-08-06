@@ -117,7 +117,7 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
             <Box className="hotel-image-box">
               <CardMedia
                 component="img"
-                image={hotel.details ? hotel.details.imageUrl : '/placeholder.jpg'}
+                image={hotel.details ? (hotel.details.image_details.prefix.concat('0',hotel.details.image_details.suffix)) : '/placeholder.jpg'}
                 alt={hotel.details ? hotel.details.name : 'Hotel Image'}
                 className="hotel-image"
               />

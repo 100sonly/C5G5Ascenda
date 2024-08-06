@@ -42,6 +42,8 @@ function autocompleteMatch(input) {
 function updateValue(val,desid){
     des = document.getElementById("destination_id");
     des.value=val;
+    desName=document.getElementById("destination_name");
+    desName.value=val;
     des.setAttribute('desid',desid);
     res = document.getElementById("result");
     res.innerHTML = '';

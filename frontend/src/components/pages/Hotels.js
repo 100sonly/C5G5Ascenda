@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../App.css';
 import ListHotel from "../ListHotel";
 import PriceFilter from '../Filters/PriceFilter';
@@ -12,7 +12,33 @@ function Hotels() {
   const [totalHotels, setTotalHotels] = useState(0);
   const [priceRangeCounts, setPriceRangeCounts] = useState([]);
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const destinationId = urlParams.get('destination_id');
+  const destinationName = urlParams.get('destination_name');
+  const checkin = urlParams.get('checkin');
+  const checkout = urlParams.get('checkout');
+  const guests = urlParams.get('guests');
+  const adultchildren = urlParams.get('adultchildren'); // # of adults and children
+  var regex = /[|]/g;
+  const rooms=guests.match(regex);
+  const countrooms=rooms ? rooms.length+1 : 1;
+  const params=[countrooms,adultchildren];
 
+
+
+
+  useEffect(() => {
+    const destination=document.getElementById("destination_id");
+    destination.setAttribute("desid",destinationId);
+    destination.value=destinationName;
+    const startdate=document.getElementById("checkin");
+    const enddate=document.getElementById("checkout");
+    startdate.value=checkin;
+    enddate.value=checkout;
+
+
+  }, [])
   const handleFilterChange = (selectedFilters) => {
     setFilter(prevFilter => ({
       ...prevFilter,
@@ -30,7 +56,7 @@ function Hotels() {
 
   return (
     <div className='hotel-page'>
-      <SearchForm customClass={"search-form-hotel"} />
+      <SearchForm customClass={"search-form-hotel"} params={params} />
       <div className="content-container">
         <div className="filter-section">
           <PriceFilter onFilterChange={handleFilterChange} priceRangeCounts={priceRangeCounts} />
@@ -46,5 +72,6 @@ function Hotels() {
     </div>
   );
 }
+
 
 export default Hotels;

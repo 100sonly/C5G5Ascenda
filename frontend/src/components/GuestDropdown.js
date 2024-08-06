@@ -1,12 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaUser, FaPlus, FaMinus } from 'react-icons/fa';
 import './GuestDropdown.css';
+import {useLocation} from "react-router-dom";
 
-function GuestDropdown() {
+
+function GuestDropdown(props) {
+
+    const params=props.params;
+    const safeGet = (index, defaultValue = '') => params[index] || defaultValue;
+
+    const newBookingData = {
+
+        rooms: safeGet(0,'1'),
+        adultchildren: safeGet(1,'2,0'),
+    };
+
     const [open, setOpen] = useState(false);
-    const [adults, setAdults] = useState(2);
-    const [children, setChildren] = useState(0);
-    const [rooms, setRooms] = useState(1);
+    const [adults, setAdults] = useState(parseInt(newBookingData.adultchildren.split(',')[0]));
+    const [children, setChildren] = useState(parseInt(newBookingData.adultchildren.split(',')[1]));
+    const [rooms, setRooms] = useState(parseInt(newBookingData.rooms));
 
     const [tempAdults, setTempAdults] = useState(adults);
     const [tempChildren, setTempChildren] = useState(children);
@@ -15,6 +27,10 @@ function GuestDropdown() {
     const dropdownRef = useRef(null);
 
     const toggleDropdown = () => setOpen(!open);
+
+
+
+
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
