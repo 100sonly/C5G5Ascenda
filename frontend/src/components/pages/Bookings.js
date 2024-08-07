@@ -43,6 +43,7 @@ function Bookings() {
 
   const handleDelete = () => {
     console.log('Delete booking clicked');
+
   };
 
 

@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button, Divider } from '@mui/material';
 
+
 const DeleteConfirmationModal = ({ open, onClose, onDelete }) => {
   const [inputValue, setInputValue] = useState('');
   const [deleteType, setDeleteType] = useState('email'); // 'email' or 'bookingId'
 
-  const handleDelete = () => {
-    onDelete(inputValue, deleteType);
-    onClose();
-  };
+   async function handleDelete() {
+        try {
+            if (deleteType === 'email') {
+                const delete_res = await fetch(`http://localhost:3000/booking/deleteBookingsByEmail/${inputValue}`).then((value) => console.log(value));
+            } else if (deleteType === 'bookingId') {
+                const delete_res = await fetch(`http://localhost:3000/booking/deleteBookingsById/${inputValue}`).then((value) => console.log(value));
+            }
+        } finally {
+
+            onClose();
+        }
+    }
 
   return (
     <Modal open={open} onClose={onClose} aria-labelledby="delete-confirmation-modal">
