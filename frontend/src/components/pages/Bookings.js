@@ -12,10 +12,16 @@ import RequestQuoteIcon from '@mui/icons-material/DescriptionOutlined';
 import BedIcon from '@mui/icons-material/BedRounded';
 import HalfRating from '../HalfRating';
 import ConfirmationAmenities from '../ConfirmationAmenities';
+import IconButton from '@mui/material/IconButton';
+import { useState } from 'react';
+import DeleteConfirmationModal from '../DeleteConfirmationModal';
+
 
 function Bookings() {
   const location = useLocation();
   const { bookingDetails, hotelData } = location.state || {};
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const iconStyle = {
     width: 40,
@@ -33,6 +39,14 @@ function Bookings() {
     return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleDelete = () => {
+    console.log('Delete booking clicked');
+
+  };
+
+
   return (
     <div style={{ paddingLeft: '8%', paddingRight: '8%', margin: '0 auto' }}>
       <Typography
@@ -45,7 +59,7 @@ function Bookings() {
       </Typography>
       {bookingDetails && hotelData ? (
         <Card style={{ padding: '1%', marginBottom: '20px' }}>
-          <Box display={'flex'} justifyContent={'center'}>
+          <Box display={'flex'} justifyContent={'space-between'}>
             <Typography
               variant="h6"
               component="h2"
@@ -53,6 +67,13 @@ function Bookings() {
             >
               Thank you for booking with us!
             </Typography>
+            <Button
+              variant="outlined"
+              style={{ alignSelf: 'center' }}
+              onClick={() => setModalOpen(true)}
+            >
+              Delete Booking
+            </Button>
           </Box>
           <Divider orientation="horizontal" style={{ marginLeft: '1%', width: '99%' }} />
           <Box display="flex" alignItems="center" justifyContent={'space-between'} mt={2} padding={'1%'}>
@@ -204,7 +225,7 @@ function Bookings() {
                   <Box display="flex" flexDirection="column" justifyContent="center">
                       <ConfirmationAmenities amenities={hotelData.hotelAmenities} />
                   </Box>
-                  <Box display="flex" flexDirection="column" justifyContent=''>
+                  <Box display="flex" flexDirection="column" justifyContent='flex-end'>
                     <Typography variant="body" style={{ fontFamily: 'Inter', fontWeight: '500' }}>
                       {bookingDetails.roomName}
                     </Typography>
@@ -217,6 +238,11 @@ function Bookings() {
       ) : (
         <Typography variant="body1">No booking details available.</Typography>
       )}
+      <DeleteConfirmationModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }

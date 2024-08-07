@@ -52,11 +52,6 @@ function Navbar() {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link to='/services' className='nav-links' onClick={closeMobileMenu}>
-                SERVICES
-              </Link>
-            </li>
-            <li className='nav-item'>
               <Link className='nav-links' onClick={handleDialogOpen}>
                 BOOKINGS
               </Link>
@@ -67,8 +62,6 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          {button && <Button to='/register' buttonStyle='btn--outline'>Register</Button>}
-          {button && <Button to='/signin' buttonStyle='btn--fill'>Login</Button>}
         </div>
       </nav>
       <BookingDialog open={dialogOpen} onClose={handleDialogClose} />

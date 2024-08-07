@@ -158,12 +158,16 @@ function ListHotel({ filter = { priceRange: [], starRating: [] }, updateTotalHot
         <Card key={hotel.hotel_id} className="hotel-card">
           <Box className="hotel-card-box">
             <Box className="hotel-image-box">
-              <CardMedia
-                component="img"
-                image={hotel.details ? (hotel.details.image_details.prefix.concat('0',hotel.details.image_details.suffix)) : '/placeholder.jpg'}
-                alt={hotel.details ? hotel.details.name : 'Hotel Image'}
-                className="hotel-image"
-              />
+            <CardMedia
+              component="img"
+              image={hotel.details ? (hotel.details.image_details.prefix.concat('0', hotel.details.image_details.suffix)) : '/placeholder.jpg'}
+              alt={hotel.details ? hotel.details.name : 'Hotel Image'}
+              className="hotel-image"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/placeholder.jpg'; 
+              }}
+            />
             </Box>
             <Box className="hotel-card-content">
               <Typography variant="h5" component="div" style={{ fontFamily: 'Inter', fontSize: '20px' }}>

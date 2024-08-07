@@ -77,7 +77,8 @@
 .hotel-rating {
   display: flex;
   align-items: center;
-  margin: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .select-button {
