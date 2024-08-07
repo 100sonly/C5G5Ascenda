@@ -7,6 +7,7 @@ import './index.css';
 import { amenityIcons } from '../RoomAmenityIcons/index.js';
 import { Link } from "react-router-dom";
 import Slide from '@mui/material/Slide';
+import UnknownIcon from '@mui/icons-material/CheckCircleOutlineRounded.js'; 
 
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
@@ -58,7 +59,29 @@ const RoomCard = ({ giveRoomName, givePrice, room, params }) => {
     setSnackbarOpen(false);
   };
 
-  const displayedAmenities = room.amenities.slice(0, 5);
+  const getAmenitiesWithWeights = (amenities) => {
+    const withIcons = [];
+    const withoutIcons = [];
+    
+    amenities.forEach((amenity, index) => {
+      if (amenityIcons.hasOwnProperty(amenity)) {
+        withIcons.push({
+          amenity,
+          icon: amenityIcons[amenity]
+        });
+      } else {
+        withoutIcons.push({
+          amenity,
+          icon: <UnknownIcon key={index} />
+        });
+      }
+    });
+
+    return withIcons.concat(withoutIcons);
+  };
+
+  const allAmenities = getAmenitiesWithWeights(room.amenities);
+  const displayedAmenities = allAmenities.slice(0, 5);
   const additionalAmenitiesCount = room.amenities.length - displayedAmenities.length;
 
   function sendUpdate(price, name) {
@@ -82,7 +105,7 @@ const RoomCard = ({ giveRoomName, givePrice, room, params }) => {
             backgroundSize: 'cover', 
             backgroundPosition: 'center', 
             borderRadius: '5px',
-            height: '200px' 
+            height: '220px' 
           }} 
         />
         <IconButton 
@@ -126,11 +149,11 @@ const RoomCard = ({ giveRoomName, givePrice, room, params }) => {
           {cancellationText}
         </Typography>
         <Box className="room-amenities" style={{ color: '#229935', display: 'flex', flexWrap: 'wrap', paddingTop: '12%' }}>
-          {displayedAmenities.map((amenity, index) => (
+          {displayedAmenities.map((item, index) => (
             <Box key={index} component="span" style={{ display: 'flex', alignItems: 'center', marginRight: '2%' }}>
-              {amenityIcons[amenity] || <span>{amenity}</span>}
+              {item.icon}
               <Typography variant="body2" color="textSecondary" style={{ marginLeft: '5px' }}>
-                {amenity}
+                {item.amenity}
               </Typography>
             </Box>
           ))}

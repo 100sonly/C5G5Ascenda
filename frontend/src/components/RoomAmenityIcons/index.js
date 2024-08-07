@@ -2,7 +2,7 @@ import AirConditioningIcon from '@mui/icons-material/AcUnitRounded';
 import HousekeepingIcon from '@mui/icons-material/CleaningServicesRounded';
 import NoSmokingIcon from '@mui/icons-material/SmokeFreeOutlined';
 import WifiIcon from '@mui/icons-material/WifiOutlined';
-import DoNotStepIcon from '@mui/icons-material/DoNotStepRounded';
+import DoNotStepIcon from '@mui/icons-material/ShowerRounded';
 import BedIcon from '@mui/icons-material/BedRounded';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import TvIcon from '@mui/icons-material/Tv';

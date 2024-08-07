@@ -60,16 +60,16 @@ function Hotels() {
   };
 
   return (
-    <div className='hotel-page'>
+    <div style={{paddingTop: '2%'}}className='hotel-page'>
       <SearchForm customClass={"search-form-hotel"} params={params} />
-      <div className="content-container">
+      <div style={{paddingTop: '1%'}} className="content-container">
         <div className="filter-section">
           <PriceFilter onFilterChange={handleFilterChange} priceRangeCounts={priceRangeCounts} />
           <StarFilter onFilterChange={handleFilterChange} starRatingCounts={starRatingCounts} />
         </div>
         <div className="list-hotel-section">
           <div className="results-header">
-            <h2>{totalHotels} results found for your destination</h2>
+            <h2>{destinationName}: {totalHotels} results found </h2>
           </div>
           <ListHotel filter={filter} updateTotalHotels={updateTotalHotels} 
           updatePriceRangeCounts={updatePriceRangeCounts}
