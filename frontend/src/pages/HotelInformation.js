@@ -43,8 +43,7 @@ const Hotel = () => {
   //diH7-fullerton, QDaO-panpacific
     let location = useLocation();
 
-    console.log(location.state.adultchildren);
-  const hotelId = location.state.hotel.hotel_id;
+  const hotelId = location.state.hotel?.hotel_id || "T9cE";
   const destID = location.state.destinationId;
   const startDate =new Date(location.state.checkin);
   const endDate =new Date(location.state.checkout);
@@ -54,7 +53,29 @@ const Hotel = () => {
   const adultchildren=location.state.adultchildren;
 
   const booking_id=hotelId+destID+Math.floor(Math.random() * 10000).toString();
-
+    const handleClick = (event) => {
+        if (samePageLinkNavigation(event)) {
+            event.preventDefault();
+            const targetId = event.currentTarget.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
+    function samePageLinkNavigation(event) {
+        if (
+            event.defaultPrevented ||
+            event.button !== 0 || // ignore everything but left-click
+            event.metaKey ||
+            event.ctrlKey ||
+            event.altKey ||
+            event.shiftKey
+        ) {
+            return false;
+        }
+        return true;
+    }
   var nights=Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
     //for formatting date
     function formatDate(date) {
@@ -146,7 +167,7 @@ const Hotel = () => {
           {loading ? (
             <Skeleton variant="rounded" sx={{ bgcolor: 'grey.500' }}  width="100%" height={40} />
           ) : (
-            <SearchForm customClass="search-form-hotel" />
+            <SearchForm customClass="search-form-hotel" params={[]} />
           )}
         </div>
       <div id="hotel-images" style={{ paddingTop: '8%' }}>
@@ -170,20 +191,21 @@ const Hotel = () => {
         <h1 id="hotel-name">
           {loading ? <Skeleton variant="text" sx={{ bgcolor: 'grey.500' }}  width="100%" /> : name}
         </h1>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={() => window.location.href = '#rooms'} 
-          style={{ 
-            backgroundColor: '#2F80ED', 
-            color: '#fff',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            textTransform: 'none',
-          }}
-        >
-          See Room Availability
-        </Button>
+          <Button
+              variant="contained"
+              color="primary"
+              href="#rooms"
+              onClick={handleClick}
+              style={{
+                  backgroundColor: '#2F80ED',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  padding: '10px 20px',
+                  textTransform: 'none',
+              }}
+          >
+              See Room Availability
+          </Button>
       </div>
 
       <div id="rating" style={{ paddingTop: '1%' }}>
@@ -202,7 +224,8 @@ const Hotel = () => {
             <PlaceRounded style={{ color: '#1A1E43', marginRight: '8px' }} />
             <span>{address}</span>
             <div
-              onClick={() => window.location.href = '#location'} 
+                onClick={handleClick}
+                href="#location"
               style={{ 
                 textTransform: 'none',
                 marginLeft: '10px',

@@ -1,5 +1,6 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { expect } = require('chai');
+const Select = require('org.openqa.selenium.support.ui.Select');
 require('chromedriver');
 
 (async function example() {
