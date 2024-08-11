@@ -179,8 +179,8 @@ describe('Booking Tests', () => {
       const response = await request(backend).get(`/booking/${nonExistentBookingId}`);
       expect(response.statusCode).toBe(404);
       //console.log(response);
-      const responseBody = JSON.parse(response.text);
-      expect(responseBody).toHaveProperty('error', 'Booking not found');
+      //const responseBody = JSON.parse(response.text);
+      expect(response.body).toHaveProperty('error', 'Booking not found');
     });
 
     test('It should respond with status 200 and delete bookings under email', async () => {
@@ -194,8 +194,7 @@ describe('Booking Tests', () => {
       const response = await request(backend).get(`/booking/getBookingsByEmail/teds@mail.com`);
       //console.log(response);
       expect(response.statusCode).toBe(200); //should be 404?
-      //const responseBody = JSON.parse(response.text);
-      //expect(responseBody).toHaveProperty('error', 'Bookings not found');
+      //expect(response.Body).toHaveProperty('error', 'Bookings not found');
     });
 
     test('It should respond with status 404 and return error message', async () => {
@@ -209,8 +208,7 @@ describe('Booking Tests', () => {
       const response = await request(backend).get(`/booking/deleteBookingsByEmail/teds@mail.com`);
       //console.log(response);
       expect(response.statusCode).toBe(404);
-      //const responseBody = JSON.parse(response.text);
-      //expect(responseBody).toHaveProperty('error', 'Bookings not found');
+      //expect(response.Body).toHaveProperty('error', 'Bookings not found');
     });
 
 });
