@@ -28,14 +28,11 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/hotels' element={< Hotels/>} />
-        <Route path='/signin' element={<SignIn />} />
         <Route path='/bookings' element={<Bookings />} />
-        <Route path='/services' element={<Hotel />} />
         <Route path='/checkout' element={<BookingConfirmation />} />
         <Route path='/success' element={<Success />} />
         <Route path='/cancel' element={<Cancel />} />
-          <Route path='/hotelinformation' element={<Hotel />} />
-
+        <Route path='/hotelinformation' element={<Hotel />} />
       </Routes>
       <Footer />
     </Router>
